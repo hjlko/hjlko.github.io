@@ -368,24 +368,31 @@
     .toast.show{opacity:1}
 
     /* Bottom-sheet Modal for phone */
-    .sheetBackdrop{
-      display:none;
-      position:fixed; inset:0;
-      background:rgba(0,0,0,.55);
-      z-index:200;
-    }
-    .sheet{
-      position:fixed;
-      left:0; right:0; bottom:0;
-      border-radius:18px 18px 0 0;
-      background:var(--card);
-      border:1px solid var(--border);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      max-height: 86vh;
-      overflow:auto;
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
+.sheetBackdrop{
+  display:none;
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:200;
+
+  /* center */
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+}
+
+.sheet{
+  position:relative;
+  width:100%;
+  max-width:560px;
+  border-radius:18px;
+  background:var(--card);
+  border:1px solid var(--border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  max-height: 86vh;
+  overflow:auto;
+}
+
     .sheetHeader{
       display:flex; align-items:center; justify-content:space-between;
       padding:12px 14px;
@@ -491,12 +498,6 @@
     </div>
 
     <div class="noteBottom">
-      <div>يدوي: تدخل نقاط نحن وهم مباشرة.</div>
-      <div>متقدم: صن ÷5 (ثابت 24) + الأرض +2 | حكم ÷10 (ثابت 15) + الأرض +1</div>
-      <div>مشاريع الصن: سرا 4، خمسين 10، مية 20، 400 = 40 (لا يوجد بلوت)</div>
-      <div>مشاريع الحكم: سرا 2، خمسين 5، مية 10، بلوت 2 (لا يوجد 400)</div>
-      <div>المشاريع الآن: تختار مشاريع نحن ومشاريع هم + العدد (مثال: 2 سرا)</div>
-    </div>
   </div>
 
   <div class="toast" id="toast">✅ تم</div>
@@ -970,7 +971,7 @@
       clearModalInputs();
       updateAdvancedPreview();
 
-      modal.wrap.style.display = "";
+      modal.wrap.style.display = "flex";
       // منع سحب الصفحة الخلفية
       document.body.style.overflow = "hidden";
       // Focus
