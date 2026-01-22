@@ -14,7 +14,6 @@
       --text: rgba(17,24,39,.92);
       --muted: rgba(17,24,39,.55);
       --gold:#c89b2d;
-      --gold2:#e6c86f;
       --red:#ef4444;
       --green:#16a34a;
       --shadow: 0 12px 28px rgba(17,24,39,.12);
@@ -39,7 +38,6 @@
       padding: 14px 14px calc(18px + env(safe-area-inset-bottom));
     }
 
-    /* Header */
     .header{
       position: sticky;
       top: 0;
@@ -49,402 +47,239 @@
       background: linear-gradient(180deg, rgba(255,247,230,.96), rgba(255,247,230,.75), transparent);
       backdrop-filter: blur(10px);
     }
-    .hRow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:0;
-    }
+    .hRow{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .brand{display:flex;align-items:center;gap:10px;min-width:0;}
     .logo{
-      width:42px;height:42px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      display:grid;place-items:center;
-      flex: 0 0 auto;
+      width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
+      background: var(--card);box-shadow: var(--shadow);overflow:hidden;display:grid;place-items:center;flex:0 0 auto;
     }
     .logo img{width:100%;height:100%;object-fit:cover;display:block}
     .bTxt{min-width:0;line-height:1.1}
-    .bTxt b{
-      display:block;
-      font-weight:1100;
-      font-size:15px;
-      color: var(--gold);
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-    }
-    .bTxt small{
-      display:block;
-      margin-top:3px;
-      color: var(--muted);
-      font-weight:900;
-      font-size:12px;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-    }
+    .bTxt b{display:block;font-weight:1100;font-size:15px;color: var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .bTxt small{display:block;margin-top:3px;color: var(--muted);font-weight:900;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .hBtns{display:flex;gap:10px;flex:0 0 auto}
-    .iconBtn{
-      width:42px;height:42px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      cursor:pointer;
-      user-select:none;
-      display:grid;place-items:center;
-      font-weight:1000;
+    .iconBtn,.dangerBtn{
+      border-radius:16px;border:1px solid var(--line);background: var(--card);box-shadow: var(--shadow);
+      cursor:pointer;user-select:none;font-weight:1100;
     }
-    .iconBtn:active{transform:scale(.98)}
-    .dangerBtn{
-      padding: 11px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(239,68,68,.25);
-      background: rgba(239,68,68,.10);
-      color: var(--red);
-      box-shadow: var(--shadow);
-      cursor:pointer;
-      user-select:none;
-      font-weight:1100;
-    }
-    .dangerBtn:active{transform:scale(.98)}
+    .iconBtn{width:42px;height:42px;display:grid;place-items:center}
+    .dangerBtn{padding: 11px 12px;border-color: rgba(239,68,68,.25);background: rgba(239,68,68,.10);color: var(--red);}
+    .iconBtn:active,.dangerBtn:active{transform:scale(.98)}
 
-    /* Timer card */
     .timerCard{
-      margin-top: 10px;
-      border:1px solid var(--line);
+      margin-top: 10px;border:1px solid var(--line);
       background: linear-gradient(180deg, var(--card), var(--card2));
-      border-radius: var(--r2);
-      box-shadow: var(--shadow);
-      padding: 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      border-radius: var(--r2);box-shadow: var(--shadow);
+      padding: 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;
     }
     .tTime{
-      font-size:28px;
-      font-weight:1200;
-      letter-spacing:1px;
-      padding: 8px 14px;
-      border-radius: 16px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.78);
-      min-width: 120px;
-      text-align:center;
+      font-size:28px;font-weight:1200;letter-spacing:1px;
+      padding: 8px 14px;border-radius: 16px;border:1px solid var(--line);
+      background: rgba(255,255,255,.78);min-width: 120px;text-align:center;
     }
     .tGroup{display:flex;gap:10px}
     .tBtn{
-      width:44px;height:44px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.86);
-      box-shadow: 0 12px 24px rgba(17,24,39,.10);
-      cursor:pointer;
-      user-select:none;
-      display:grid;place-items:center;
-      font-weight:1200;
+      width:44px;height:44px;border-radius:16px;border:1px solid var(--line);
+      background: rgba(255,255,255,.86);box-shadow: 0 12px 24px rgba(17,24,39,.10);
+      cursor:pointer;user-select:none;display:grid;place-items:center;font-weight:1200;
     }
     .tBtn:active{transform:scale(.98)}
     .tBtn.green{color:var(--green)}
     .tBtn.red{color:var(--red)}
 
-    /* Scoreboard */
     .board{
-      margin-top: 12px;
-      border:1px solid var(--line);
+      margin-top: 12px;border:1px solid var(--line);
       background: linear-gradient(180deg, rgba(255,255,255,.80), rgba(255,255,255,.62));
-      border-radius: var(--r2);
-      box-shadow: var(--shadow2);
-      padding: 12px;
+      border-radius: var(--r2);box-shadow: var(--shadow2);padding: 12px;
     }
-    .meta{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      color: var(--muted);
-      font-weight:1100;
-      font-size:13px;
-    }
+    .meta{display:flex;align-items:center;justify-content:space-between;gap:10px;color: var(--muted);font-weight:1100;font-size:13px;}
     .meta b{color:var(--gold)}
-    .bar{
-      margin-top:10px;
-      height:12px;
-      border-radius:999px;
-      background: rgba(17,24,39,.06);
-      border:1px solid var(--line);
-      overflow:hidden;
-    }
-    .bar i{
-      display:block;height:100%;width:0%;
-      background: linear-gradient(90deg, rgba(230,200,111,.95), rgba(200,155,45,.95));
-      border-radius:999px;
-      transition: width .2s ease;
-    }
+    .bar{margin-top:10px;height:12px;border-radius:999px;background: rgba(17,24,39,.06);border:1px solid var(--line);overflow:hidden;}
+    .bar i{display:block;height:100%;width:0%;background: linear-gradient(90deg, rgba(230,200,111,.95), rgba(200,155,45,.95));border-radius:999px;transition: width .2s ease;}
 
-    /* Two big team panels */
-    .teams{
-      margin-top: 12px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
+    .teams{margin-top: 12px;display:grid;grid-template-columns: 1fr 1fr;gap:12px;}
     .team{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.82);
-      border-radius: var(--r2);
-      box-shadow: var(--shadow2);
-      padding: 12px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      min-height: 240px;
+      border:1px solid var(--line);background: rgba(255,255,255,.82);
+      border-radius: var(--r2);box-shadow: var(--shadow2);
+      padding: 12px;display:flex;flex-direction:column;gap:10px;min-height: 240px;
     }
-    .teamTop{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      font-weight:1100;
-    }
-    .name{
-      display:flex;align-items:center;gap:8px;min-width:0;
-    }
-    .name span{
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-      font-size:15px;
-    }
+    .teamTop{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:1100;}
+    .name{display:flex;align-items:center;gap:8px;min-width:0;}
+    .name span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px;}
     .edit{
-      width:36px;height:36px;border-radius:14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.78);
-      display:grid;place-items:center;
-      cursor:pointer;user-select:none;
-      font-weight:1200;
-      opacity:.85;
+      width:36px;height:36px;border-radius:14px;border:1px solid var(--line);
+      background: rgba(255,255,255,.78);display:grid;place-items:center;cursor:pointer;user-select:none;
+      font-weight:1200;opacity:.85;
     }
-    .score{
-      text-align:center;
-      font-size:78px;
-      font-weight:1300;
-      line-height:1;
-      margin: 0;
-      letter-spacing:1px;
-    }
-    .team.red .score, .team.red .name span{color:var(--red)}
-    .team.green .score, .team.green .name span{color:var(--green)}
-
+    .score{text-align:center;font-size:78px;font-weight:1300;line-height:1;margin: 0;letter-spacing:1px;}
+    .team.red .score,.team.red .name span{color:var(--red)}
+    .team.green .score,.team.green .name span{color:var(--green)}
     .addBig{
-      margin-top:auto;
-      width:100%;
-      padding: 14px 12px;
-      border-radius: 18px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.92);
-      box-shadow: 0 14px 30px rgba(17,24,39,.12);
-      cursor:pointer;user-select:none;
-      font-weight:1300;
-      font-size:16px;
+      margin-top:auto;width:100%;padding: 14px 12px;border-radius: 18px;border:1px solid var(--line);
+      background: rgba(255,255,255,.92);box-shadow: 0 14px 30px rgba(17,24,39,.12);
+      cursor:pointer;user-select:none;font-weight:1300;font-size:16px;
     }
     .addBig:active{transform:scale(.99)}
 
-    /* Tabs */
     .tabs{
-      margin-top: 12px;
-      border:1px solid var(--line);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      border-radius: var(--r2);
-      padding: 8px;
-      display:flex;
-      gap:10px;
+      margin-top: 12px;border:1px solid var(--line);background: var(--card);
+      box-shadow: var(--shadow);border-radius: var(--r2);padding: 8px;display:flex;gap:10px;
     }
     .tab{
-      flex:1;
-      padding: 11px 12px;
-      border-radius: 16px;
-      border:1px solid transparent;
-      background: transparent;
-      font-weight:1200;
-      color: var(--muted);
-      cursor:pointer;user-select:none;
+      flex:1;padding: 11px 12px;border-radius: 16px;border:1px solid transparent;background: transparent;
+      font-weight:1200;color: var(--muted);cursor:pointer;user-select:none;
     }
     .tab.active{
-      background: rgba(255,255,255,.90);
-      border-color: var(--line);
-      color: var(--text);
+      background: rgba(255,255,255,.90);border-color: var(--line);color: var(--text);
       box-shadow: 0 12px 22px rgba(17,24,39,.10);
     }
 
     .box{
-      margin-top: 12px;
-      border:1px solid var(--line);
-      background: var(--card);
-      box-shadow: var(--shadow2);
-      border-radius: var(--r2);
-      padding: 14px;
+      margin-top: 12px;border:1px solid var(--line);background: var(--card);
+      seen: 1;
+      box-shadow: var(--shadow2);border-radius: var(--r2);padding: 14px;
     }
-    .boxHead{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
-      font-weight:1200;
-    }
+    .boxHead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:1200;}
     .miniBtns{display:flex;gap:8px;flex-wrap:wrap}
     .mini{
-      padding: 10px 12px;
-      border-radius: 16px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.86);
-      box-shadow: 0 12px 22px rgba(17,24,39,.10);
-      cursor:pointer;user-select:none;
-      font-weight:1200;
-      font-size:13px;
+      padding: 10px 12px;border-radius: 16px;border:1px solid var(--line);background: rgba(255,255,255,.86);
+      box-shadow: 0 12px 22px rgba(17,24,39,.10);cursor:pointer;user-select:none;font-weight:1200;font-size:13px;
     }
     .mini:active{transform:scale(.98)}
-    .mini.danger{
-      border-color: rgba(239,68,68,.25);
-      background: rgba(239,68,68,.10);
-      color: var(--red);
-    }
+    .mini.danger{border-color: rgba(239,68,68,.25);background: rgba(239,68,68,.10);color: var(--red);}
 
     .empty{padding:26px 10px;text-align:center;color:var(--muted);font-weight:1200}
     .list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
     .row{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.86);
-      border-radius: 18px;
-      padding: 12px;
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap:10px;
-      align-items:center;
-      font-weight:1200;
+      border:1px solid var(--line);background: rgba(255,255,255,.86);border-radius: 18px;padding: 12px;
+      display:grid;grid-template-columns: 1fr auto;gap:10px;align-items:center;font-weight:1200;
     }
     .row small{color:var(--muted);font-weight:1100}
 
-    /* Bottom sheet modal */
-    .backdrop{
-      position:fixed; inset:0;
-      display:none;
-      align-items:flex-end; justify-content:center;
-      background: rgba(17,24,39,.36);
-      z-index: 50;
-    }
+    /* Bottom sheet */
+    .backdrop{position:fixed; inset:0;display:none;align-items:flex-end; justify-content:center;background: rgba(17,24,39,.36);z-index: 50;}
     .sheet{
-      width:100%;
-      max-width:520px;
-      border-radius: 26px 26px 0 0;
-      background: #fffaf0;
-      border:1px solid var(--line);
-      box-shadow: 0 -22px 80px rgba(17,24,39,.26);
-      max-height: 88vh;
-      overflow:auto;
-      padding-bottom: env(safe-area-inset-bottom);
+      width:100%;max-width:520px;border-radius: 26px 26px 0 0;background: #fffaf0;border:1px solid var(--line);
+      box-shadow: 0 -22px 80px rgba(17,24,39,.26);max-height: 90vh;overflow:auto;padding-bottom: env(safe-area-inset-bottom);
     }
     .sHead{
-      position: sticky; top:0;
-      background: #fff4d7;
-      border-bottom:1px solid var(--line);
-      padding: 12px 14px;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      position: sticky; top:0;background: #fff4d7;border-bottom:1px solid var(--line);
+      padding: 12px 14px;display:flex; align-items:center; justify-content:space-between; gap:10px;
     }
     .sTitle{font-weight:1300;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .close{
-      width:44px;height:44px;border-radius:16px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.90);
-      display:grid;place-items:center;
-      cursor:pointer;user-select:none;
-      font-weight:1200;
+      width:44px;height:44px;border-radius:16px;border:1px solid var(--line);background: rgba(255,255,255,.90);
+      display:grid;place-items:center;cursor:pointer;user-select:none;font-weight:1200;
     }
     .sBody{padding: 14px; display:flex; flex-direction:column; gap:12px;}
 
     label{display:block;font-size:12px;color:var(--muted);font-weight:1200;margin:0 0 6px;}
-    input, select{
-      width:100%;
-      padding: 12px 12px;
-      border-radius: 18px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.92);
-      font-weight:1300;
-      font-size:15px;
-      outline:none;
-    }
-    .seg{
-      display:flex; gap:8px; padding:6px;
-      border-radius:999px; border:1px solid var(--line);
-      background: rgba(255,255,255,.86);
-    }
-    .seg button{
-      flex:1;
-      border-radius:999px;
-      border:1px solid transparent;
-      background: transparent;
-      padding: 11px 10px;
-      cursor:pointer; user-select:none;
-      font-weight:1300;
-      color: var(--muted);
-    }
-    .seg button.active{
-      background: #fff4d7;
-      border-color: rgba(200,155,45,.22);
-      color: var(--text);
-      box-shadow: 0 10px 18px rgba(17,24,39,.08);
-    }
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .hint{
-      color: var(--muted);
-      font-weight:1100;
-      font-size:12px;
-      line-height:1.5;
-    }
-    .preview{
-      border-top:1px solid var(--line);
-      padding-top:12px;
-      color: var(--muted);
-      font-weight:1200;
-      font-size:13px;
-      line-height:1.65;
-      white-space:pre-line;
-    }
-    .sActions{
-      padding: 0 14px 14px;
-      display:flex; gap:10px;
-    }
-    .sActions button{
-      flex:1;
-      padding: 14px 12px;
-      border-radius: 18px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.92);
-      box-shadow: 0 14px 24px rgba(17,24,39,.10);
-      cursor:pointer; user-select:none;
-      font-weight:1300;
-    }
-    .sActions button:active{transform:scale(.99)}
-    .primary{
-      background: linear-gradient(180deg, rgba(255,244,215,1), rgba(255,255,255,.92));
-      border-color: rgba(200,155,45,.25);
+    input{
+      width:100%;padding: 12px 12px;border-radius: 18px;border:1px solid var(--line);
+      background: rgba(255,255,255,.92);font-weight:1300;font-size:15px;outline:none;
     }
 
-    /* Toast */
+    .seg{
+      display:flex; gap:8px; padding:6px;border-radius:999px;border:1px solid var(--line);background: rgba(255,255,255,.86);
+    }
+    .seg button{
+      flex:1;border-radius:999px;border:1px solid transparent;background: transparent;padding: 11px 10px;
+      cursor:pointer; user-select:none;font-weight:1300;color: var(--muted);
+    }
+    .seg button.active{
+      background: #fff4d7;border-color: rgba(200,155,45,.22);color: var(--text);box-shadow: 0 10px 18px rgba(17,24,39,.08);
+    }
+
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .hint{color: var(--muted);font-weight:1100;font-size:12px;line-height:1.5;}
+
+    /* projects chips */
+    .projBox{
+      border:1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.86);
+      padding: 10px;
+      box-shadow: 0 12px 22px rgba(17,24,39,.06);
+    }
+    .projTitle{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:1300;color: rgba(17,24,39,.82);margin-bottom:8px}
+    .projList{display:flex;flex-direction:column;gap:8px}
+    .projRow{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding: 9px 10px;border-radius: 16px;border:1px solid var(--line);background: rgba(255,255,255,.82);
+    }
+    .projRow b{font-weight:1300}
+    .ctr{display:flex;align-items:center;gap:8px}
+    .ctr button{
+      width:36px;height:36px;border-radius: 14px;border:1px solid var(--line);background: rgba(255,255,255,.90);
+      cursor:pointer;user-select:none;font-weight:1400;
+    }
+    .ctr button:active{transform:scale(.98)}
+    .ctr span{
+      min-width: 28px;
+      text-align:center;
+      font-weight:1400;
+      color: rgba(17,24,39,.85);
+    }
+
+    /* details like your screenshot */
+    .details{
+      border:1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 12px 22px rgba(17,24,39,.06);
+      overflow:hidden;
+    }
+    .dHead{
+      padding: 10px 12px;
+      display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--line);
+      font-weight:1300;
+      color: rgba(17,24,39,.80);
+      background: rgba(255,244,215,.75);
+    }
+    .dGrid{display:grid;grid-template-columns:1fr;gap:10px;padding: 10px;}
+    .dCard{
+      border-radius: 16px;
+      border:1px solid var(--line);
+      padding: 10px;
+      background: rgba(255,255,255,.82);
+    }
+    .dCard.us{background: rgba(22,163,74,.10); border-color: rgba(22,163,74,.20);}
+    .dCard.them{background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.18);}
+    .dTop{display:flex;align-items:center;justify-content:space-between;font-weight:1400}
+    .dTop .nm{opacity:.95}
+    .dLines{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+    .line{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      color: rgba(17,24,39,.80);
+      font-weight:1200;
+    }
+    .line code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: rgba(17,24,39,.06);
+      padding: 2px 8px;border-radius: 10px;border:1px solid var(--line);
+      direction:ltr;
+    }
+    .sum{
+      margin-top:8px;
+      display:flex;align-items:center;justify-content:space-between;
+      font-weight:1500;
+      font-size: 16px;
+    }
+
+    .sActions{padding: 0 14px 14px;display:flex; gap:10px;}
+    .sActions button{
+      flex:1;padding: 14px 12px;border-radius: 18px;border:1px solid var(--line);background: rgba(255,255,255,.92);
+      box-shadow: 0 14px 24px rgba(17,24,39,.10);cursor:pointer; user-select:none;font-weight:1300;
+    }
+    .sActions button:active{transform:scale(.99)}
+    .primary{background: linear-gradient(180deg, rgba(255,244,215,1), rgba(255,255,255,.92));border-color: rgba(200,155,45,.25);}
+
     .toast{
       position:fixed; left:50%; transform:translateX(-50%);
-      bottom: 18px;
-      padding:10px 12px;
-      border-radius:999px;
-      background:#111827;
-      color:#fff;
-      box-shadow: 0 18px 55px rgba(0,0,0,.25);
-      font-weight:1300;
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .18s ease;
-      z-index: 90;
-      max-width: calc(100vw - 24px);
-      text-align:center;
+      bottom: 18px;padding:10px 12px;border-radius:999px;background:#111827;color:#fff;
+      box-shadow: 0 18px 55px rgba(0,0,0,.25);font-weight:1300;opacity:0;pointer-events:none;
+      transition: opacity .18s ease;z-index: 90;max-width: calc(100vw - 24px);text-align:center;
     }
     .toast.show{opacity:1}
 
@@ -467,7 +302,7 @@
           </div>
           <div class="bTxt">
             <b>حاسبة بلوت</b>
-            <small>واجهة آيفون — سريعة وخفيفة</small>
+            <small>النشرة + مشاريع متعددة + تفاصيل</small>
           </div>
         </div>
 
@@ -565,18 +400,19 @@
           </div>
         </div>
 
-        <!-- Manual -->
+        <!-- Manual (IMPORTANT: mapping fixed. Right input is "A" (pressed team), left is opponent) -->
         <div id="boxManual">
           <div class="grid2">
             <div>
-              <label id="labUs">نقاط نحن</label>
-              <input id="inUs" type="number" min="0" inputmode="numeric" placeholder="مثال: 30">
+              <label id="labA">نقاط الفريق</label>
+              <input id="inA" type="number" min="0" inputmode="numeric" placeholder="مثال: 30">
             </div>
             <div>
-              <label id="labThem">نقاط هم</label>
-              <input id="inThem" type="number" min="0" inputmode="numeric" placeholder="مثال: 20">
+              <label id="labB">نقاط الخصم</label>
+              <input id="inB" type="number" min="0" inputmode="numeric" placeholder="مثال: 20">
             </div>
           </div>
+          <div class="hint" style="margin-top:8px">يدوي = تحط النقاط مباشرة بدون تقسيم.</div>
         </div>
 
         <!-- Advanced -->
@@ -591,33 +427,48 @@
 
           <div>
             <label id="labAbnat">أبناط الفريق</label>
-            <input id="inAbnat" type="number" min="0" inputmode="numeric" placeholder="اكتب الأبناط لفريقك">
-            <div class="hint">صن ÷5 ، حكم ÷10 — الخصم = الإجمالي - أبناطك</div>
+            <input id="inAbnat" type="number" min="0" inputmode="numeric" placeholder="اكتب أبناط الفريق">
+            <div class="hint">صن: ÷5 — حكم: ÷10 — أبناط الخصم = الإجمالي - أبناطك</div>
           </div>
 
           <div class="grid2">
-            <div>
-              <label id="labProjA">مشاريع فريقك</label>
-              <select id="projA"></select>
-              <input id="projAC" type="number" min="0" inputmode="numeric" placeholder="العدد (مثال: 2)" style="margin-top:8px;">
+            <div class="projBox">
+              <div class="projTitle">
+                <span id="projTitleA">مشاريع الفريق</span>
+                <span style="color:var(--muted);font-weight:1200;font-size:12px" id="projSumA">0</span>
+              </div>
+              <div class="projList" id="projListA"></div>
             </div>
-            <div>
-              <label id="labProjB">مشاريع الخصم</label>
-              <select id="projB"></select>
-              <input id="projBC" type="number" min="0" inputmode="numeric" placeholder="العدد (مثال: 2)" style="margin-top:8px;">
+
+            <div class="projBox">
+              <div class="projTitle">
+                <span id="projTitleB">مشاريع الخصم</span>
+                <span style="color:var(--muted);font-weight:1200;font-size:12px" id="projSumB">0</span>
+              </div>
+              <div class="projList" id="projListB"></div>
             </div>
           </div>
 
           <div>
             <label>الأرض</label>
             <div class="seg">
-              <button id="ardA" class="active">لفريقك</button>
+              <button id="ardA" class="active">للفريق</button>
               <button id="ardB">للخصم</button>
             </div>
             <div class="hint">الأرض: صن +2 — حكم +1</div>
           </div>
 
-          <div class="preview" id="previewTxt"></div>
+          <!-- Details like your screenshot -->
+          <div class="details">
+            <div class="dHead">
+              <span>تفاصيل الحساب</span>
+              <span style="color:var(--muted);font-weight:1200;font-size:12px">يتحدث تلقائي</span>
+            </div>
+            <div class="dGrid">
+              <div class="dCard us" id="cardA"></div>
+              <div class="dCard them" id="cardB"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -630,7 +481,7 @@
 
 <script>
 (() => {
-  const LS = "baloot_phone_easy_v1";
+  const LS = "baloot_phone_multi_projects_v2";
   const $ = (id)=>document.getElementById(id);
 
   const el = {
@@ -657,15 +508,21 @@
     modalBack: $("modalBack"), mTitle: $("mTitle"), mClose: $("mClose"),
     mManual: $("mManual"), mAdv: $("mAdv"),
     boxManual: $("boxManual"), boxAdv: $("boxAdv"),
-    labUs: $("labUs"), labThem: $("labThem"),
-    inUs: $("inUs"), inThem: $("inThem"),
+
+    labA: $("labA"), labB: $("labB"),
+    inA: $("inA"), inB: $("inB"),
+
     modeSan: $("modeSan"), modeHokm: $("modeHokm"),
     labAbnat: $("labAbnat"), inAbnat: $("inAbnat"),
-    projA: $("projA"), projB: $("projB"),
-    projAC: $("projAC"), projBC: $("projBC"),
-    labProjA: $("labProjA"), labProjB: $("labProjB"),
+
+    projTitleA: $("projTitleA"), projTitleB: $("projTitleB"),
+    projListA: $("projListA"), projListB: $("projListB"),
+    projSumA: $("projSumA"), projSumB: $("projSumB"),
+
     ardA: $("ardA"), ardB: $("ardB"),
-    previewTxt: $("previewTxt"),
+
+    cardA: $("cardA"), cardB: $("cardB"),
+
     mAdd: $("mAdd"), mClear: $("mClear"),
   };
 
@@ -674,9 +531,10 @@
     usName: "نحن",
     themName: "هم",
     round: 0,
-    entries: [], // {round, timeSec, usPts, themPts, note}
+    entries: [], // {round,timeSec,usPts,themPts,note,details?}
     timer: { sec:0, running:false },
     sound: true,
+    voice: true,
   };
 
   function load(){
@@ -694,6 +552,7 @@
       if(typeof s.timer.sec!=="number") s.timer.sec=0;
       if(typeof s.timer.running!=="boolean") s.timer.running=false;
       if(typeof s.sound!=="boolean") s.sound=true;
+      if(typeof s.voice!=="boolean") s.voice=true;
       return s;
     }catch{
       return structuredClone(defaultState);
@@ -701,7 +560,6 @@
   }
 
   let state = load();
-
   let saveT=null;
   function saveSoon(){
     if(saveT) return;
@@ -711,8 +569,9 @@
     }, 400);
   }
 
+  // ---------- SFX ----------
   let audioCtx=null;
-  function beep(){
+  function sfx(type="tap"){
     if(!state.sound) return;
     try{
       audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
@@ -720,27 +579,47 @@
       const g=audioCtx.createGain();
       o.connect(g); g.connect(audioCtx.destination);
       const now=audioCtx.currentTime;
+
+      const f = type==="add" ? 760 : type==="undo" ? 520 : type==="clear" ? 240 : 620;
       o.type="sine";
-      o.frequency.setValueAtTime(650, now);
+      o.frequency.setValueAtTime(f, now);
       g.gain.setValueAtTime(0.0001, now);
       g.gain.exponentialRampToValueAtTime(0.10, now+0.01);
       g.gain.exponentialRampToValueAtTime(0.0001, now+0.12);
       o.start(now); o.stop(now+0.14);
     }catch{}
   }
+
+  // ---------- Voice (النشرة) ----------
+
+// ---------- Voice (النشرة) ----------
+function speak(text){
+  if(!state.voice) return;
+  try{
+    if(!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "ar-SA";
+    u.rate = 1.02;
+    u.pitch = 1.0;
+    u.volume = 1.0;
+    window.speechSynthesis.speak(u);
+  }catch{}
+}
+
+
+  // ---------- UI helpers ----------
   function toast(msg){
     el.toast.textContent = msg;
     el.toast.classList.add("show");
     setTimeout(()=>el.toast.classList.remove("show"), 900);
   }
-
   function fmt(sec){
     sec = Math.max(0, sec|0);
     const m = String(Math.floor(sec/60)).padStart(2,"0");
     const s = String(sec%60).padStart(2,"0");
     return `${m}:${s}`;
   }
-
   function sum(){
     let us=0, them=0;
     for(const e of state.entries){ us += (e.usPts||0); them += (e.themPts||0); }
@@ -767,7 +646,6 @@
 
     el.count.textContent = state.entries.length;
 
-    // history last 30
     if(state.entries.length===0){
       el.historyBody.className="empty";
       el.historyBody.textContent="لا يوجد سجل";
@@ -803,7 +681,7 @@
     saveSoon();
   }
 
-  // Timer tick (only update time text)
+  // ---------- Timer ----------
   setInterval(()=>{
     if(!state.timer.running) return;
     state.timer.sec = (state.timer.sec||0)+1;
@@ -811,56 +689,32 @@
     saveSoon();
   }, 1000);
 
-  // Modal logic
-  let modalTeam = "us";     // clicked team
+  // ---------- Modal state ----------
+  let modalTeam = "us";     // us|them (button pressed)
   let inputMode = "manual"; // manual|adv
   let advMode = "san";      // san|hokm
   let ardTo = "A";          // A=team, B=opponent
+  let projCountsA = {};     // key -> count
+  let projCountsB = {};
 
   const projSan = [
-    ["", "بدون", 0],
-    ["sra","سرا (+4)",4],
-    ["50","خمسين (+10)",10],
-    ["100","مية (+20)",20],
-    ["400","400 (+40)",40],
+    {key:"sra", label:"سرا", pts:4},
+    {key:"50",  label:"خمسين", pts:10},
+    {key:"100", label:"مية", pts:20},
+    {key:"400", label:"400", pts:40},
   ];
   const projHokm = [
-    ["", "بدون", 0],
-    ["sra","سرا (+2)",2],
-    ["50","خمسين (+5)",5],
-    ["100","مية (+10)",10],
-    ["baloot","بلوت (+2)",2],
+    {key:"sra", label:"سرا", pts:2},
+    {key:"50",  label:"خمسين", pts:5},
+    {key:"100", label:"مية", pts:10},
+    {key:"baloot", label:"بلوت", pts:2},
   ];
 
-  function totalAbnat(){ return advMode==="hokm" ? 150 : 120; }
-  function divisor(){ return advMode==="hokm" ? 10 : 5; }
-  function ardBonus(){ return advMode==="hokm" ? 1 : 2; }
-
-  function fillProjects(){
-    const arr = advMode==="hokm" ? projHokm : projSan;
-    const fill = (sel)=>{
-      sel.innerHTML="";
-      for(const [k,lab] of arr){
-        const opt=document.createElement("option");
-        opt.value=k; opt.textContent=lab;
-        sel.appendChild(opt);
-      }
-      sel.value="";
-    };
-    fill(el.projA); fill(el.projB);
-    el.projAC.value=""; el.projBC.value="";
+  function modeTotals(){
+    return advMode==="hokm" ? {totalAb:150, div:10, ard:1} : {totalAb:120, div:5, ard:2};
   }
-
-  function projPts(key){
-    const arr = advMode==="hokm" ? projHokm : projSan;
-    for(const [k,_,p] of arr) if(k===key) return p;
-    return 0;
-  }
-  function projTotal(sel, cntInput){
-    const key = sel.value || "";
-    const c = Math.max(0, parseInt(cntInput.value||"0",10) || 0);
-    if(!key || c===0) return 0;
-    return projPts(key)*c;
+  function listProjects(){
+    return advMode==="hokm" ? projHokm : projSan;
   }
 
   function setInputMode(m){
@@ -870,157 +724,292 @@
     el.boxManual.style.display = m==="manual" ? "" : "none";
     el.boxAdv.style.display = m==="adv" ? "" : "none";
   }
-
   function setAdvMode(m){
     advMode = m;
     el.modeSan.classList.toggle("active", m==="san");
     el.modeHokm.classList.toggle("active", m==="hokm");
+    // reset projects counts when changing mode (because list differs)
+    projCountsA = {};
+    projCountsB = {};
+    buildProjectsUI();
+    updateDetails();
+  }
 
-    fillProjects();
-
+  function namesForModal(){
     const teamName = modalTeam==="us" ? state.usName : state.themName;
     const oppName  = modalTeam==="us" ? state.themName : state.usName;
-    el.labAbnat.textContent = `أبناط ${teamName}`;
-    el.labProjA.textContent = `مشاريع ${teamName}`;
-    el.labProjB.textContent = `مشاريع ${oppName}`;
+    return {teamName, oppName};
   }
 
   function openModal(team){
     modalTeam = team;
-    const teamName = team==="us" ? state.usName : state.themName;
-    el.mTitle.textContent = `إضافة نتيجة — ${teamName}`;
+    const {teamName, oppName} = namesForModal();
 
-    el.labUs.textContent = `نقاط ${state.usName}`;
-    el.labThem.textContent = `نقاط ${state.themName}`;
+    el.mTitle.textContent = `إضافة نتيجة — ${teamName}`;
+    el.labA.textContent = `نقاط ${teamName}`;   // right column
+    el.labB.textContent = `نقاط ${oppName}`;    // left column
+
+    el.projTitleA.textContent = `مشاريع ${teamName}`;
+    el.projTitleB.textContent = `مشاريع ${oppName}`;
+    el.labAbnat.textContent = `أبناط ${teamName}`;
 
     // reset
-    ardTo="A"; advMode="san";
+    ardTo="A";
+    projCountsA = {};
+    projCountsB = {};
+    el.ardA.classList.add("active"); el.ardB.classList.remove("active");
+    el.inA.value=""; el.inB.value="";
+    el.inAbnat.value="";
     setInputMode("manual");
     setAdvMode("san");
-    el.inUs.value=""; el.inThem.value="";
-    el.inAbnat.value=""; el.previewTxt.textContent="";
-    el.ardA.classList.add("active"); el.ardB.classList.remove("active");
 
     el.modalBack.style.display="flex";
     document.body.style.overflow="hidden";
+    sfx("tap");
   }
   function closeModal(){
     el.modalBack.style.display="none";
     document.body.style.overflow="";
+    sfx("tap");
   }
 
-  function computeAdv(){
+  // ---------- Projects UI (multi) ----------
+  function projTotal(counts){
+    let t=0;
+    const list = listProjects();
+    for(const p of list){
+      const c = Math.max(0, counts[p.key]||0);
+      t += c * p.pts;
+    }
+    return t;
+  }
+
+  function buildProjectsUI(){
+    const list = listProjects();
+
+    const mkRow = (p, side) => {
+      const wrap = document.createElement("div");
+      wrap.className="projRow";
+      wrap.innerHTML = `
+        <div><b>${p.label}</b> <span style="color:var(--muted);font-weight:1200;font-size:12px">(+${p.pts})</span></div>
+        <div class="ctr">
+          <button type="button" data-act="minus" aria-label="minus">−</button>
+          <span data-count>0</span>
+          <button type="button" data-act="plus" aria-label="plus">+</button>
+        </div>
+      `;
+      const cntEl = wrap.querySelector("[data-count]");
+      const btns = wrap.querySelectorAll("button");
+
+      const getCounts = ()=> side==="A" ? projCountsA : projCountsB;
+      const setCounts = (k,v)=> { if(side==="A") projCountsA[k]=v; else projCountsB[k]=v; };
+
+      const sync = ()=>{
+        const c = Math.max(0, getCounts()[p.key]||0);
+        cntEl.textContent = c;
+        el.projSumA.textContent = `${projTotal(projCountsA)} نقطة`;
+        el.projSumB.textContent = `${projTotal(projCountsB)} نقطة`;
+      };
+
+      btns.forEach(b=>{
+        b.addEventListener("click", ()=>{
+          const act = b.getAttribute("data-act");
+          const cur = Math.max(0, getCounts()[p.key]||0);
+          const next = act==="plus" ? cur+1 : Math.max(0, cur-1);
+          setCounts(p.key, next);
+          sync();
+          updateDetails();
+          sfx("tap");
+        });
+      });
+
+      sync();
+      return wrap;
+    };
+
+    el.projListA.innerHTML="";
+    el.projListB.innerHTML="";
+    for(const p of list){
+      el.projListA.appendChild(mkRow(p,"A"));
+      el.projListB.appendChild(mkRow(p,"B"));
+    }
+    el.projSumA.textContent = `${projTotal(projCountsA)} نقطة`;
+    el.projSumB.textContent = `${projTotal(projCountsB)} نقطة`;
+  }
+
+  // ---------- Advanced compute + details ----------
+  function computeAdvanced(){
+    const {teamName, oppName} = namesForModal();
+    const {totalAb, div, ard} = modeTotals();
+
     const v = parseInt(el.inAbnat.value||"",10);
-    const has = !Number.isNaN(v) && el.inAbnat.value!=="";
-    const yourAb = has ? Math.max(0, v) : 0;
+    const hasAb = !Number.isNaN(v) && el.inAbnat.value!=="";
+    const yourAb = hasAb ? Math.max(0, v) : 0;
+    const oppAb  = Math.max(0, totalAb - yourAb);
 
-    const total = totalAbnat();
-    const otherAb = Math.max(0, total - yourAb);
+    const yourAbPts = hasAb ? Math.floor(yourAb / div) : 0;
+    const oppAbPts  = hasAb ? Math.floor(oppAb  / div) : 0;
 
-    const d = divisor();
-    const yourPtsAb = has ? Math.floor(yourAb / d) : 0;
-    const otherPtsAb = has ? Math.floor(otherAb / d) : 0;
+    const aProjPts = projTotal(projCountsA);
+    const bProjPts = projTotal(projCountsB);
 
-    const aProj = projTotal(el.projA, el.projAC);
-    const bProj = projTotal(el.projB, el.projBC);
+    const hasSomething = hasAb || aProjPts>0 || bProjPts>0;
+    const ardPts = hasSomething ? ard : 0;
 
-    const bonus = (has || aProj>0 || bProj>0) ? ardBonus() : 0;
+    const aArd = (ardTo==="A") ? ardPts : 0;
+    const bArd = (ardTo==="B") ? ardPts : 0;
 
-    const teamName = modalTeam==="us" ? state.usName : state.themName;
-    const oppName  = modalTeam==="us" ? state.themName : state.usName;
+    const teamPts = yourAbPts + aProjPts + aArd;
+    const oppPts  = oppAbPts  + bProjPts + bArd;
 
-    const teamPts = yourPtsAb + aProj + (ardTo==="A" ? bonus : 0);
-    const oppPts  = otherPtsAb + bProj + (ardTo==="B" ? bonus : 0);
-
+    // map to us/them totals
     const usPts   = (modalTeam==="us") ? teamPts : oppPts;
     const themPts = (modalTeam==="them") ? teamPts : oppPts;
 
-    const note =
-      `متقدم (${advMode==="san"?"صن":"حكم"}) — ` +
-      `${teamName}: أبناط ${yourAb}/${total} => ${yourPtsAb} + مشاريع ${aProj}` +
-      `${ardTo==="A" ? ` + أرض ${bonus}` : ""} | ` +
-      `${oppName}: أبناط ${otherAb}/${total} => ${otherPtsAb} + مشاريع ${bProj}` +
-      `${ardTo==="B" ? ` + أرض ${bonus}` : ""}`;
-
-    return {has, teamName, oppName, yourAb, otherAb, total, d, yourPtsAb, otherPtsAb, aProj, bProj, bonus, usPts, themPts, note};
+    return {
+      teamName, oppName,
+      totalAb, div,
+      yourAb, oppAb,
+      yourAbPts, oppAbPts,
+      aProjPts, bProjPts,
+      aArd, bArd,
+      teamPts, oppPts,
+      usPts, themPts,
+      modeText: advMode==="san" ? "صن" : "حكم"
+    };
   }
 
-  function updatePreview(){
-    if(inputMode!=="adv"){ el.previewTxt.textContent=""; return; }
-    const r = computeAdv();
-    if(!r.has && r.aProj===0 && r.bProj===0){
-      el.previewTxt.textContent = `اكتب الأبناط أو اختر مشاريع.\nالصن: 120 ÷5 — الحكم: 150 ÷10`;
+  function updateDetails(){
+    if(inputMode!=="adv"){
+      el.cardA.innerHTML = "";
+      el.cardB.innerHTML = "";
       return;
     }
-    el.previewTxt.textContent =
-      `${r.teamName}: أبناط ${r.yourAb}/${r.total} => ${r.yourPtsAb} (÷${r.d})\n` +
-      `${r.oppName}: أبناط ${r.otherAb}/${r.total} => ${r.otherPtsAb} (÷${r.d})\n` +
-      `مشاريع ${r.teamName}: +${r.aProj} — مشاريع ${r.oppName}: +${r.bProj}\n` +
-      `الأرض: +${r.bonus} لـ ${ardTo==="A"?r.teamName:r.oppName}\n` +
-      `المجموع: ${state.usName}=${r.usPts} | ${state.themName}=${r.themPts}`;
+    const r = computeAdvanced();
+
+    const aHtml = `
+      <div class="dTop"><div class="nm">${r.teamName}</div><div>${r.teamPts}</div></div>
+      <div class="dLines">
+        <div class="line"><span>الأبناط</span><span><code>${r.yourAb} ÷ ${r.div}</code> = <b>${r.yourAbPts}</b></span></div>
+        <div class="line"><span>المشاريع</span><span><b>${r.aProjPts}</b></span></div>
+        <div class="line"><span>الأرض</span><span><b>${r.aArd}</b></span></div>
+      </div>
+      <div class="sum"><span>المجموع</span><span>${r.teamPts}</span></div>
+    `;
+
+    const bHtml = `
+      <div class="dTop"><div class="nm">${r.oppName}</div><div>${r.oppPts}</div></div>
+      <div class="dLines">
+        <div class="line"><span>الأبناط</span><span><code>${r.oppAb} ÷ ${r.div}</code> = <b>${r.oppAbPts}</b></span></div>
+        <div class="line"><span>المشاريع</span><span><b>${r.bProjPts}</b></span></div>
+        <div class="line"><span>الأرض</span><span><b>${r.bArd}</b></span></div>
+      </div>
+      <div class="sum"><span>المجموع</span><span>${r.oppPts}</span></div>
+    `;
+
+    el.cardA.innerHTML = aHtml;
+    el.cardB.innerHTML = bHtml;
   }
 
+  // ---------- Add entry + bulletin voice ----------
   function addEntry(usPts, themPts, note){
     state.round = (state.round||0)+1;
+
     state.entries.push({
       round: state.round,
       timeSec: state.timer.sec||0,
       usPts, themPts,
       note: note||""
     });
+
     if(!state.timer.running){
       state.timer.running = true;
       el.startPauseBtn.textContent = "⏸";
     }
-    beep(); toast("✅ تمت الإضافة");
+
+    // SFX + Toast
+    sfx("add");
+    toast("✅ تمت الإضافة");
     render();
+
+    // Speak bulletin AFTER render to use new totals
+    const totals = sum();
+    const say = `النشرة: ${state.usName} ${totals.us} و ${state.themName} ${totals.them}`;
+    speak(say);
   }
 
-  // Buttons — IMPORTANT: this is what makes "إضافة نتيجة" work
+  // ---------- Events ----------
   el.addUs.addEventListener("click", ()=>openModal("us"));
   el.addThem.addEventListener("click", ()=>openModal("them"));
 
   el.mClose.addEventListener("click", closeModal);
   el.modalBack.addEventListener("click",(e)=>{ if(e.target===el.modalBack) closeModal(); });
 
-  el.mManual.addEventListener("click", ()=>{ setInputMode("manual"); beep(); });
-  el.mAdv.addEventListener("click", ()=>{ setInputMode("adv"); updatePreview(); beep(); });
+  el.mManual.addEventListener("click", ()=>{ setInputMode("manual"); sfx("tap"); });
+  el.mAdv.addEventListener("click", ()=>{
+    setInputMode("adv");
+    buildProjectsUI();
+    updateDetails();
+    sfx("tap");
+  });
 
-  el.modeSan.addEventListener("click", ()=>{ setAdvMode("san"); updatePreview(); beep(); });
-  el.modeHokm.addEventListener("click", ()=>{ setAdvMode("hokm"); updatePreview(); beep(); });
+  el.modeSan.addEventListener("click", ()=>{ setAdvMode("san"); sfx("tap"); });
+  el.modeHokm.addEventListener("click", ()=>{ setAdvMode("hokm"); sfx("tap"); });
 
-  el.inAbnat.addEventListener("input", updatePreview);
-  el.projA.addEventListener("change", updatePreview);
-  el.projB.addEventListener("change", updatePreview);
-  el.projAC.addEventListener("input", updatePreview);
-  el.projBC.addEventListener("input", updatePreview);
+  el.inAbnat.addEventListener("input", ()=>{ updateDetails(); });
 
-  el.ardA.addEventListener("click", ()=>{ ardTo="A"; el.ardA.classList.add("active"); el.ardB.classList.remove("active"); updatePreview(); beep(); });
-  el.ardB.addEventListener("click", ()=>{ ardTo="B"; el.ardB.classList.add("active"); el.ardA.classList.remove("active"); updatePreview(); beep(); });
+  el.ardA.addEventListener("click", ()=>{
+    ardTo="A";
+    el.ardA.classList.add("active"); el.ardB.classList.remove("active");
+    updateDetails();
+    sfx("tap");
+  });
+  el.ardB.addEventListener("click", ()=>{
+    ardTo="B";
+    el.ardB.classList.add("active"); el.ardA.classList.remove("active");
+    updateDetails();
+    sfx("tap");
+  });
 
   el.mClear.addEventListener("click", ()=>{
-    el.inUs.value=""; el.inThem.value="";
+    el.inA.value=""; el.inB.value="";
     el.inAbnat.value="";
-    el.projA.value=""; el.projB.value="";
-    el.projAC.value=""; el.projBC.value="";
+    projCountsA = {}; projCountsB = {};
     ardTo="A"; el.ardA.classList.add("active"); el.ardB.classList.remove("active");
-    updatePreview();
-    beep(); toast("🧹 تم");
+    if(inputMode==="adv"){ buildProjectsUI(); updateDetails(); }
+    sfx("clear"); toast("🧹 تم");
   });
 
   el.mAdd.addEventListener("click", ()=>{
+    const {teamName, oppName} = namesForModal();
+
     if(inputMode==="manual"){
-      const us = Math.max(0, parseInt(el.inUs.value||"0",10) || 0);
-      const them = Math.max(0, parseInt(el.inThem.value||"0",10) || 0);
-      if(us===0 && them===0){ toast("اكتب نقاط"); return; }
-      addEntry(us, them, "يدوي");
+      // IMPORTANT: RIGHT input is A(team pressed), LEFT input is B(opponent)
+      const a = Math.max(0, parseInt(el.inA.value||"0",10) || 0);
+      const b = Math.max(0, parseInt(el.inB.value||"0",10) || 0);
+      if(a===0 && b===0){ toast("اكتب نقاط"); return; }
+
+      // Map A/B to us/them based on pressed team
+      const usPts   = (modalTeam==="us") ? a : b;
+      const themPts = (modalTeam==="them") ? a : b;
+
+      addEntry(usPts, themPts, `يدوي — ${teamName}:${a} | ${oppName}:${b}`);
       closeModal();
-    }else{
-      const r = computeAdv();
-      if(!r.has && r.aProj===0 && r.bProj===0){ toast("اكتب الأبناط أو اختر مشاريع"); return; }
-      addEntry(r.usPts, r.themPts, r.note);
-      closeModal();
+      return;
     }
+
+    // advanced
+    const r = computeAdvanced();
+    const hasAny = (el.inAbnat.value!=="" && !Number.isNaN(parseInt(el.inAbnat.value,10))) ||
+                   (r.aProjPts>0) || (r.bProjPts>0);
+
+    if(!hasAny){
+      toast("اكتب الأبناط أو زود مشاريع");
+      return;
+    }
+
+    addEntry(r.usPts, r.themPts, `متقدم (${r.modeText})`);
+    closeModal();
   });
 
   // Edit names
@@ -1033,7 +1022,7 @@
     const v = name.trim();
     if(!v) return;
     if(key==="us") state.usName=v; else state.themName=v;
-    beep(); render();
+    sfx("tap"); render();
   });
 
   // Tabs
@@ -1042,31 +1031,33 @@
     el.tabStats.classList.remove("active");
     el.historyBox.style.display="";
     el.statsBox.style.display="none";
+    sfx("tap");
   });
   el.tabStats.addEventListener("click", ()=>{
     el.tabStats.classList.add("active");
     el.tabHistory.classList.remove("active");
     el.historyBox.style.display="none";
     el.statsBox.style.display="";
+    sfx("tap");
   });
 
   // Timer controls
   el.startPauseBtn.addEventListener("click", ()=>{
     state.timer.running = !state.timer.running;
     el.startPauseBtn.textContent = state.timer.running ? "⏸" : "▶";
-    beep(); saveSoon();
+    sfx("tap"); saveSoon();
   });
   el.stopBtn.addEventListener("click", ()=>{
     state.timer.running = false;
     el.startPauseBtn.textContent = "▶";
-    beep(); saveSoon();
+    sfx("tap"); saveSoon();
   });
   el.resetTimerBtn.addEventListener("click", ()=>{
     state.timer.running = false;
     state.timer.sec = 0;
     el.timerTxt.textContent = "00:00";
     el.startPauseBtn.textContent = "▶";
-    beep(); saveSoon();
+    sfx("tap"); saveSoon();
   });
 
   // Undo/Clear/New
@@ -1074,53 +1065,43 @@
     if(state.entries.length===0) return;
     state.entries.pop();
     state.round = Math.max(0, (state.round||0)-1);
-    beep(); toast("↩ تم التراجع"); render();
+    sfx("undo"); toast("↩ تم التراجع"); render();
   });
   el.clearBtn.addEventListener("click", ()=>{
     state.entries=[]; state.round=0;
-    beep(); toast("🗑 تم المسح"); render();
+    sfx("clear"); toast("🗑 تم المسح"); render();
   });
   el.newBtn.addEventListener("click", ()=>{
     state = structuredClone(defaultState);
-    beep(); toast("↺ جديد"); render();
+    sfx("clear"); toast("↺ جديد"); render();
   });
 
   // Share
   el.shareBtn.addEventListener("click", async ()=>{
     const {us, them} = sum();
     const lines = [];
-    lines.push("حاسبة بلوت");
+    lines.push("النشرة");
     lines.push(`${state.usName}: ${us} | ${state.themName}: ${them}`);
     lines.push(`سجلات: ${state.entries.length}`);
     lines.push("— — —");
     for(const e of state.entries){
-      lines.push(`جولة ${e.round} ⏱ ${fmt(e.timeSec||0)} | ${state.usName}:${e.usPts} ${state.themName}:${e.themPts}`);
-      if(e.note) lines.push(`  ${e.note}`);
+      lines.push(`جولة ${e.round} ⏱ ${fmt(e.timeSec||0)} | ${state.usName}:${e.usPts} ${state.themName}:${e.themPts} — ${e.note||""}`);
     }
     const text = lines.join("\n");
     try{ if(navigator.share){ await navigator.share({text}); return; } }catch{}
     try{ await navigator.clipboard.writeText(text); toast("✅ تم النسخ"); }catch{ toast("انسخ يدويًا"); }
   });
 
-  // Sound
+  // Sound toggle (now also toggles voice with long press? keep simple: tap toggles sfx only)
   el.soundBtn.addEventListener("click", ()=>{
     state.sound = !state.sound;
     toast(state.sound ? "🔊 الصوت شغال" : "🔇 الصوت مكتوم");
+    sfx("tap");
     render();
   });
 
-  // Init modal selects
-  fillProjects();
-
-  // Live preview
-  ["input","change"].forEach(ev=>{
-    el.inAbnat.addEventListener(ev, updatePreview);
-    el.projA.addEventListener(ev, updatePreview);
-    el.projB.addEventListener(ev, updatePreview);
-    el.projAC.addEventListener(ev, updatePreview);
-    el.projBC.addEventListener(ev, updatePreview);
-  });
-
+  // Init
+  buildProjectsUI();
   render();
 })();
 </script>
