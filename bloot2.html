@@ -4,6 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
   <title>حاسبة بلوت</title>
+  <link rel="icon" type="image/png" href="image0.png">
   <style>
     :root{
       --sand1:#fff7e6;
@@ -205,17 +206,17 @@
     .projList{display:flex;flex-direction:column;gap:8px}
     .projRow{
       display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding: 9px 10px;border-radius: 16px;border:1px solid var(--line);background: rgba(255,255,255,.82);
+      padding: 7px 8px;border-radius: 14px;border:1px solid var(--line);background: rgba(255,255,255,.82);
     }
     .projRow b{font-weight:1300}
     .ctr{display:flex;align-items:center;gap:8px}
     .ctr button{
-      width:36px;height:36px;border-radius: 14px;border:1px solid var(--line);background: rgba(255,255,255,.90);
+      width:30px;height:30px;border-radius: 12px;border:1px solid var(--line);background: rgba(255,255,255,.90);
       cursor:pointer;user-select:none;font-weight:1400;
     }
     .ctr button:active{transform:scale(.98)}
     .ctr span{
-      min-width: 28px;
+      min-width: 22px;
       text-align:center;
       font-weight:1400;
       color: rgba(17,24,39,.85);
@@ -333,6 +334,7 @@
     </div>
 
     <div class="teams">
+      
       <div class="team red">
         <div class="teamTop">
           <div class="name"><span id="themName">هم</span></div>
@@ -837,6 +839,14 @@ function speak(text){
     el.projSumB.textContent = `${projTotal(projCountsB)} نقطة`;
   }
 
+function abnatRound(x){
+  const f = Math.floor(x);
+  const frac2 = Math.round((x - f) * 100); // الجزء العشري برقمين (مثلاً 60)
+  return (frac2 >= 60) ? (f + 1) : f;      // 60 يعني 0.60
+}
+
+
+
   // ---------- Advanced compute + details ----------
   function computeAdvanced(){
     const {teamName, oppName} = namesForModal();
@@ -847,8 +857,8 @@ function speak(text){
     const yourAb = hasAb ? Math.max(0, v) : 0;
     const oppAb  = Math.max(0, totalAb - yourAb);
 
-    const yourAbPts = hasAb ? Math.floor(yourAb / div) : 0;
-    const oppAbPts  = hasAb ? Math.floor(oppAb  / div) : 0;
+    const yourAbPts = hasAb ? abnatRound(yourAb / div) : 0;
+    const oppAbPts  = hasAb ? abnatRound(oppAb  / div) : 0;
 
     const aProjPts = projTotal(projCountsA);
     const bProjPts = projTotal(projCountsB);
