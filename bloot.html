@@ -2,1244 +2,1347 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
   <title>حاسبة بلوت</title>
   <style>
     :root{
-      --bg1:#07110e;
-      --bg2:#0c1713;
-      --card: rgba(9,22,18,.68);
-      --glass: rgba(13,30,24,.70);
-      --border: rgba(255,255,255,.10);
-      --border2: rgba(255,255,255,.16);
-
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.62);
-
-      --gold:#f3c34f;
-      --red:#ff4b4b;
-      --green:#33d17a;
-
-      --shadow: 0 14px 35px rgba(0,0,0,.38);
-      --r12:12px; --r16:16px; --r18:18px; --r22:22px; --r28:28px;
-    }
-
-    /* Light theme overrides (apply on body.light) */
-    body.light{
-      --bg1:#f3f6f4;
-      --bg2:#e9f0ec;
-      --card: rgba(255,255,255,.78);
-      --glass: rgba(255,255,255,.70);
-      --border: rgba(17,24,39,.10);
-      --border2: rgba(17,24,39,.16);
-
+      --sand1:#fff7e6;
+      --sand2:#f3e0b6;
+      --card: rgba(255,255,255,.82);
+      --card2: rgba(255,255,255,.62);
+      --line: rgba(17,24,39,.10);
       --text: rgba(17,24,39,.92);
-      --muted: rgba(17,24,39,.60);
-
-      --shadow: 0 12px 28px rgba(0,0,0,.12);
+      --muted: rgba(17,24,39,.55);
+      --gold:#c89b2d;
+      --red:#ef4444;
+      --green:#16a34a;
+      --shadow: 0 12px 28px rgba(17,24,39,.12);
+      --shadow2: 0 22px 70px rgba(17,24,39,.18);
+      --r2:24px;
     }
-
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;
-      background:
-        radial-gradient(1000px 500px at 50% -120px, rgba(35,130,95,.18), transparent 60%),
-        radial-gradient(900px 420px at 15% 10%, rgba(243,195,79,.10), transparent 55%),
-        linear-gradient(180deg,var(--bg1),var(--bg2));
       color:var(--text);
       min-height:100vh;
+      background:
+        radial-gradient(900px 520px at 50% -180px, rgba(200,155,45,.32), transparent 60%),
+        radial-gradient(700px 360px at 14% 18%, rgba(230,200,111,.34), transparent 55%),
+        linear-gradient(180deg,var(--sand1),var(--sand2));
     }
+    .app{max-width:520px;margin:0 auto;padding:14px 14px calc(18px + env(safe-area-inset-bottom));}
 
-    .wrap{max-width: 980px; margin:0 auto; padding:22px 16px 40px;}
-    .topbar{
-      display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+    .header{
+      position: sticky; top:0; z-index:10;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: 10px;
+      background: linear-gradient(180deg, rgba(255,247,230,.96), rgba(255,247,230,.75), transparent);
+      backdrop-filter: blur(10px);
     }
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 14px; border-radius:999px;
-      background: var(--glass); border:1px solid var(--border);
-      box-shadow: var(--shadow); backdrop-filter: blur(10px);
-      color: var(--muted); font-weight:800;
+    .hRow{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .brand{display:flex;align-items:center;gap:10px;min-width:0;}
+    .logo{
+      width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
+      background:var(--card);box-shadow:var(--shadow);overflow:hidden;display:grid;place-items:center
     }
-    .badge b{color: var(--gold)}
-    .title{
-      flex:1; min-width: 220px;
-      display:flex; justify-content:center; align-items:center; gap:10px;
-      font-size:28px; font-weight:950; color: var(--gold);
-      text-shadow: 0 0 18px rgba(243,195,79,.14);
+    .logo img{width:100%;height:100%;object-fit:cover;display:block}
+    .bTxt{min-width:0;line-height:1.1}
+    .bTxt b{display:block;font-weight:1100;font-size:15px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .bTxt small{display:block;margin-top:3px;color:var(--muted);font-weight:900;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .hBtns{display:flex;gap:10px}
+    .iconBtn,.dangerBtn{
+      border-radius:16px;border:1px solid var(--line);background: var(--card);box-shadow: var(--shadow);
+      cursor:pointer;user-select:none;font-weight:1100;
     }
-    .rightActions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
-    .iconBtn{
-      width:42px; height:42px; display:grid; place-items:center;
-      border-radius:999px; background: var(--glass);
-      border:1px solid var(--border); box-shadow: var(--shadow);
-      cursor:pointer; user-select:none; transition:.15s;
-    }
-    .iconBtn:hover{transform: translateY(-1px); border-color: var(--border2);}
+    .iconBtn{width:42px;height:42px;display:grid;place-items:center}
+    .dangerBtn{padding: 11px 12px;border-color: rgba(239,68,68,.25);background: rgba(239,68,68,.10);color: var(--red);}
+    .iconBtn:active,.dangerBtn:active{transform:scale(.98)}
 
-    .pillBtn{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 14px; border-radius:999px;
-      border:1px solid rgba(255,75,75,.32);
-      background: rgba(255,75,75,.10);
-      color: var(--red);
-      font-weight:950;
-      box-shadow: var(--shadow);
-      cursor:pointer; user-select:none; transition:.15s;
+    .timerCard{
+      margin-top:10px;border:1px solid var(--line);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border-radius: var(--r2);box-shadow: var(--shadow);
+      padding: 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;
     }
-    .pillBtn:hover{transform: translateY(-1px);}
-
-    /* Timer */
-    .timerWrap{margin-top: 14px; display:flex; justify-content:center;}
-    .timer{
-      display:flex; align-items:center; gap:12px;
-      padding:10px 14px; border-radius:16px;
-      background: var(--glass); border:1px solid var(--border);
-      box-shadow: var(--shadow); backdrop-filter: blur(10px);
+    .tTime{
+      font-size:28px;font-weight:1200;letter-spacing:1px;
+      padding: 8px 14px;border-radius: 16px;border:1px solid var(--line);
+      background: rgba(255,255,255,.78);min-width: 120px;text-align:center;
     }
+    .tGroup{display:flex;gap:10px}
     .tBtn{
-      width:34px; height:34px; border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      display:grid; place-items:center;
-      cursor:pointer; user-select:none; transition:.15s;
+      width:44px;height:44px;border-radius:16px;border:1px solid var(--line);
+      background: rgba(255,255,255,.86);box-shadow: 0 12px 24px rgba(17,24,39,.10);
+      cursor:pointer;user-select:none;display:grid;place-items:center;font-weight:1200;
     }
-    .tBtn:hover{border-color: var(--border2)}
-    .tBtn.red{color: var(--red)}
-    .tBtn.green{color: var(--green)}
-    .tTime{min-width:92px; text-align:center; font-size:24px; font-weight:950; letter-spacing:1px;}
+    .tBtn:active{transform:scale(.98)}
+    .tBtn.green{color:var(--green)}
+    .tBtn.red{color:var(--red)}
 
-    /* Goal bar */
-    .goalRow{
-      margin-top: 12px;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      color: var(--muted); font-weight:850;
+    .board{
+      margin-top:12px;border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.80), rgba(255,255,255,.62));
+      border-radius: var(--r2);box-shadow: var(--shadow2);padding: 12px;
     }
-    .goalRow .left{color: var(--red)}
-    .goalRow .right{color: var(--green)}
-    .goalRow .mid{color: var(--gold)}
-    .progressOuter{
-      margin-top:8px; height:14px; border-radius:999px;
-      background: rgba(255,255,255,.08);
-      border:1px solid var(--border);
-      overflow:hidden;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
-    }
-    .progressInner{
-      height:100%; width:0%;
-      background: linear-gradient(90deg, rgba(51,209,122,.92), rgba(243,195,79,.75));
-      border-radius:999px;
-      transition: width .2s ease;
-    }
+    .meta{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-weight:1100;font-size:13px;}
+    .meta b{color:var(--gold)}
+    .bar{margin-top:10px;height:12px;border-radius:999px;background:rgba(17,24,39,.06);border:1px solid var(--line);overflow:hidden;}
+    .bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg, rgba(230,200,111,.95), rgba(200,155,45,.95));border-radius:999px;transition:width .2s ease;}
 
-    /* Teams grid */
-    .teams{margin-top:16px; display:grid; grid-template-columns:1fr; gap:14px;}
-    @media (min-width: 820px){ .teams{grid-template-columns: 1fr 1fr;} }
+    .teams{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .team{
+      border:1px solid var(--line);background: rgba(255,255,255,.82);
+      border-radius: var(--r2);box-shadow: var(--shadow2);
+      padding: 12px;display:flex;flex-direction:column;gap:10px;min-height: 240px;
+    }
+    .teamTop{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:1100;}
+    .name span{font-size:15px;font-weight:1100}
+    .edit{
+      width:36px;height:36px;border-radius:14px;border:1px solid var(--line);
+      background: rgba(255,255,255,.78);display:grid;place-items:center;cursor:pointer;user-select:none;font-weight:1200;opacity:.85;
+    }
+    .score{text-align:center;font-size:78px;font-weight:1300;line-height:1;margin: 0;letter-spacing:1px;}
+    .team.red .score,.team.red .name span{color:var(--red)}
+    .team.green .score,.team.green .name span{color:var(--green)}
+    .addBig{
+      margin-top:auto;width:100%;padding: 14px 12px;border-radius: 18px;border:1px solid var(--line);
+      background: rgba(255,255,255,.92);box-shadow: 0 14px 30px rgba(17,24,39,.12);
+      cursor:pointer;user-select:none;font-weight:1300;font-size:16px;
+    }
+    .addBig:active{transform:scale(.99)}
 
-    .teamCard{
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--r18);
-      padding: 14px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      overflow:hidden;
-      display:flex; flex-direction:column; gap:12px;
-      min-height: 260px;
-    }
-    .teamCard.red{ outline:1px solid rgba(255,75,75,.22); }
-    .teamCard.green{ outline:1px solid rgba(51,209,122,.22); }
-
-    .teamTop{
-      display:flex; align-items:center; justify-content:center; gap:10px;
-      font-weight:950; font-size:22px;
-    }
-    .teamTop .edit{opacity:.7; font-size:16px; cursor:pointer; user-select:none;}
-    .teamTop.redText{color: var(--red)}
-    .teamTop.greenText{color: var(--green)}
-
-    .score{
-      text-align:center; font-size:72px; font-weight:1000;
-      letter-spacing:1px; margin-top:2px;
-      text-shadow: 0 0 30px rgba(0,0,0,.28);
-    }
-
-    /* Buttons */
-    .addBtn{
-      width:100%;
-      padding: 14px 14px;
-      border-radius: 14px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
-      font-weight:950;
-      cursor:pointer;
-      display:flex; align-items:center; justify-content:center; gap:10px;
-      user-select:none; transition:.15s;
-    }
-    .teamCard.red .addBtn{
-      border-color: rgba(255,75,75,.28);
-      background: rgba(255,75,75,.10);
-      color: var(--red);
-    }
-    .teamCard.green .addBtn{
-      border-color: rgba(51,209,122,.28);
-      background: rgba(51,209,122,.10);
-      color: var(--green);
-    }
-    .addBtn:hover{transform: translateY(-1px); border-color: var(--border2);}
-
-    /* Tabs */
+    /* Tabs + Boxes (السجل/إحصائيات) */
     .tabs{
-      margin-top: 14px;
-      display:flex; gap:10px;
-      padding:8px;
-      background: var(--glass);
-      border:1px solid var(--border);
-      border-radius: var(--r16);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      margin-top: 12px;border:1px solid var(--line);background: var(--card);
+      box-shadow: var(--shadow);border-radius: var(--r2);padding: 8px;display:flex;gap:10px;
     }
     .tab{
-      flex:1;
-      border-radius: 12px;
-      padding: 10px 12px;
-      cursor:pointer;
-      font-weight:950;
-      color: var(--muted);
-      border:1px solid transparent;
-      background: transparent;
-      user-select:none;
-      display:flex; justify-content:center; align-items:center; gap:8px;
+      flex:1;padding: 11px 12px;border-radius: 16px;border:1px solid transparent;background: transparent;
+      font-weight:1200;color: var(--muted);cursor:pointer;user-select:none;
     }
     .tab.active{
-      background: rgba(255,255,255,.06);
-      border-color: var(--border);
-      color: var(--text);
+      background: rgba(255,255,255,.90);border-color: var(--line);color: var(--text);
+      box-shadow: 0 12px 22px rgba(17,24,39,.10);
     }
 
     .box{
-      margin-top: 12px;
-      border-radius: var(--r18);
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      padding: 14px;
-      backdrop-filter: blur(10px);
+      margin-top: 12px;border:1px solid var(--line);background: var(--card);
+      box-shadow: var(--shadow2);border-radius: var(--r2);padding: 14px;
     }
-    .boxHead{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px; margin-bottom: 10px;
+    .boxHead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:1200;}
+    .miniBtns{display:flex;gap:8px;flex-wrap:wrap}
+    .mini{
+      padding: 10px 12px;border-radius: 16px;border:1px solid var(--line);background: rgba(255,255,255,.86);
+      box-shadow: 0 12px 22px rgba(17,24,39,.10);cursor:pointer;user-select:none;font-weight:1200;font-size:13px;
     }
-    .boxTitle{display:flex; align-items:center; gap:10px; font-weight:1000;}
-    .boxTitle small{color: var(--muted); font-weight:850}
+    .mini:active{transform:scale(.98)}
+    .mini.danger{border-color: rgba(239,68,68,.25);background: rgba(239,68,68,.10);color: var(--red);}
 
-    .smallBtns{display:flex; gap:8px; flex-wrap:wrap;}
-    .smBtn{
-      border-radius: 999px;
-      padding: 9px 12px;
-      background: rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      color: var(--text);
-      cursor:pointer;
-      font-weight:950;
-      font-size:13px;
-      user-select:none;
-      transition:.15s;
+    .empty{padding:26px 10px;text-align:center;color:var(--muted);font-weight:1200}
+    .list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .row{
+      border:1px solid var(--line);background: rgba(255,255,255,.86);border-radius: 18px;padding: 12px;
+      display:grid;grid-template-columns: 1fr auto;gap:10px;align-items:center;font-weight:1200;
     }
-    .smBtn:hover{border-color: var(--border2)}
-    .smBtn.danger{
-      color: var(--red);
-      border-color: rgba(255,75,75,.28);
-      background: rgba(255,75,75,.10);
+    .row small{color:var(--muted);font-weight:1100}
+
+    .statsList{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .srow{
+      border:1px solid var(--line);background: rgba(255,255,255,.86);border-radius: 18px;padding: 12px;
+      display:flex;justify-content:space-between;align-items:center;font-weight:1200;
     }
 
-    .empty{padding: 34px 12px; text-align:center; color: var(--muted); font-weight:850;}
-    .list{display:flex; flex-direction:column; gap:10px;}
-
-    .rowItem{
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      font-weight:950;
-      align-items:center;
+    /* Bottom Sheet */
+    .backdrop{position:fixed; inset:0;display:none;align-items:flex-end; justify-content:center;background: rgba(17,24,39,.36);z-index: 50;}
+    .sheet{
+      width:100%;max-width:520px;border-radius: 26px 26px 0 0;background: #fffaf0;border:1px solid var(--line);
+      box-shadow: 0 -22px 80px rgba(17,24,39,.26);max-height: 90vh;overflow:auto;padding-bottom: env(safe-area-inset-bottom);
     }
-    .rowItem small{color: var(--muted); font-weight:850}
-    .chip{
-      display:inline-flex; align-items:center; gap:6px;
-      padding: 6px 10px; border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color: var(--muted);
-      font-weight:950;
-      font-size:12px;
-      margin-inline-start: 8px;
+    .sHead{position:sticky;top:0;background:#fff4d7;border-bottom:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .sTitle{font-weight:1300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .close{width:44px;height:44px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.90);display:grid;place-items:center;cursor:pointer;user-select:none;font-weight:1200;}
+    .sBody{padding:14px;display:flex;flex-direction:column;gap:12px;}
+    label{display:block;font-size:12px;color:var(--muted);font-weight:1200;margin:0 0 6px;}
+    input{
+      width:100%;padding:12px;border-radius:18px;border:1px solid var(--line);
+      background:rgba(255,255,255,.92);font-weight:1300;font-size:15px;outline:none;
     }
-
-    .statsGrid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-    }
-    @media (min-width: 820px){
-      .statsGrid{grid-template-columns: 1fr 1fr;}
-    }
-    .statCard{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      border-radius: 14px;
-      padding: 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      font-weight:950;
-    }
-    .statCard .k{color: var(--muted); font-weight:900}
-
-    .seg{
-      display:flex; gap:8px; padding:6px; border-radius:999px;
-      background: rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
-    }
+    .seg{display:flex;gap:8px;padding:6px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.86);}
     .seg button{
-      flex:1;
-      padding:10px 10px;
-      border-radius:999px;
-      border:1px solid transparent;
-      background: transparent;
-      color: var(--muted);
-      font-weight:950;
-      cursor:pointer;
-      user-select:none;
-      transition:.15s;
+      flex:1;border-radius:999px;border:1px solid transparent;background:transparent;padding:11px 10px;
+      cursor:pointer;user-select:none;font-weight:1300;color:var(--muted);
     }
-    .seg button.active{
-      background: rgba(255,255,255,.06);
-      border-color: var(--border);
-      color: var(--text);
-    }
+    .seg button.active{background:#fff4d7;border-color:rgba(200,155,45,.22);color:var(--text);box-shadow:0 10px 18px rgba(17,24,39,.08);}
+    .hint{color:var(--muted);font-weight:1100;font-size:12px;line-height:1.5;}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
-    label{display:block; font-size:12px; color: var(--muted); margin:0 0 6px;}
-    input, select{
-      width:100%;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      outline:none;
-      font-weight:850;
+    /* Projects */
+    .projBox{
+      border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.86);
+      padding:10px;box-shadow: 0 12px 22px rgba(17,24,39,.06);
     }
-    body.light input, body.light select{ background: rgba(17,24,39,.04); }
-    input:focus, select:focus{border-color: var(--border2)}
-    select option{color:#111827}
+    .projTitle{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:1300;color:rgba(17,24,39,.82);margin-bottom:8px}
+    .projTitle span:last-child{color:var(--muted);font-weight:1200;font-size:12px}
+    .projList{
+      display:flex;flex-direction:column;gap:8px;
+      max-height: 210px; overflow:auto; -webkit-overflow-scrolling: touch;
+    }
+    .projRow{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:7px 8px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.82);
+    }
+    .projRow b{font-size:14px;font-weight:1300}
+    .projRow em{font-style:normal;color:var(--muted);font-weight:1200;font-size:12px}
+    .ctr{display:flex;align-items:center;gap:8px}
+    .ctr button{
+      width:30px;height:30px;border-radius:12px;border:1px solid var(--line);
+      background:rgba(255,255,255,.90);cursor:pointer;user-select:none;font-weight:1400;font-size:16px;
+    }
+    .ctr button:active{transform:scale(.98)}
+    .ctr span{min-width:22px;text-align:center;font-weight:1400;color:rgba(17,24,39,.85);font-size:14px}
 
-    .noteBottom{
-      margin-top: 18px;
-      text-align:center;
-      color: rgba(243,195,79,.82);
-      font-weight:900;
-      font-size: 13px;
-      line-height:1.6;
+    .details{
+      border:1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 12px 22px rgba(17,24,39,.06);
+      overflow:hidden;
     }
+    .dHead{
+      padding: 10px 12px;
+      display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--line);
+      font-weight:1300;color: rgba(17,24,39,.80);
+      background: rgba(255,244,215,.75);
+    }
+    .dGrid{display:grid;grid-template-columns:1fr;gap:10px;padding:10px;}
+    .dCard{
+      border-radius: 16px;border:1px solid var(--line);
+      padding: 10px;background: rgba(255,255,255,.82);
+    }
+    .dCard.us{background: rgba(22,163,74,.10); border-color: rgba(22,163,74,.20);}
+    .dCard.them{background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.18);}
+    .dTop{display:flex;align-items:center;justify-content:space-between;font-weight:1400}
+    .dLines{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+    .line{display:flex;align-items:center;justify-content:space-between;gap:10px;color: rgba(17,24,39,.80);font-weight:1200;}
+    .line code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: rgba(17,24,39,.06);
+      padding: 2px 8px;border-radius: 10px;border:1px solid var(--line);
+      direction:ltr;
+    }
+    .sum{margin-top:8px;display:flex;align-items:center;justify-content:space-between;font-weight:1500;font-size: 16px;}
+
+    .sActions{padding:0 14px 14px;display:flex;gap:10px;}
+    .sActions button{
+      flex:1;padding:14px 12px;border-radius:18px;border:1px solid var(--line);
+      background:rgba(255,255,255,.92);box-shadow:0 14px 24px rgba(17,24,39,.10);
+      cursor:pointer; user-select:none;font-weight:1300;
+    }
+    .primary{background: linear-gradient(180deg, rgba(255,244,215,1), rgba(255,255,255,.92));border-color: rgba(200,155,45,.25);}
 
     .toast{
-      position: fixed; left: 50%; transform: translateX(-50%);
-      bottom: 18px;
-      padding:10px 12px;
-      border-radius:999px;
-      background: rgba(17,24,39,.92);
-      color:#fff;
-      box-shadow: 0 14px 40px rgba(0,0,0,.45);
-      font-weight:950;
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .18s ease;
-      z-index: 160;
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom: 18px;padding:10px 12px;border-radius:999px;background:#111827;color:#fff;
+      box-shadow: 0 18px 55px rgba(0,0,0,.25);font-weight:1300;opacity:0;pointer-events:none;
+      transition: opacity .18s ease;z-index: 90;max-width: calc(100vw - 24px);text-align:center;
     }
+
+        @media (max-width: 420px){
+      .projBox{ padding:8px; border-radius:16px; }
+      .projTitle{ margin-bottom:6px; font-size:13px; }
+      .projTitle span:last-child{ font-size:11px; }
+  #calcBack .sheet{
+    max-width: 360px;
+  }
+  .cbtn{
+    padding: 10px 6px;
+    font-size: 15px;
+  }
+  .calcGrid{
+    gap: 7px;
+  }
+      .projRow{ padding:6px 7px; border-radius:12px; gap:8px; }
+      .projRow b{ font-size:12px; }
+      .projRow em{ font-size:11px; }
+
+      .ctr{ gap:6px; }
+      .ctr button{ width:26px; height:26px; border-radius:10px; font-size:14px; }
+      .ctr span{ min-width:18px; font-size:12px; }
+
+      .projList{ max-height:150px; }
+      }
     .toast.show{opacity:1}
+
+    /* ✅ Calculator */
+.calcGrid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:10px;
+}
+
+.cbtn{
+  padding:14px 10px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 14px 24px rgba(17,24,39,.10);
+  cursor:pointer;
+  user-select:none;
+  font-weight:1400;
+  font-size:18px;
+}
+.cbtn:active{transform:scale(.98)}
+.cbtn.op{background: rgba(255,244,215,.85)}
+.cbtn.danger{background: rgba(239,68,68,.10); color: var(--red); border-color: rgba(239,68,68,.25)}
+/* ✅ خلي حاسبة الأبناط قدّام مودال إضافة النتيجة */
+#calcBack{
+  z-index: 9999 !important;
+}
+#calcBack .sheet{
+  z-index: 10000 !important;
+}
+#calcBack .sheet{
+  max-width: 420px;     /* كان 520 */
+  border-radius: 22px 22px 0 0;
+}
+#calcBack .sBody{
+  padding: 12px;
+  gap: 10px;
+}
+#calcScreen{
+  padding: 10px !important;
+  border-radius: 14px !important;
+  font-size: 16px !important;
+}
+.calcGrid{
+  gap: 8px;
+}
+
+.cbtn{
+  padding: 11px 8px;
+  border-radius: 14px;
+  font-size: 16px;
+}
   </style>
 </head>
 
 <body>
-  <div class="wrap">
+  <div class="app">
 
-    <div class="topbar">
-      <div class="badge">الجولة <b id="roundNo">0</b></div>
-      <div class="title">حاسبة بلوت <span>🏆</span></div>
-
-      <div class="rightActions">
-        <div class="iconBtn" id="themeBtn" title="وضع ليلي/نهاري">🌙</div>
-        <div class="iconBtn" id="soundBtn" title="صوت">🔊</div>
-        <div class="pillBtn" id="newBtn">جديد ↺</div>
-      </div>
-    </div>
-
-    <!-- Round timer -->
-    <div class="timerWrap">
-      <div class="timer">
-        <div class="tBtn red" id="resetTimerBtn" title="تصفير المؤقت">↺</div>
-        <div class="tBtn green" id="startPauseBtn" title="تشغيل/إيقاف">▶</div>
-        <div class="tTime" id="timerTxt">00:00</div>
-        <div class="tBtn" id="stopBtn" title="إيقاف">⏱</div>
-      </div>
-    </div>
-
-    <!-- Goal + progress -->
-    <div class="goalRow">
-      <div class="left">هم: <span id="pThem">0%</span></div>
-      <div class="mid">الهدف: <span id="goalTxt">152</span></div>
-      <div class="right">نحن: <span id="pUs">0%</span></div>
-    </div>
-    <div class="progressOuter"><div class="progressInner" id="progress"></div></div>
-
-    <!-- Teams -->
-    <div class="teams">
-      <!-- THEM -->
-      <div class="teamCard red" id="cardThem">
-        <div class="teamTop redText">
-          <span class="edit" data-edit="them" title="تغيير الاسم">✎</span>
-          <span id="themName">هم</span>
+    <div class="header">
+      <div class="hRow">
+        <div class="brand">
+          <div class="logo" title="لوغو (اختياري)"><img src="logo.png" alt="" onerror="this.style.display='none'"></div>
+          <div class="bTxt">
+            <b>حاسبة بلوت</b>
+            <small>يمين: لنا — يسار: لهم</small>
+          </div>
         </div>
-        <div class="score" id="themScore">0</div>
-        <button class="addBtn" id="addThem">إضافة نتيجة <span style="font-size:18px">＋</span></button>
+        <div class="hBtns">
+          <div class="iconBtn" id="soundBtn" title="صوت">🔊</div>
+          <button class="dangerBtn" id="newBtn">جديد ↺</button>
+        </div>
       </div>
 
-      <!-- US -->
-      <div class="teamCard green" id="cardUs">
-        <div class="teamTop greenText">
-          <span class="edit" data-edit="us" title="تغيير الاسم">✎</span>
-          <span id="usName">نحن</span>
+      <div class="timerCard">
+        <div class="tGroup">
+          <div class="tBtn red" id="resetTimerBtn" title="تصفير">↺</div>
+          <div class="tBtn green" id="startPauseBtn" title="تشغيل/إيقاف">▶</div>
+        </div>
+        <div class="tTime" id="timerTxt">00:00</div>
+        <div class="tGroup">
+          <div class="tBtn" id="stopBtn" title="إيقاف">⏱</div>
+        </div>
+      </div>
+
+      <div class="board">
+        <div class="meta">
+          <span>الجولة <b id="roundNo">0</b></span>
+          <span>الهدف <b id="goalTxt">152</b></span>
+        </div>
+        <div class="bar"><i id="barFill"></i></div>
+      </div>
+    </div>
+
+    <div class="teams">
+      <div class="team green">
+        <div class="teamTop">
+          <div class="name"><span id="usName">لنا</span></div>
+          <div class="edit" data-edit="us" title="تعديل الاسم">✎</div>
         </div>
         <div class="score" id="usScore">0</div>
-        <button class="addBtn" id="addUs">إضافة نتيجة <span style="font-size:18px">＋</span></button>
+        <button class="addBig" id="addUs">إضافة نتيجة +</button>
+      </div>
+
+      <!-- ✅ Calculator Popup -->
+<div class="backdrop" id="calcBack">
+  <div class="sheet" style="max-height:75vh;">
+    <div class="sHead">
+      <div class="sTitle">🧮 حاسبة الأبناط</div>
+      <div class="close" id="calcClose">✕</div>
+    </div>
+
+    <div class="sBody">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <input id="calcScreen" readonly style="font-size:18px;text-align:left;direction:ltr;">
+      </div>
+
+      <div class="hint">اكتب العملية وبعدين اضغط =</div>
+
+      <div class="calcGrid">
+        <button class="cbtn" data-c="7">7</button>
+        <button class="cbtn" data-c="8">8</button>
+        <button class="cbtn" data-c="9">9</button>
+        <button class="cbtn op" data-c="/">÷</button>
+
+        <button class="cbtn" data-c="4">4</button>
+        <button class="cbtn" data-c="5">5</button>
+        <button class="cbtn" data-c="6">6</button>
+        <button class="cbtn op" data-c="*">×</button>
+
+        <button class="cbtn" data-c="1">1</button>
+        <button class="cbtn" data-c="2">2</button>
+        <button class="cbtn" data-c="3">3</button>
+        <button class="cbtn op" data-c="-">−</button>
+
+        <button class="cbtn danger" id="calcClear">C</button>
+        <button class="cbtn" data-c="0">0</button>
+        <button class="cbtn" data-c=".">.</button>
+        <button class="cbtn op" data-c="+">+</button>
+
+        <button class="cbtn" style="grid-column: span 2;" id="calcBackspace">⌫</button>
+        <button class="cbtn primary" style="grid-column: span 2;" id="calcEq">=</button>
+      </div>
+
+      <div class="hint">
+        ✅ بعد ما تحسب، الناتج ينحط مباشرة في خانة الأبناط.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <div class="team red">
+        <div class="teamTop">
+          <div class="name"><span id="themName">لهم</span></div>
+          <div class="edit" data-edit="them" title="تعديل الاسم">✎</div>
+        </div>
+        <div class="score" id="themScore">0</div>
+        <button class="addBig" id="addThem">إضافة نتيجة +</button>
       </div>
     </div>
 
-    <!-- Tabs -->
+    <!-- ✅ رجّعنا التبويبات -->
     <div class="tabs">
-      <div class="tab active" id="tabHistory">↩ السجل</div>
-      <div class="tab" id="tabStats">📊 الإحصائيات</div>
+      <button class="tab active" id="tabHistory">↩ السجل</button>
+      <button class="tab" id="tabStats">📊 إحصائيات</button>
     </div>
 
-    <!-- History -->
+    <!-- ✅ رجّعنا صندوق السجل -->
     <div class="box" id="historyBox">
       <div class="boxHead">
-        <div class="boxTitle">🕒 سجل الجولات <small>(<span id="count">0</span>)</small></div>
-        <div class="smallBtns">
-          <button class="smBtn" id="shareBtn">🔗 مشاركة</button>
-          <button class="smBtn" id="undoBtn">↩ تراجع</button>
-          <button class="smBtn danger" id="clearBtn">🗑 مسح</button>
+        <div>السجل (<span id="count">0</span>)</div>
+        <div class="miniBtns">
+          <button class="mini" id="undoBtn">↩ تراجع</button>
+          <button class="mini" id="shareBtn">🔗 مشاركة</button>
+          <button class="mini danger" id="clearBtn">🗑 مسح</button>
         </div>
       </div>
-      <div id="historyBody" class="empty">لا توجد جولات بعد</div>
+      <div id="historyBody" class="empty">لا يوجد سجل</div>
     </div>
 
-    <!-- Stats -->
+    <!-- ✅ رجّعنا الإحصائيات -->
     <div class="box" id="statsBox" style="display:none;">
-      <div class="boxHead">
-        <div class="boxTitle">📊 الإحصائيات</div>
-      </div>
-
-      <div class="statsGrid">
-        <div class="statCard"><div class="k">مجموع نحن</div><div><b id="stUs">0</b> <span class="chip">نقطة</span></div></div>
-        <div class="statCard"><div class="k">مجموع هم</div><div><b id="stThem">0</b> <span class="chip">نقطة</span></div></div>
-        <div class="statCard"><div class="k">عدد الإضافات</div><div><b id="stAdds">0</b></div></div>
-        <div class="statCard"><div class="k">متوسط النقاط/إضافة</div><div><b id="stAvg">0</b></div></div>
-        <div class="statCard"><div class="k">أعلى إضافة</div><div><b id="stMax">0</b></div></div>
-        <div class="statCard"><div class="k">المتبقي للفوز</div><div><b id="stRemain">152</b></div></div>
-        <div class="statCard"><div class="k">مشاريع نحن</div><div><b id="stUsProj">0</b></div></div>
-        <div class="statCard"><div class="k">مشاريع هم</div><div><b id="stThemProj">0</b></div></div>
+      <div class="boxHead"><div>إحصائيات</div></div>
+      <div class="statsList">
+        <div class="srow"><div>مجموع لنا</div><div><b id="stUs">0</b></div></div>
+        <div class="srow"><div>مجموع لهم</div>/div><div><b id="stThem">0</b></div></div>
+        <div class="srow"><div>عدد السجلات</div><div><b id="stAdds">0</b></div></div>
+        <div class="srow"><div>أعلى سجل</div><div><b id="stMax">0</b></div></div>
       </div>
     </div>
 
-    <div class="noteBottom">
   </div>
 
   <div class="toast" id="toast">✅ تم</div>
 
-  <!-- Add Result Modal -->
-  <div id="addModal" style="display:none; position:fixed; inset:0; z-index:150; background:rgba(0,0,0,.55);">
-    <div style="max-width:560px; margin:6vh auto; padding:14px;">
-      <div style="background:var(--card); border:1px solid var(--border); border-radius:18px; box-shadow:var(--shadow); backdrop-filter: blur(12px); overflow:hidden;">
+  <!-- Bottom Sheet -->
+  <div class="backdrop" id="modalBack">
+    <div class="sheet">
+      <div class="sHead">
+        <div class="sTitle" id="mTitle">إضافة نتيجة</div>
+        <div class="close" id="mClose">✕</div>
+      </div>
 
-        <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--border);">
-          <div style="font-weight:1000; color:var(--text);" id="modalTitle">إضافة نتيجة</div>
-          <div id="closeModal" class="iconBtn" style="width:38px;height:38px;">✕</div>
+      <div class="sBody">
+        <div>
+          <label>طريقة الإدخال</label>
+          <div class="seg">
+            <button id="mManual" class="active">يدوي</button>
+            <button id="mAdv">متقدم</button>
+          </div>
         </div>
 
-        <div style="padding:14px; display:flex; flex-direction:column; gap:12px;">
-
-          <!-- Mode: Manual / Advanced -->
-          <div>
-            <label>طريقة الإدخال</label>
-            <div class="seg">
-              <button id="mManual" class="active">يدوي</button>
-              <button id="mAdvanced">متقدم</button>
-            </div>
-          </div>
-
-          <!-- MANUAL -->
-          <div id="manualBox" class="box" style="margin:0;">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div>
-                <label id="manualUsLbl">نقاط نحن</label>
-                <input id="manualUsPts" type="number" min="0" inputmode="numeric" placeholder="مثال: 30" />
-              </div>
-              <div>
-                <label id="manualThemLbl">نقاط هم</label>
-                <input id="manualThemPts" type="number" min="0" inputmode="numeric" placeholder="مثال: 20" />
-              </div>
-              <div style="grid-column:1/-1;">
-                <label>ملاحظة (اختياري)</label>
-                <input id="manualNote" type="text" placeholder="..." />
-              </div>
-            </div>
-          </div>
-
-          <!-- ADVANCED -->
-          <div id="advancedBox" class="box" style="margin:0; display:none;">
+        <!-- Manual -->
+        <div id="boxManual">
+          <div class="grid2">
             <div>
-              <label>نوع اللعبة</label>
-              <div class="seg">
-                <button id="advSan" class="active">صن ☀️</button>
-                <button id="advHokm">حكم ♛</button>
-              </div>
-              <div style="margin-top:8px; color:var(--muted); font-weight:850; font-size:12px;">
-                الأبناط: صن ÷5 (ثابت 24) — حكم ÷10 (ثابت 15)
-              </div>
+              <label id="labA">نقاط الفريق</label>
+              <input id="inA" type="number" min="0" inputmode="numeric" placeholder="مثال: 30">
             </div>
-
-            <div style="margin-top:10px; display:grid; grid-template-columns:1fr; gap:10px;">
-              <div>
-                <label>الأبناط</label>
-                <input id="advAbnat" type="number" min="0" inputmode="numeric" placeholder="أدخل الأبناط..." />
-              </div>
-
-              <div>
-                <label>المشاريع</label>
-                <select id="advProj"></select>
-              </div>
-              
-
-              <div>
-                <label>الأرض (لمن؟)</label>
-                <div class="seg">
-                  <button id="ardUs" class="active">نحن</button>
-                  <button id="ardThem">هم</button>
-                </div>
-                <div style="margin-top:8px; color:var(--muted); font-weight:850; font-size:12px;">
-                  الأرض: صن +2 ، حكم +1
-                </div>
-              </div>
-
-              <div>
-                <label>ملاحظة (اختياري)</label>
-                <input id="advNote" type="text" placeholder="..." />
-              </div>
-
-              <div style="border-top:1px solid var(--border); padding-top:12px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; font-weight:1000;">
-                  <div>المعاينة</div>
-                  <div style="display:flex; gap:10px; align-items:center;">
-                    <span style="color:var(--muted); font-weight:900;" id="advPreviewUs">نحن: 0</span>
-                    <span style="color:var(--muted); font-weight:900;" id="advPreviewThem">هم: 0</span>
-                  </div>
-                </div>
-                <div style="margin-top:8px; color:var(--muted); font-weight:850; font-size:12px;" id="advDetails"></div>
-              </div>
+            <div>
+              <label id="labB">نقاط الخصم</label>
+              <input id="inB" type="number" min="0" inputmode="numeric" placeholder="مثال: 20">
             </div>
           </div>
-
-          <!-- Actions -->
-          <div style="display:flex; gap:10px;">
-            <button id="modalAddBtn" class="addBtn" style="flex:1;">إضافة</button>
-            <button id="modalClearBtn" class="addBtn" style="flex:1; background:rgba(255,255,255,.04); color:var(--text); border-color:var(--border);">مسح</button>
-          </div>
-
+          <div class="hint" style="margin-top:8px">يدوي = نقاط مباشرة بدون تقسيم.</div>
         </div>
+
+        <!-- Advanced -->
+        <div id="boxAdv" style="display:none;">
+          <div>
+            <label>نوع اللعبة</label>
+            <div class="seg">
+              <button id="modeSan" class="active">صن (120)</button>
+              <button id="modeHokm">حكم (150)</button>
+            </div>
+          </div>
+
+          <div>
+            <label id="roleLbl">مين صن؟</label>
+            <div class="seg">
+              <button id="roleA" class="active">الفريق</button>
+              <button id="roleB">الخصم</button>
+            </div>
+            <div class="hint" id="roleHint">إذا خسر الصن: الصن 0 — الأرض للخصم — الخصم +24 + مشاريعه</div>
+          </div>
+
+          <div>
+            <label id="labAbnat">أبناط الفريق</label>
+            <input id="inAbnat" type="number" min="0" inputmode="numeric" placeholder="اكتب أبناط الفريق">
+            <div class="hint" id="hintCalc">صن: ÷5 — حكم: ÷10 (تقريب 10.60 ➜ 11)</div>
+          </div>
+
+          <div class="grid2">
+            <div class="projBox">
+              <div class="projTitle">
+                <span id="projTitleA">مشاريع الفريق</span>
+                <span id="projSumA">0 نقطة</span>
+              </div>
+              <div class="projList" id="projListA"></div>
+            </div>
+
+            <div class="projBox">
+              <div class="projTitle">
+                <span id="projTitleB">مشاريع الخصم</span>
+                <span id="projSumB">0 نقطة</span>
+              </div>
+              <div class="projList" id="projListB"></div>
+            </div>
+          </div>
+
+          <div>
+            <label>الأرض</label>
+            <div class="seg">
+              <button id="ardA" class="active">للفريق</button>
+              <button id="ardB">للخصم</button>
+            </div>
+            <div class="hint">الأرض: صن +2 — حكم +1 (وعند خسارة الصن/الحكم: الأرض تلقائيًا للخصم)</div>
+          </div>
+
+          <div class="details">
+            <div class="dHead">
+              <span>تفاصيل الحساب</span>
+              <span style="color:var(--muted);font-weight:1200;font-size:12px">✅</span>
+            </div>
+            <div class="dGrid">
+              <div class="dCard us" id="cardA"></div>
+              <div class="dCard them" id="cardB"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sActions">
+        <button id="mClear">مسح</button>
+        <button class="primary" id="mAdd">إضافة</button>
       </div>
     </div>
   </div>
 
-  <script>
-    const LS = "baloot_magic_v3";
+<script>
+(() => {
+  const LS = "baloot_final_v1";
+  const $ = (id)=>document.getElementById(id);
 
-    const $ = (id)=>document.getElementById(id);
+  const el = {
+    // top
+    roundNo: $("roundNo"), goalTxt: $("goalTxt"), barFill: $("barFill"),
+    usName: $("usName"), themName: $("themName"),
+    usScore: $("usScore"), themScore: $("themScore"),
+    timerTxt: $("timerTxt"),
+    startPauseBtn: $("startPauseBtn"), stopBtn: $("stopBtn"), resetTimerBtn: $("resetTimerBtn"),
+    addUs: $("addUs"), addThem: $("addThem"),
+    soundBtn: $("soundBtn"), newBtn: $("newBtn"),
+    toast: $("toast"),
 
-    const el = {
-      roundNo: $("roundNo"),
-      goalTxt: $("goalTxt"),
-      progress: $("progress"),
-      pUs: $("pUs"),
-      pThem: $("pThem"),
+    // tabs + history/stats
+    tabHistory: $("tabHistory"), tabStats: $("tabStats"),
+    historyBox: $("historyBox"), statsBox: $("statsBox"),
+    historyBody: $("historyBody"), count: $("count"),
+    undoBtn: $("undoBtn"), clearBtn: $("clearBtn"), shareBtn: $("shareBtn"),
+    stUs: $("stUs"), stThem: $("stThem"), stAdds: $("stAdds"), stMax: $("stMax"),
 
-      usName: $("usName"),
-      themName: $("themName"),
-      usScore: $("usScore"),
-      themScore: $("themScore"),
+    // modal
+    modalBack: $("modalBack"), mTitle: $("mTitle"), mClose: $("mClose"),
+    mManual: $("mManual"), mAdv: $("mAdv"),
+    boxManual: $("boxManual"), boxAdv: $("boxAdv"),
+    labA: $("labA"), labB: $("labB"),
+    inA: $("inA"), inB: $("inB"),
+    modeSan: $("modeSan"), modeHokm: $("modeHokm"),
+    roleLbl: $("roleLbl"), roleHint: $("roleHint"),
+    roleA: $("roleA"), roleB: $("roleB"),
+    labAbnat: $("labAbnat"), inAbnat: $("inAbnat"), hintCalc: $("hintCalc"),
+    projTitleA: $("projTitleA"), projTitleB: $("projTitleB"),
+    projListA: $("projListA"), projListB: $("projListB"),
+    projSumA: $("projSumA"), projSumB: $("projSumB"),
+    ardA: $("ardA"), ardB: $("ardB"),
+    cardA: $("cardA"), cardB: $("cardB"),
+    mAdd: $("mAdd"), mClear: $("mClear"),
+  };
 
-      addUs: $("addUs"),
-      addThem: $("addThem"),
+  const defaultState = {
+    goal: 152,
+    usName: "لنا",
+    themName: "لهم",
+    round: 0,
+    entries: [], // {round,timeSec,usPts,themPts,note}
+    timer: { sec:0, running:false },
+    sound: true,
+    voice: true
+  };
 
-      tabHistory: $("tabHistory"),
-      tabStats: $("tabStats"),
-      historyBox: $("historyBox"),
-      statsBox: $("statsBox"),
+  function load(){
+    try{
+      const raw = localStorage.getItem(LS);
+      if(!raw) return structuredClone(defaultState);
+      const s = JSON.parse(raw);
+      if(!s || typeof s!=="object") return structuredClone(defaultState);
+      if(typeof s.goal!=="number") s.goal=152;
+      if(typeof s.usName!=="string") s.usName="لنا";
+      if(typeof s.themName!=="string") s.themName="لهم";
+      if(typeof s.round!=="number") s.round=0;
+      if(!Array.isArray(s.entries)) s.entries=[];
+      if(!s.timer) s.timer={sec:0,running:false};
+      if(typeof s.timer.sec!=="number") s.timer.sec=0;
+      if(typeof s.timer.running!=="boolean") s.timer.running=false;
+      if(typeof s.sound!=="boolean") s.sound=true;
+      if(typeof s.voice!=="boolean") s.voice=true;
+      return s;
+    }catch{ return structuredClone(defaultState); }
+  }
 
-      historyBody: $("historyBody"),
-      count: $("count"),
-
-      shareBtn: $("shareBtn"),
-      undoBtn: $("undoBtn"),
-      clearBtn: $("clearBtn"),
-      newBtn: $("newBtn"),
-
-      themeBtn: $("themeBtn"),
-      soundBtn: $("soundBtn"),
-
-      resetTimerBtn: $("resetTimerBtn"),
-      startPauseBtn: $("startPauseBtn"),
-      stopBtn: $("stopBtn"),
-      timerTxt: $("timerTxt"),
-
-      toast: $("toast"),
-
-      stUs: $("stUs"),
-      stThem: $("stThem"),
-      stAdds: $("stAdds"),
-      stAvg: $("stAvg"),
-      stMax: $("stMax"),
-      stRemain: $("stRemain"),
-      stUsProj: $("stUsProj"),
-      stThemProj: $("stThemProj"),
-    };
-
-    const defaultState = {
-      goal: 152,
-      usName: "نحن",
-      themName: "هم",
-      // entries: {team:"us|them", kind:"manual|advanced", mode:"san|hokm|manual", totalPts:number, round:number, at:number, timeSec:number, detail:string, projPts:number}
-      entries: [],
-      round: 0,
-      theme: "dark",
-      sound: true,
-      timer: { sec:0, running:false }
-    };
-
-    function safeLoad(){
-      try{
-        const raw = localStorage.getItem(LS);
-        if(!raw) return null;
-        const s = JSON.parse(raw);
-        if(!s || typeof s !== "object") return null;
-        if(typeof s.goal !== "number") s.goal = 152;
-        if(typeof s.usName !== "string") s.usName = "نحن";
-        if(typeof s.themName !== "string") s.themName = "هم";
-        if(!Array.isArray(s.entries)) s.entries = [];
-        if(typeof s.round !== "number") s.round = 0;
-        if(!s.timer) s.timer = {sec:0,running:false};
-        if(typeof s.timer.sec !== "number") s.timer.sec = 0;
-        if(typeof s.timer.running !== "boolean") s.timer.running = false;
-        if(s.theme !== "light" && s.theme !== "dark") s.theme = "dark";
-        if(typeof s.sound !== "boolean") s.sound = true;
-        return s;
-      }catch{ return null; }
-    }
-
-    let state = safeLoad() || structuredClone(defaultState);
-
-    function save(){
+  let state = load();
+  let saveT=null;
+  function saveSoon(){
+    if(saveT) return;
+    saveT=setTimeout(()=>{
+      saveT=null;
       localStorage.setItem(LS, JSON.stringify(state));
+    }, 350);
+  }
+
+  function fmt(sec){
+    sec = Math.max(0, sec|0);
+    const m = String(Math.floor(sec/60)).padStart(2,"0");
+    const s = String(sec%60).padStart(2,"0");
+    return `${m}:${s}`;
+  }
+
+  function sum(){
+    let us=0, them=0;
+    for(const e of state.entries){ us += (e.usPts||0); them += (e.themPts||0); }
+    return {us, them};
+  }
+
+  function toast(msg){
+    el.toast.textContent = msg;
+    el.toast.classList.add("show");
+    setTimeout(()=>el.toast.classList.remove("show"), 950);
+  }
+
+  // ✅ التقريب: 10.60 يطلع 11 — 10.50 ينزل 10
+  function abnatRound(x){
+    const f = Math.floor(x);
+    const frac2 = Math.round((x - f) * 100);
+    return (frac2 >= 60) ? (f + 1) : f;
+  }
+
+  // ---------- Sound ----------
+  let audioCtx=null;
+  function sfx(type="tap"){
+    if(!state.sound) return;
+    try{
+      audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+      const o=audioCtx.createOscillator();
+      const g=audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      const now=audioCtx.currentTime;
+      const f = type==="add" ? 760 : type==="undo" ? 520 : type==="clear" ? 260 : 560;
+      o.type="sine";
+      o.frequency.setValueAtTime(f, now);
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.10, now+0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+0.12);
+      o.start(now); o.stop(now+0.14);
+    }catch{}
+  }
+
+  // ---------- Voice ----------
+  function speak(text){
+    if(!state.voice) return;
+    try{
+      if(!("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "ar-SA";
+      u.rate = 1.02;
+      window.speechSynthesis.speak(u);
+    }catch{}
+  }
+
+  function renderHistoryAndStats(){
+    el.count.textContent = state.entries.length;
+
+    if(state.entries.length===0){
+      el.historyBody.className="empty";
+      el.historyBody.textContent="لا يوجد سجل";
+    }else{
+      el.historyBody.className="list";
+      el.historyBody.innerHTML="";
+      const slice = state.entries.slice(-30).reverse();
+      for(const e of slice){
+        const row=document.createElement("div");
+        row.className="row";
+        row.innerHTML = `
+          <div>
+            <div><small>⏱ ${fmt(e.timeSec||0)} — جولة ${e.round}</small></div>
+            <div><small>${e.note||""}</small></div>
+          </div>
+          <div style="text-align:left">
+            <div><b>${state.usName}: ${e.usPts||0}</b></div>
+            <div><b>${state.themName}: ${e.themPts||0}</b></div>
+          </div>
+        `;
+        el.historyBody.appendChild(row);
+      }
     }
 
-    function sumTeam(team){
-      return state.entries.filter(e=>e.team===team).reduce((a,e)=>a+(e.totalPts||0),0);
+    const {us, them} = sum();
+    el.stUs.textContent = us;
+    el.stThem.textContent = them;
+    el.stAdds.textContent = state.entries.length;
+    let mx=0; for(const e of state.entries) mx = Math.max(mx, e.usPts||0, e.themPts||0);
+    el.stMax.textContent = mx;
+  }
+
+  function render(){
+    el.goalTxt.textContent = state.goal;
+    el.roundNo.textContent = state.round;
+    el.usName.textContent = state.usName;
+    el.themName.textContent = state.themName;
+
+    const {us, them} = sum();
+    el.usScore.textContent = us;
+    el.themScore.textContent = them;
+
+    const lead = Math.max(us, them);
+    const prog = Math.min(100, Math.floor((lead / state.goal) * 100)) || 0;
+    el.barFill.style.width = prog + "%";
+
+    el.timerTxt.textContent = fmt(state.timer.sec||0);
+    el.startPauseBtn.textContent = state.timer.running ? "⏸" : "▶";
+    el.soundBtn.textContent = state.sound ? "🔊" : "🔇";
+
+    renderHistoryAndStats();
+    saveSoon();
+  }
+
+  // ---------- Timer ----------
+  setInterval(()=>{
+    if(!state.timer.running) return;
+    state.timer.sec = (state.timer.sec||0) + 1;
+    el.timerTxt.textContent = fmt(state.timer.sec||0);
+    saveSoon();
+  }, 1000);
+
+  // ---------- Modal State ----------
+  let modalTeam = "us";
+  let inputMode = "manual";
+  let advMode = "san";
+  let roleSide = "A";
+  let ardTo = "A";
+  let projCountsA = {};
+  let projCountsB = {};
+
+  const projSan = [
+    {key:"sra", label:"سرا", pts:4},
+    {key:"50",  label:"خمسين", pts:10},
+    {key:"100", label:"مية", pts:20},
+    {key:"400", label:"400", pts:40},
+  ];
+  const projHokm = [
+    {key:"sra", label:"سرا", pts:2},
+    {key:"50",  label:"خمسين", pts:5},
+    {key:"100", label:"مية", pts:10},
+    {key:"baloot", label:"بلوت", pts:2},
+  ];
+
+  function namesForModal(){
+    const teamName = (modalTeam==="us") ? state.usName : state.themName;
+    const oppName  = (modalTeam==="us") ? state.themName : state.usName;
+    return {teamName, oppName};
+  }
+
+  function setInputMode(m){
+    inputMode = m;
+    el.mManual.classList.toggle("active", m==="manual");
+    el.mAdv.classList.toggle("active", m==="adv");
+    el.boxManual.style.display = m==="manual" ? "" : "none";
+    el.boxAdv.style.display = m==="adv" ? "" : "none";
+  }
+
+  function listProjects(){
+    return advMode==="hokm" ? projHokm : projSan;
+  }
+  function modeTotals(){
+    return advMode==="hokm"
+      ? {totalAb:150, div:10, ard:1, bonus:15}
+      : {totalAb:120, div:5,  ard:2, bonus:24};
+  }
+
+  function setAdvMode(m){
+    advMode = m;
+    el.modeSan.classList.toggle("active", m==="san");
+    el.modeHokm.classList.toggle("active", m==="hokm");
+
+    if(advMode==="san"){
+      el.roleLbl.textContent = "مين صن؟";
+      el.roleHint.textContent = "إذا خسر الصن: الصن 0 — الأرض للخصم — الخصم +24 + مشاريعه";
+      el.hintCalc.textContent = "صن: ÷5 (تقريب 10.60 ➜ 11)";
+    }else{
+      el.roleLbl.textContent = "مين حكم؟";
+      el.roleHint.textContent = "إذا خسر الحكم: الحكم 0 — الأرض للخصم — الخصم +15 + مشاريعه";
+      el.hintCalc.textContent = "حكم: ÷10 (تقريب 10.60 ➜ 11)";
     }
 
-    function formatTime(sec){
-      sec = Math.max(0, sec|0);
-      const m = String(Math.floor(sec/60)).padStart(2,"0");
-      const s = String(sec%60).padStart(2,"0");
-      return `${m}:${s}`;
+    projCountsA = {};
+    projCountsB = {};
+    buildProjectsUI();
+    updateDetails();
+  }
+
+  function setRole(side){
+    roleSide = side;
+    el.roleA.classList.toggle("active", side==="A");
+    el.roleB.classList.toggle("active", side==="B");
+    updateDetails();
+  }
+
+  function setArd(side){
+    ardTo = side;
+    el.ardA.classList.toggle("active", side==="A");
+    el.ardB.classList.toggle("active", side==="B");
+    updateDetails();
+  }
+
+  function projTotal(counts){
+    let t=0;
+    const list = listProjects();
+    for(const p of list){
+      const c = Math.max(0, counts[p.key]||0);
+      t += c * p.pts;
     }
+    return t;
+  }
 
-    // -------------------- Sound --------------------
-    let audioCtx = null;
-    function beep(type){
-      if(!state.sound) return;
-      try{
-        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.connect(g); g.connect(audioCtx.destination);
+  function buildProjectsUI(){
+    const {teamName, oppName} = namesForModal();
+    el.projTitleA.textContent = `مشاريع ${teamName}`;
+    el.projTitleB.textContent = `مشاريع ${oppName}`;
 
-        const now = audioCtx.currentTime;
-        const freq = type === "add" ? 660 : type === "undo" ? 420 : type === "clear" ? 220 : 520;
+    const list = listProjects();
+    el.projListA.innerHTML="";
+    el.projListB.innerHTML="";
 
-        o.frequency.setValueAtTime(freq, now);
-        o.type = "sine";
-        g.gain.setValueAtTime(0.0001, now);
-        g.gain.exponentialRampToValueAtTime(0.12, now + 0.01);
-        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+    function mkRow(p, side){
+      const wrap=document.createElement("div");
+      wrap.className="projRow";
+      wrap.innerHTML = `
+        <div><b>${p.label}</b> <em>(+${p.pts})</em></div>
+        <div class="ctr">
+          <button type="button" data-act="minus">−</button>
+          <span data-count>0</span>
+          <button type="button" data-act="plus">+</button>
+        </div>
+      `;
+      const cntEl = wrap.querySelector("[data-count]");
+      const btns = wrap.querySelectorAll("button");
 
-        o.start(now);
-        o.stop(now + 0.14);
-      }catch{}
-    }
+      const getCounts = ()=> side==="A" ? projCountsA : projCountsB;
+      const setCounts = (k,v)=> { if(side==="A") projCountsA[k]=v; else projCountsB[k]=v; };
 
-    function toast(msg){
-      el.toast.textContent = msg;
-      el.toast.classList.add("show");
-      setTimeout(()=>el.toast.classList.remove("show"), 1100);
-    }
-
-    // -------------------- Theme --------------------
-    function applyTheme(){
-      document.body.classList.toggle("light", state.theme === "light");
-      el.themeBtn.textContent = state.theme === "light" ? "☀️" : "🌙";
-    }
-
-    // -------------------- Timer --------------------
-    let timerInt = null;
-    function tick(){
-      if(!state.timer.running) return;
-      state.timer.sec = (state.timer.sec||0) + 1;
-      render();
-    }
-    function ensureTimer(){
-      if(timerInt) return;
-      timerInt = setInterval(tick, 1000);
-    }
-
-    // -------------------- Modal (Manual / Advanced) --------------------
-    const modal = {
-      wrap: $("addModal"),
-      title: $("modalTitle"),
-      close: $("closeModal"),
-
-      mManual: $("mManual"),
-      mAdvanced: $("mAdvanced"),
-      manualBox: $("manualBox"),
-      advancedBox: $("advancedBox"),
-
-      manualUsLbl: $("manualUsLbl"),
-      manualThemLbl: $("manualThemLbl"),
-      manualUsPts: $("manualUsPts"),
-      manualThemPts: $("manualThemPts"),
-      manualNote: $("manualNote"),
-
-      advSan: $("advSan"),
-      advHokm: $("advHokm"),
-      advAbnat: $("advAbnat"),
-      advProj: $("advProj"),
-      ardUs: $("ardUs"),
-      ardThem: $("ardThem"),
-      advNote: $("advNote"),
-      advPreviewUs: $("advPreviewUs"),
-      advPreviewThem: $("advPreviewThem"),
-      advDetails: $("advDetails"),
-
-      addBtn: $("modalAddBtn"),
-      clearBtn: $("modalClearBtn"),
-    };
-
-    let modalTeam = "us";
-    let modalMode = "manual"; // manual | advanced
-    let advMode = "san";      // san | hokm
-    let advArd = "us";        // us | them
-
-    // Projects tables حسب طلبك
-    const projSan = [
-      {key:"", label:"بدون", pts:0},
-      {key:"sra", label:"سرا (+4)", pts:4},
-      {key:"50", label:"خمسين (+10)", pts:10},
-      {key:"100", label:"مية (+20)", pts:20},
-      {key:"400", label:"400 (+40)", pts:40},
-    ];
-    const projHokm = [
-      {key:"", label:"بدون", pts:0},
-      {key:"sra", label:"سرا (+2)", pts:2},
-      {key:"50", label:"خمسين (+5)", pts:5},
-      {key:"100", label:"مية (+10)", pts:10},
-      {key:"baloot", label:"بلوت (+2)", pts:2},
-    ];
-
-    function setModalMode(m){
-      modalMode = m;
-      modal.mManual.classList.toggle("active", m==="manual");
-      modal.mAdvanced.classList.toggle("active", m==="advanced");
-      modal.manualBox.style.display = m==="manual" ? "" : "none";
-      modal.advancedBox.style.display = m==="advanced" ? "" : "none";
-    }
-
-    function setAdvButtons(){
-      modal.advSan.classList.toggle("active", advMode==="san");
-      modal.advHokm.classList.toggle("active", advMode==="hokm");
-    }
-
-    function setArdButtons(){
-      modal.ardUs.classList.toggle("active", advArd==="us");
-      modal.ardThem.classList.toggle("active", advArd==="them");
-    }
-
-    function fillProjects(){
-      modal.advProj.innerHTML = "";
-      const arr = (advMode==="san") ? projSan : projHokm;
-      arr.forEach(p=>{
-        const opt = document.createElement("option");
-        opt.value = p.key;
-        opt.textContent = p.label;
-        modal.advProj.appendChild(opt);
-      });
-    }
-
-    function clearModalInputs(){
-      modal.manualUsPts.value = "";
-      modal.manualThemPts.value = "";
-      modal.manualNote.value = "";
-
-      modal.advAbnat.value = "";
-      modal.advProj.value = "";
-      modal.advNote.value = "";
-    }
-
-    function advDivisor(){ return advMode === "hokm" ? 10 : 5; }
-    function advFixed(){ return advMode === "hokm" ? 15 : 24; }
-    function ardBonus(){ return advMode === "hokm" ? 1 : 2; }
-
-    function getProjPts(){
-      const key = modal.advProj.value || "";
-      const arr = (advMode==="san") ? projSan : projHokm;
-      const found = arr.find(x=>x.key===key);
-      return found ? found.pts : 0;
-    }
-
-    // توزيع الأبناط (بدون المشاريع):
-    // الأرض: (abnat - fixed) — الخصم: fixed
-    // ثم نقسم كل جزء ÷5 أو ÷10
-    function computeAdvanced(){
-      const abnat = Math.max(0, parseInt(modal.advAbnat.value||"0",10) || 0);
-      const fixed = advFixed();
-      const divisor = advDivisor();
-
-      const projPts = getProjPts();
-      const bonus = (modal.advAbnat.value !== "" || modal.advProj.value) ? ardBonus() : 0;
-
-      const ardRaw = Math.max(0, abnat - fixed);
-      const otherRaw = Math.max(0, fixed);
-
-      const ardPts = Math.floor(ardRaw / divisor);
-      const otherPts = Math.floor(otherRaw / divisor);
-
-      // نقاط الأرض = نقاط الأبناط + المشاريع + بونص الأرض
-      const ardTotal = ardPts + projPts + bonus;
-
-      // الخصم = نقاط الأبناط فقط
-      const otherTotal = otherPts;
-
-      const usTotal = (advArd==="us") ? ardTotal : otherTotal;
-      const themTotal = (advArd==="them") ? ardTotal : otherTotal;
-
-      // تفصيل لكل فريق (للسجل)
-      const usProjPts = (advArd==="us") ? projPts : 0;
-      const themProjPts = (advArd==="them") ? projPts : 0;
-      const usBonus = (advArd==="us") ? bonus : 0;
-      const themBonus = (advArd==="them") ? bonus : 0;
-
-      const usAbnatPts = (advArd==="us") ? ardPts : otherPts;
-      const themAbnatPts = (advArd==="them") ? ardPts : otherPts;
-
-      return {
-        abnat, fixed, divisor,
-        ardRaw, otherRaw,
-        ardPts, otherPts,
-        projPts, bonus,
-        usTotal, themTotal,
-        usProjPts, themProjPts,
-        usBonus, themBonus,
-        usAbnatPts, themAbnatPts
+      const sync = ()=>{
+        const c = Math.max(0, getCounts()[p.key]||0);
+        cntEl.textContent = c;
+        el.projSumA.textContent = `${projTotal(projCountsA)} نقطة`;
+        el.projSumB.textContent = `${projTotal(projCountsB)} نقطة`;
       };
-    }
 
-    function updateAdvancedPreview(){
-      const r = computeAdvanced();
-      modal.advPreviewUs.textContent = `${state.usName||"نحن"}: ${r.usTotal}`;
-      modal.advPreviewThem.textContent = `${state.themName||"هم"}: ${r.themTotal}`;
-
-      const ardName = advArd==="us" ? (state.usName||"نحن") : (state.themName||"هم");
-      modal.advDetails.textContent =
-        `الأرض: ${ardName} — توزيع الأبناط: (${r.abnat} - ${r.fixed} = ${r.ardRaw}) للأرض و (${r.otherRaw}) للخصم ثم ÷${r.divisor}. ` +
-        `المشاريع: +${r.projPts} ، بونص الأرض: +${r.bonus}`;
-    }
-
-    function openAddModal(team){
-      modalTeam = team;
-
-      const teamName = team==="us" ? (state.usName||"نحن") : (state.themName||"هم");
-      modal.title.textContent = `إضافة نتيجة - ${teamName}`;
-
-      modal.manualUsLbl.textContent = `نقاط ${state.usName||"نحن"}`;
-      modal.manualThemLbl.textContent = `نقاط ${state.themName||"هم"}`;
-
-      modal.ardUs.textContent = state.usName || "نحن";
-      modal.ardThem.textContent = state.themName || "هم";
-
-      // افتراض: الأرض للفريق اللي فتح
-      advArd = team;
-      setArdButtons();
-
-      // افتراض: متقدم = صن
-      advMode = "san";
-      setAdvButtons();
-      fillProjects();
-
-      // افتراض: تبدأ يدوي
-      setModalMode("manual");
-
-      clearModalInputs();
-      updateAdvancedPreview();
-
-      modal.wrap.style.display = "";
-    }
-
-    function closeAddModal(){ modal.wrap.style.display = "none"; }
-
-    // Modal events
-    modal.close.onclick = closeAddModal;
-    modal.wrap.addEventListener("click",(e)=>{ if(e.target===modal.wrap) closeAddModal(); });
-
-    modal.mManual.onclick = ()=>{ beep(); setModalMode("manual"); };
-    modal.mAdvanced.onclick = ()=>{ beep(); setModalMode("advanced"); updateAdvancedPreview(); };
-
-    modal.advSan.onclick = ()=>{ advMode="san"; beep(); setAdvButtons(); fillProjects(); updateAdvancedPreview(); };
-    modal.advHokm.onclick = ()=>{ advMode="hokm"; beep(); setAdvButtons(); fillProjects(); updateAdvancedPreview(); };
-
-    modal.ardUs.onclick = ()=>{ advArd="us"; beep(); setArdButtons(); updateAdvancedPreview(); };
-    modal.ardThem.onclick = ()=>{ advArd="them"; beep(); setArdButtons(); updateAdvancedPreview(); };
-
-    modal.advAbnat.addEventListener("input", updateAdvancedPreview);
-    modal.advProj.addEventListener("change", updateAdvancedPreview);
-
-    modal.clearBtn.onclick = ()=>{ beep("clear"); clearModalInputs(); updateAdvancedPreview(); toast("🧹 تم"); };
-
-    modal.addBtn.onclick = ()=>{
-      // كل إضافة تعتبر جولة
-      state.round = (state.round || 0) + 1;
-      const timeSec = state.timer.sec || 0;
-      const at = Date.now();
-
-      if(modalMode === "manual"){
-        const usPts = Math.max(0, parseInt(modal.manualUsPts.value||"0",10) || 0);
-        const themPts = Math.max(0, parseInt(modal.manualThemPts.value||"0",10) || 0);
-        const note = (modal.manualNote.value||"").trim();
-
-        if(usPts<=0 && themPts<=0 && !note){
-          toast("اكتب نقاط");
-          state.round = Math.max(0, state.round-1);
-          return;
-        }
-
-        // نسجل مدخلين (نحن + هم)
-        state.entries.push({
-          team:"us",
-          kind:"manual",
-          mode:"manual",
-          totalPts: usPts,
-          projPts: 0,
-          round: state.round,
-          at, timeSec,
-          detail: `يدوي — ${state.usName||"نحن"}: ${usPts} | ${state.themName||"هم"}: ${themPts}${note ? " — "+note : ""}`
+      btns.forEach(b=>{
+        b.addEventListener("click", ()=>{
+          const act=b.getAttribute("data-act");
+          const cur=Math.max(0, getCounts()[p.key]||0);
+          const nxt = act==="plus" ? cur+1 : Math.max(0, cur-1);
+          setCounts(p.key, nxt);
+          sync();
+          updateDetails();
+          sfx("tap");
         });
+      });
 
-        state.entries.push({
-          team:"them",
-          kind:"manual",
-          mode:"manual",
-          totalPts: themPts,
-          projPts: 0,
-          round: state.round,
-          at, timeSec,
-          detail: `يدوي — ${state.usName||"نحن"}: ${usPts} | ${state.themName||"هم"}: ${themPts}${note ? " — "+note : ""}`
-        });
+      sync();
+      return wrap;
+    }
 
+    for(const p of list){
+      el.projListA.appendChild(mkRow(p,"A"));
+      el.projListB.appendChild(mkRow(p,"B"));
+    }
+    el.projSumA.textContent = `${projTotal(projCountsA)} نقطة`;
+    el.projSumB.textContent = `${projTotal(projCountsB)} نقطة`;
+  }
+
+  // ✅ قانون الخسارة للصن/الحكم + نقل الأرض + حذف مشاريع الخاسر (صن/حكم)
+  function computeAdvanced(){
+    const {teamName, oppName} = namesForModal();
+    const {totalAb, div, ard, bonus} = modeTotals();
+
+    const v = parseFloat(el.inAbnat.value||"");
+    const hasAb = el.inAbnat.value!=="" && !Number.isNaN(v);
+
+    const yourAb = hasAb ? Math.max(0, v) : 0;
+    const oppAb  = hasAb ? Math.max(0, totalAb - yourAb) : 0;
+
+    const rawA = hasAb ? (yourAb / div) : 0;
+    const rawB = hasAb ? (oppAb  / div) : 0;
+
+    const abPtsA = hasAb ? abnatRound(rawA) : 0;
+    const abPtsB = hasAb ? abnatRound(rawB) : 0;
+
+    const projA_in = projTotal(projCountsA);
+    const projB_in = projTotal(projCountsB);
+
+    const hasSomething = hasAb || projA_in>0 || projB_in>0;
+    const ardPts = hasSomething ? ard : 0;
+
+    const ardA_in = (ardTo==="A") ? ardPts : 0;
+    const ardB_in = (ardTo==="B") ? ardPts : 0;
+
+    const preA = abPtsA + projA_in + ardA_in;
+    const preB = abPtsB + projB_in + ardB_in;
+
+    const roleOwner = roleSide;
+    const otherSide = roleOwner==="A" ? "B" : "A";
+
+    const roleOwnerPre = (roleOwner==="A") ? preA : preB;
+    const otherPre     = (otherSide==="A") ? preA : preB;
+
+    const isLose = otherPre > roleOwnerPre;
+
+    let totalA = preA, totalB = preB;
+    let projA = projA_in, projB = projB_in;
+    let ardA = ardA_in, ardB = ardB_in;
+
+    const roleTxt = (advMode==="san") ? "صن" : "حكم";
+    let roleNote = `${roleTxt} طبيعي`;
+    const roleOwnerName = (roleSide==="A") ? teamName : oppName;
+
+    if(isLose){
+      if(roleOwner==="A"){
+        totalA = 0; projA = 0; ardA = 0;
+        ardB  = ardPts;
+        totalB = bonus + projB_in + ardB;
       }else{
-        const r = computeAdvanced();
-        const note = (modal.advNote.value||"").trim();
-        const modeTxt = advMode==="san" ? "صن" : "حكم";
-        const ardName = advArd==="us" ? (state.usName||"نحن") : (state.themName||"هم");
-        const detail =
-          `متقدم (${modeTxt}) — أرض: ${ardName} — أبناط ${r.abnat} (ثابت ${r.fixed}، ÷${r.divisor}) — مشاريع +${r.projPts} — أرض +${r.bonus}` +
-          (note ? ` — ${note}` : "");
-
-        // سجل نقطتين (نحن + هم) بنقاط محسوبة
-        state.entries.push({
-          team:"us",
-          kind:"advanced",
-          mode: advMode,
-          totalPts: r.usTotal,
-          projPts: r.usProjPts,
-          round: state.round,
-          at, timeSec,
-          detail
-        });
-
-        state.entries.push({
-          team:"them",
-          kind:"advanced",
-          mode: advMode,
-          totalPts: r.themTotal,
-          projPts: r.themProjPts,
-          round: state.round,
-          at, timeSec,
-          detail
-        });
+        totalB = 0; projB = 0; ardB = 0;
+        ardA  = ardPts;
+        totalA = bonus + projA_in + ardA;
       }
-
-      // شغل المؤقت لو طافي
-      if(!state.timer.running){
-        state.timer.running = true;
-        ensureTimer();
-      }
-
-      beep("add");
-      toast("✅ تمت الإضافة");
-      closeAddModal();
-      render();
-    };
-
-    // -------------------- Rendering --------------------
-    function render(){
-      applyTheme();
-
-      el.soundBtn.textContent = state.sound ? "🔊" : "🔇";
-
-      const us = sumTeam("us");
-      const them = sumTeam("them");
-      const goal = state.goal || 152;
-
-      el.goalTxt.textContent = goal;
-      el.usName.textContent = state.usName || "نحن";
-      el.themName.textContent = state.themName || "هم";
-      el.usScore.textContent = us;
-      el.themScore.textContent = them;
-
-
-
-      const lead = Math.max(us, them);
-      const prog = Math.min(100, Math.floor((lead/goal)*100)) || 0;
-      el.progress.style.width = prog + "%";
-
-      el.roundNo.textContent = state.round || 0;
-
-      // Timer UI
-      el.timerTxt.textContent = formatTime(state.timer.sec||0);
-      el.startPauseBtn.textContent = state.timer.running ? "⏸" : "▶";
-
-      // History
-      el.count.textContent = state.entries.length;
-
-      if(state.entries.length === 0){
-        el.historyBody.className = "empty";
-        el.historyBody.textContent = "لا توجد جولات بعد";
-      }else{
-        el.historyBody.className = "list";
-        el.historyBody.innerHTML = "";
-
-        // reverse show
-        state.entries.slice().reverse().forEach((e)=>{
-          const name = e.team === "us" ? (state.usName||"نحن") : (state.themName||"هم");
-          const modeTxt = e.mode === "san" ? "صن" : e.mode === "hokm" ? "حكم" : "يدوي";
-          const timeTxt = e.timeSec != null ? formatTime(e.timeSec) : "—";
-
-          const line = document.createElement("div");
-          line.className = "rowItem";
-          line.innerHTML = `
-            <div>
-              ${name}
-              <span class="chip">${modeTxt}</span>
-              <span class="chip">جولة ${e.round}</span>
-              <span class="chip">⏱ ${timeTxt}</span>
-              <div style="margin-top:6px">
-                <small>${escapeHtml(e.detail || "")}</small>
-              </div>
-            </div>
-            <div><b>${e.totalPts||0}</b> <small>نقطة</small></div>
-          `;
-          el.historyBody.appendChild(line);
-        });
-      }
-
-      // Stats
-      const adds = state.entries.length;
-      const maxAdd = adds ? Math.max(...state.entries.map(e=>e.totalPts||0)) : 0;
-      const avg = adds ? ((us+them)/adds) : 0;
-
-      // المشاريع: نحسبها من projPts > 0
-      const projUs = state.entries.filter(e=>e.team==="us" && (e.projPts||0) > 0).length;
-      const projThem = state.entries.filter(e=>e.team==="them" && (e.projPts||0) > 0).length;
-
-      el.stUs.textContent = us;
-      el.stThem.textContent = them;
-      el.stAdds.textContent = adds;
-      el.stMax.textContent = maxAdd;
-      el.stAvg.textContent = Math.round(avg * 10) / 10;
-      el.stRemain.textContent = Math.max(0, goal - Math.max(us, them));
-      el.stUsProj.textContent = projUs;
-      el.stThemProj.textContent = projThem;
-
-      save();
+      roleNote = `${roleTxt} خسر ⇒ ${roleTxt} 0، الأرض للخصم، الخصم +${bonus} + مشاريعه`;
     }
 
-    function escapeHtml(s){
-      return String(s)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+    const usPts   = (modalTeam==="us") ? totalA : totalB;
+    const themPts = (modalTeam==="us") ? totalB : totalA;
+
+    return {
+      teamName, oppName,
+      totalAb, div,
+      yourAb, oppAb,
+      rawA, rawB,
+      abPtsA, abPtsB,
+      projA, projB,
+      ardA, ardB,
+      totalA, totalB,
+      usPts, themPts,
+      modeText: roleTxt,
+      roleNote,
+      isLose,
+      bonus,
+      roleOwnerName
+    };
+  }
+
+  function updateDetails(){
+    if(inputMode!=="adv"){
+      el.cardA.innerHTML="";
+      el.cardB.innerHTML="";
+      return;
     }
 
-    // -------------------- Tabs --------------------
-    el.tabHistory.onclick = ()=>{
-      el.tabHistory.classList.add("active");
-      el.tabStats.classList.remove("active");
-      el.historyBox.style.display = "";
-      el.statsBox.style.display = "none";
-    };
-    el.tabStats.onclick = ()=>{
-      el.tabStats.classList.add("active");
-      el.tabHistory.classList.remove("active");
-      el.historyBox.style.display = "none";
-      el.statsBox.style.display = "";
-    };
+    const r = computeAdvanced();
 
-    // -------------------- Open modal --------------------
-    el.addUs.onclick = ()=>openAddModal("us");
-    el.addThem.onclick = ()=>openAddModal("them");
+    el.cardA.innerHTML = `
+      <div class="dTop"><div>${r.teamName}</div><div>${r.totalA}</div></div>
+      <div class="dLines">
+        <div class="line"><span>الأبناط</span><span><code>${r.yourAb} ÷ ${r.div} = ${r.rawA.toFixed(2)}</code> → <b>${r.abPtsA}</b></span></div>
+        <div class="line"><span>المشاريع</span><span><b>${r.projA}</b></span></div>
+        <div class="line"><span>الأرض</span><span><b>${r.ardA}</b></span></div>
+        <div class="line"><span>${r.modeText}</span><span><b>${r.roleOwnerName}</b></span></div>
+        <div class="line"><span>القاعدة</span><span><small>${r.roleNote}</small></span></div>
+      </div>
+      <div class="sum"><span>المجموع</span><span>${r.totalA}</span></div>
+    `;
 
-    // -------------------- Name edit --------------------
-    document.addEventListener("click",(e)=>{
-      const edit = e.target?.getAttribute?.("data-edit");
-      if(!edit) return;
-      const current = edit==="us" ? state.usName : state.themName;
-      const name = prompt("اكتب اسم الفريق:", current || "");
-      if(name == null) return;
-      const v = name.trim();
-      if(!v) return;
-      if(edit==="us") state.usName = v; else state.themName = v;
-      beep();
-      render();
+    el.cardB.innerHTML = `
+      <div class="dTop"><div>${r.oppName}</div><div>${r.totalB}</div></div>
+      <div class="dLines">
+        <div class="line"><span>الأبناط</span><span><code>${r.oppAb} ÷ ${r.div} = ${r.rawB.toFixed(2)}</code> → <b>${r.abPtsB}</b></span></div>
+        <div class="line"><span>المشاريع</span><span><b>${r.projB}</b></span></div>
+        <div class="line"><span>الأرض</span><span><b>${r.ardB}</b></span></div>
+      </div>
+      <div class="sum"><span>المجموع</span><span>${r.totalB}</span></div>
+    `;
+  }
+
+  function addEntry(usPts, themPts, note){
+    state.round = (state.round||0) + 1;
+    state.entries.push({
+      round: state.round,
+      timeSec: state.timer.sec||0,
+      usPts, themPts,
+      note: note||""
     });
 
-    // -------------------- Undo / Clear / New --------------------
-    el.undoBtn.onclick = ()=>{
-      if(state.entries.length === 0) return;
+    if(!state.timer.running){
+      state.timer.running = true;
+      el.startPauseBtn.textContent = "⏸";
+    }
 
-      // لأننا نضيف دائماً مدخلين (نحن + هم) لكل جولة، نحذف آخر 2
-      const lastRound = state.entries[state.entries.length-1].round;
-      state.entries = state.entries.filter(x=>x.round !== lastRound);
-
-      state.round = Math.max(0, (state.round||0) - 1);
-      beep("undo");
-      toast("↩ تم التراجع");
-      render();
-    };
-
-    el.clearBtn.onclick = ()=>{
-      state.entries = [];
-      state.round = 0;
-      beep("clear");
-      toast("🗑 تم المسح");
-      render();
-    };
-
-    el.newBtn.onclick = ()=>{
-      state = structuredClone(defaultState);
-      beep("clear");
-      toast("↺ جديد");
-      render();
-    };
-
-    // -------------------- Share --------------------
-    el.shareBtn.onclick = async ()=>{
-      const us = sumTeam("us");
-      const them = sumTeam("them");
-      const goal = state.goal || 152;
-
-      const lines = [];
-      lines.push(`حاسبة بلوت`);
-      lines.push(`الهدف: ${goal}`);
-      lines.push(`${state.usName||"نحن"}: ${us} | ${state.themName||"هم"}: ${them}`);
-      lines.push(`عدد السجلات: ${state.entries.length}`);
-      lines.push(`----------------`);
-
-      // نجمع حسب الجولات
-      const rounds = [...new Set(state.entries.map(e=>e.round))];
-      rounds.forEach(r=>{
-        const items = state.entries.filter(e=>e.round===r);
-        const usE = items.find(x=>x.team==="us");
-        const themE = items.find(x=>x.team==="them");
-        lines.push(`جولة ${r} — ${usE?.detail || ""}`);
-        lines.push(`  ${state.usName||"نحن"}: ${usE?.totalPts||0} | ${state.themName||"هم"}: ${themE?.totalPts||0} ⏱ ${formatTime(usE?.timeSec||0)}`);
-      });
-
-      const text = lines.join("\n");
-      try{
-        if(navigator.share){ await navigator.share({ text }); return; }
-      }catch{}
-      try{
-        await navigator.clipboard.writeText(text);
-        toast("✅ تم النسخ");
-      }catch{
-        const ta = document.createElement("textarea");
-        ta.value = text; document.body.appendChild(ta);
-        ta.select(); document.execCommand("copy");
-        document.body.removeChild(ta);
-        toast("✅ تم النسخ");
-      }
-    };
-
-    // -------------------- Theme & Sound --------------------
-    el.themeBtn.onclick = ()=>{
-      state.theme = state.theme === "dark" ? "light" : "dark";
-      beep();
-      render();
-    };
-    el.soundBtn.onclick = ()=>{
-      state.sound = !state.sound;
-      toast(state.sound ? "🔊 الصوت شغال" : "🔇 الصوت مكتوم");
-      render();
-    };
-
-    // -------------------- Timer controls --------------------
-    el.startPauseBtn.onclick = ()=>{
-      state.timer.running = !state.timer.running;
-      ensureTimer();
-      beep();
-      render();
-    };
-    el.stopBtn.onclick = ()=>{
-      state.timer.running = false;
-      beep();
-      render();
-    };
-    el.resetTimerBtn.onclick = ()=>{
-      state.timer.sec = 0;
-      state.timer.running = false;
-      beep();
-      render();
-    };
-
-    // Kickstart
-    ensureTimer();
+    sfx("add");
+    toast("✅ تمت الإضافة");
     render();
-  </script>
+
+    const totals = sum();
+    speak(`النشرة: ${state.usName} ${totals.us} و ${state.themName} ${totals.them}`);
+  }
+
+  function openModal(team){
+    modalTeam = team;
+    const {teamName, oppName} = namesForModal();
+
+    el.mTitle.textContent = `إضافة نتيجة — ${teamName}`;
+    el.labA.textContent = `نقاط ${teamName}`;
+    el.labB.textContent = `نقاط ${oppName}`;
+    el.labAbnat.textContent = `أبناط ${teamName}`;
+
+    el.inA.value=""; el.inB.value="";
+    el.inAbnat.value="";
+    projCountsA = {}; projCountsB = {};
+    ardTo="A"; roleSide="A";
+
+    setInputMode("manual");
+    setAdvMode("san");
+    setArd("A");
+    setRole("A");
+
+    el.modalBack.style.display="flex";
+    document.body.style.overflow="hidden";
+    sfx("tap");
+  }
+
+  function closeModal(){
+    el.modalBack.style.display="none";
+    document.body.style.overflow="";
+    sfx("tap");
+  }
+
+  // Tabs
+  el.tabHistory.addEventListener("click", ()=>{
+    el.tabHistory.classList.add("active");
+    el.tabStats.classList.remove("active");
+    el.historyBox.style.display="";
+    el.statsBox.style.display="none";
+    sfx("tap");
+  });
+  el.tabStats.addEventListener("click", ()=>{
+    el.tabStats.classList.add("active");
+    el.tabHistory.classList.remove("active");
+    el.historyBox.style.display="none";
+    el.statsBox.style.display="";
+    sfx("tap");
+  });
+
+  // Events
+  el.addUs.addEventListener("click", ()=>openModal("us"));
+  el.addThem.addEventListener("click", ()=>openModal("them"));
+
+  el.mClose.addEventListener("click", closeModal);
+  el.modalBack.addEventListener("click",(e)=>{ if(e.target===el.modalBack) closeModal(); });
+
+  el.mManual.addEventListener("click", ()=>{ setInputMode("manual"); sfx("tap"); });
+  el.mAdv.addEventListener("click", ()=>{
+    setInputMode("adv");
+    buildProjectsUI();
+    updateDetails();
+    sfx("tap");
+  });
+
+  el.modeSan.addEventListener("click", ()=>{ setAdvMode("san"); sfx("tap"); });
+  el.modeHokm.addEventListener("click", ()=>{ setAdvMode("hokm"); sfx("tap"); });
+
+  el.roleA.addEventListener("click", ()=>{ setRole("A"); sfx("tap"); });
+  el.roleB.addEventListener("click", ()=>{ setRole("B"); sfx("tap"); });
+
+  el.ardA.addEventListener("click", ()=>{ setArd("A"); sfx("tap"); });
+  el.ardB.addEventListener("click", ()=>{ setArd("B"); sfx("tap"); });
+
+  el.inAbnat.addEventListener("input", ()=>{ updateDetails(); });
+
+  el.mClear.addEventListener("click", ()=>{
+    el.inA.value=""; el.inB.value="";
+    el.inAbnat.value="";
+    projCountsA = {}; projCountsB = {};
+    buildProjectsUI();
+    setArd("A");
+    setRole("A");
+    updateDetails();
+    sfx("clear");
+    toast("🧹 تم");
+  });
+
+  el.mAdd.addEventListener("click", ()=>{
+    const {teamName, oppName} = namesForModal();
+
+    if(inputMode==="manual"){
+      const a = Math.max(0, parseInt(el.inA.value||"0",10) || 0);
+      const b = Math.max(0, parseInt(el.inB.value||"0",10) || 0);
+      if(a===0 && b===0){ toast("اكتب نقاط"); return; }
+
+      const usPts   = (modalTeam==="us") ? a : b;
+      const themPts = (modalTeam==="us") ? b : a;
+
+      addEntry(usPts, themPts, `يدوي — ${teamName}:${a} | ${oppName}:${b}`);
+      closeModal();
+      return;
+    }
+
+    const r = computeAdvanced();
+    const hasAny =
+      (el.inAbnat.value!=="" && !Number.isNaN(parseFloat(el.inAbnat.value))) ||
+      (projTotal(projCountsA)>0) || (projTotal(projCountsB)>0);
+
+    if(!hasAny){
+      toast("اكتب الأبناط أو زود مشاريع");
+      return;
+    }
+
+    addEntry(r.usPts, r.themPts, `متقدم (${r.modeText}) — ${r.roleNote}`);
+    closeModal();
+  });
+
+  // Undo / Clear / Share
+  el.undoBtn.addEventListener("click", ()=>{
+    if(state.entries.length===0) return;
+    state.entries.pop();
+    state.round = Math.max(0, (state.round||0)-1);
+    sfx("undo");
+    toast("↩ تم التراجع");
+    render();
+  });
+
+  el.clearBtn.addEventListener("click", ()=>{
+    state.entries=[];
+    state.round=0;
+    sfx("clear");
+    toast("🗑 تم المسح");
+    render();
+  });
+
+  el.shareBtn.addEventListener("click", async ()=>{
+    const {us, them} = sum();
+    const lines = [];
+    lines.push("النشرة");
+    lines.push(`${state.usName}: ${us} | ${state.themName}: ${them}`);
+    lines.push(`سجلات: ${state.entries.length}`);
+    lines.push("— — —");
+    for(const e of state.entries){
+      lines.push(`جولة ${e.round} ⏱ ${fmt(e.timeSec||0)} | ${state.usName}:${e.usPts} ${state.themName}:${e.themPts} — ${e.note||""}`);
+    }
+    const text = lines.join("\n");
+    try{ if(navigator.share){ await navigator.share({text}); return; } }catch{}
+    try{ await navigator.clipboard.writeText(text); toast("✅ تم النسخ"); }catch{ toast("انسخ يدويًا"); }
+  });
+
+  // Timer
+  el.startPauseBtn.addEventListener("click", ()=>{
+    state.timer.running = !state.timer.running;
+    el.startPauseBtn.textContent = state.timer.running ? "⏸" : "▶";
+    sfx("tap"); saveSoon();
+  });
+  el.stopBtn.addEventListener("click", ()=>{
+    state.timer.running = false;
+    el.startPauseBtn.textContent = "▶";
+    sfx("tap"); saveSoon();
+  });
+  el.resetTimerBtn.addEventListener("click", ()=>{
+    state.timer.running = false;
+    state.timer.sec = 0;
+    el.timerTxt.textContent = "00:00";
+    el.startPauseBtn.textContent = "▶";
+    sfx("tap"); saveSoon();
+  });
+
+  // Sound
+  el.soundBtn.addEventListener("click", ()=>{
+    state.sound = !state.sound;
+    toast(state.sound ? "🔊 الصوت شغال" : "🔇 الصوت مكتوم");
+    sfx("tap");
+    render();
+  });
+
+  // New
+  el.newBtn.addEventListener("click", ()=>{
+    state = structuredClone(defaultState);
+    sfx("clear");
+    toast("↺ جديد");
+    render();
+  });
+
+  // Edit names
+  document.addEventListener("click",(e)=>{
+    const key = e.target?.getAttribute?.("data-edit");
+    if(!key) return;
+    const cur = key==="us" ? state.usName : state.themName;
+    const name = prompt("اكتب اسم الفريق:", cur);
+    if(name==null) return;
+    const v = name.trim();
+    if(!v) return;
+    if(key==="us") state.usName=v; else state.themName=v;
+    sfx("tap");
+    render();
+  });
+
+  // Init
+  buildProjectsUI();
+  render();
+  // ✅ Calculator logic
+const calc = {
+  back: document.getElementById("calcBack"),
+  close: document.getElementById("calcClose"),
+  screen: document.getElementById("calcScreen"),
+  clear: document.getElementById("calcClear"),
+  backspace: document.getElementById("calcBackspace"),
+  eq: document.getElementById("calcEq"),
+};
+
+function openCalc(){
+  calc.screen.value = el.inAbnat.value ? String(el.inAbnat.value) : "";
+  calc.back.style.display = "flex";
+
+  // ✅ خلي مودال الإضافة ورا مؤقتًا (اختياري)
+  el.modalBack.style.zIndex = "50";
+  calc.back.style.zIndex = "9999";
+
+  document.body.style.overflow = "hidden";
+  sfx("tap");
+}
+
+
+function closeCalc(){
+  calc.back.style.display = "none";
+  document.body.style.overflow = "";
+  sfx("tap");
+}
+
+function safeEval(expr){
+  // حماية بسيطة: نسمح فقط بالأرقام والعمليات
+  if(!/^[0-9+\-*/.() ]+$/.test(expr)) return null;
+  try{
+    // eslint-disable-next-line no-new-func
+    const val = Function("return (" + expr + ")")();
+    if(typeof val !== "number" || !isFinite(val)) return null;
+    return val;
+  }catch{
+    return null;
+  }
+}
+
+// لما تضغط على الأبناط يفتح الكالكوليتر
+el.inAbnat.addEventListener("focus", (e)=>{
+  e.target.blur();
+  openCalc();
+});
+
+calc.close.addEventListener("click", closeCalc);
+calc.back.addEventListener("click", (e)=>{ if(e.target===calc.back) closeCalc(); });
+
+document.querySelectorAll(".cbtn[data-c]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const c = btn.getAttribute("data-c");
+    calc.screen.value += c;
+    sfx("tap");
+  });
+});
+
+calc.clear.addEventListener("click", ()=>{
+  calc.screen.value = "";
+  sfx("clear");
+});
+
+calc.backspace.addEventListener("click", ()=>{
+  calc.screen.value = calc.screen.value.slice(0,-1);
+  sfx("tap");
+});
+
+calc.eq.addEventListener("click", ()=>{
+  const expr = calc.screen.value.trim();
+  if(!expr){ toast("اكتب عملية"); return; }
+
+  const result = safeEval(expr);
+  if(result===null){ toast("خطأ بالحساب"); return; }
+
+  // نحط النتيجة في الأبناط
+  const fixed = String(Math.round(result * 100) / 100); // تقريب بسيط
+  el.inAbnat.value = fixed;
+
+  updateDetails();
+  toast("✅ تم الحساب");
+  sfx("add");
+  closeCalc();
+});
+})();
+</script>
 </body>
 </html>
