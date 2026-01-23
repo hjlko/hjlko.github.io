@@ -970,18 +970,42 @@
     let roleNote = `${roleTxt} طبيعي`;
     const roleOwnerName = (roleSide==="A") ? teamName : oppName;
 
-    if(isLose){
-      if(roleOwner==="A"){
-        totalA = 0; projA = 0; ardA = 0;
-        ardB  = ardPts;
-        totalB = bonus + projB_in + ardB;
-      }else{
-        totalB = 0; projB = 0; ardB = 0;
-        ardA  = ardPts;
-        totalA = bonus + projA_in + ardA;
-      }
-      roleNote = `${roleTxt} خسر ⇒ ${roleTxt} 0، الأرض للخصم، الخصم +${bonus} + مشاريعه`;
-    }
+if(isLose){
+  if(roleOwner==="A"){
+    // ✅ A هو الصن/الحكم وخسر
+    // مشاريع A تروح لـ B
+    const transferred = projA_in;
+
+    totalA = 0;
+    projA = 0;
+    ardA = 0;
+
+    // الأرض تلقائيًا لـ B
+    ardB = ardPts;
+
+    // B ياخذ: مشاريعه + مشاريع A + الأرض + البونص
+    projB = projB_in + transferred;
+    totalB = bonus + projB + ardB;
+
+  }else{
+    // ✅ B هو الصن/الحكم وخسر
+    // مشاريع B تروح لـ A
+    const transferred = projB_in;
+
+    totalB = 0;
+    projB = 0;
+    ardB = 0;
+
+    // الأرض تلقائيًا لـ A
+    ardA = ardPts;
+
+    // A ياخذ: مشاريعه + مشاريع B + الأرض + البونص
+    projA = projA_in + transferred;
+    totalA = bonus + projA + ardA;
+  }
+
+  roleNote = `${roleTxt} خسر ⇒ ${roleTxt} 0، المشاريع + الأرض للخصم، الخصم +${bonus}`;
+}
 
     const usPts   = (modalTeam==="us") ? totalA : totalB;
     const themPts = (modalTeam==="us") ? totalB : totalA;
