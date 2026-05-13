@@ -1,1348 +1,242 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-  <title>حاسبة بلوت</title>
-  <style>
-    :root{
-      --sand1:#fff7e6;
-      --sand2:#f3e0b6;
-      --card: rgba(255,255,255,.82);
-      --card2: rgba(255,255,255,.62);
-      --line: rgba(17,24,39,.10);
-      --text: rgba(17,24,39,.92);
-      --muted: rgba(17,24,39,.55);
-      --gold:#c89b2d;
-      --red:#ef4444;
-      --green:#16a34a;
-      --shadow: 0 12px 28px rgba(17,24,39,.12);
-      --shadow2: 0 22px 70px rgba(17,24,39,.18);
-      --r2:24px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;
-      color:var(--text);
-      min-height:100vh;
-      background:
-        radial-gradient(900px 520px at 50% -180px, rgba(200,155,45,.32), transparent 60%),
-        radial-gradient(700px 360px at 14% 18%, rgba(230,200,111,.34), transparent 55%),
-        linear-gradient(180deg,var(--sand1),var(--sand2));
-    }
-    .app{max-width:520px;margin:0 auto;padding:14px 14px calc(18px + env(safe-area-inset-bottom));}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>حاسبة القهوة | الإصدار العربي الفاخر</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700;900&display=swap');
 
-    .header{
-      position: sticky; top:0; z-index:10;
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: 10px;
-      background: linear-gradient(180deg, rgba(255,247,230,.96), rgba(255,247,230,.75), transparent);
-      backdrop-filter: blur(10px);
-    }
-    .hRow{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-    .brand{display:flex;align-items:center;gap:10px;min-width:0;}
-    .logo{
-      width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
-      background:var(--card);box-shadow:var(--shadow);overflow:hidden;display:grid;place-items:center
-    }
-    .logo img{width:100%;height:100%;object-fit:cover;display:block}
-    .bTxt{min-width:0;line-height:1.1}
-    .bTxt b{display:block;font-weight:1100;font-size:15px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .bTxt small{display:block;margin-top:3px;color:var(--muted);font-weight:900;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .hBtns{display:flex;gap:10px}
-    .iconBtn,.dangerBtn{
-      border-radius:16px;border:1px solid var(--line);background: var(--card);box-shadow: var(--shadow);
-      cursor:pointer;user-select:none;font-weight:1100;
-    }
-    .iconBtn{width:42px;height:42px;display:grid;place-items:center}
-    .dangerBtn{padding: 11px 12px;border-color: rgba(239,68,68,.25);background: rgba(239,68,68,.10);color: var(--red);}
-    .iconBtn:active,.dangerBtn:active{transform:scale(.98)}
+        :root {
+            --bg-color: #000000;
+            --surface-color: #0a0a0a;
+            --border-color: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #555555;
+            --accent-glow: rgba(255, 255, 255, 0.05);
+            --danger: #b22222;
+        }
 
-    .timerCard{
-      margin-top:10px;border:1px solid var(--line);
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border-radius: var(--r2);box-shadow: var(--shadow);
-      padding: 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;
-    }
-    .tTime{
-      font-size:28px;font-weight:1200;letter-spacing:1px;
-      padding: 8px 14px;border-radius: 16px;border:1px solid var(--line);
-      background: rgba(255,255,255,.78);min-width: 120px;text-align:center;
-    }
-    .tGroup{display:flex;gap:10px}
-    .tBtn{
-      width:44px;height:44px;border-radius:16px;border:1px solid var(--line);
-      background: rgba(255,255,255,.86);box-shadow: 0 12px 24px rgba(17,24,39,.10);
-      cursor:pointer;user-select:none;display:grid;place-items:center;font-weight:1200;
-    }
-    .tBtn:active{transform:scale(.98)}
-    .tBtn.green{color:var(--green)}
-    .tBtn.red{color:var(--red)}
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
 
-    .board{
-      margin-top:12px;border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.80), rgba(255,255,255,.62));
-      border-radius: var(--r2);box-shadow: var(--shadow2);padding: 12px;
-    }
-    .meta{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-weight:1100;font-size:13px;}
-    .meta b{color:var(--gold)}
-    .bar{margin-top:10px;height:12px;border-radius:999px;background:rgba(17,24,39,.06);border:1px solid var(--line);overflow:hidden;}
-    .bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg, rgba(230,200,111,.95), rgba(200,155,45,.95));border-radius:999px;transition:width .2s ease;}
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at top, #111 0%, #000 80%);
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-    .teams{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-    .team{
-      border:1px solid var(--line);background: rgba(255,255,255,.82);
-      border-radius: var(--r2);box-shadow: var(--shadow2);
-      padding: 12px;display:flex;flex-direction:column;gap:10px;min-height: 240px;
-    }
-    .teamTop{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:1100;}
-    .name span{font-size:15px;font-weight:1100}
-    .edit{
-      width:36px;height:36px;border-radius:14px;border:1px solid var(--line);
-      background: rgba(255,255,255,.78);display:grid;place-items:center;cursor:pointer;user-select:none;font-weight:1200;opacity:.85;
-    }
-    .score{text-align:center;font-size:78px;font-weight:1300;line-height:1;margin: 0;letter-spacing:1px;}
-    .team.red .score,.team.red .name span{color:var(--red)}
-    .team.green .score,.team.green .name span{color:var(--green)}
-    .addBig{
-      margin-top:auto;width:100%;padding: 14px 12px;border-radius: 18px;border:1px solid var(--line);
-      background: rgba(255,255,255,.92);box-shadow: 0 14px 30px rgba(17,24,39,.12);
-      cursor:pointer;user-select:none;font-weight:1300;font-size:16px;
-    }
-    .addBig:active{transform:scale(.99)}
+        .container { width: 100%; max-width: 400px; padding: 20px; position: relative; }
 
-    /* Tabs + Boxes (السجل/إحصائيات) */
-    .tabs{
-      margin-top: 12px;border:1px solid var(--line);background: var(--card);
-      box-shadow: var(--shadow);border-radius: var(--r2);padding: 8px;display:flex;gap:10px;
-    }
-    .tab{
-      flex:1;padding: 11px 12px;border-radius: 16px;border:1px solid transparent;background: transparent;
-      font-weight:1200;color: var(--muted);cursor:pointer;user-select:none;
-    }
-    .tab.active{
-      background: rgba(255,255,255,.90);border-color: var(--line);color: var(--text);
-      box-shadow: 0 12px 22px rgba(17,24,39,.10);
-    }
+        /* زر الإعدادات */
+        .settings-btn {
+            position: absolute; top: 20px; left: 20px; background: var(--surface-color); 
+            border: 1px solid var(--border-color); color: var(--text-secondary); 
+            padding: 8px 12px; border-radius: 12px; font-size: 11px; cursor: pointer;
+            transition: 0.3s; z-index: 10;
+        }
 
-    .box{
-      margin-top: 12px;border:1px solid var(--line);background: var(--card);
-      box-shadow: var(--shadow2);border-radius: var(--r2);padding: 14px;
-    }
-    .boxHead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:1200;}
-    .miniBtns{display:flex;gap:8px;flex-wrap:wrap}
-    .mini{
-      padding: 10px 12px;border-radius: 16px;border:1px solid var(--line);background: rgba(255,255,255,.86);
-      box-shadow: 0 12px 22px rgba(17,24,39,.10);cursor:pointer;user-select:none;font-weight:1200;font-size:13px;
-    }
-    .mini:active{transform:scale(.98)}
-    .mini.danger{border-color: rgba(239,68,68,.25);background: rgba(239,68,68,.10);color: var(--red);}
+        .logo-box { text-align: center; margin-bottom: 5px; }
+        .coffee-logo { width: 60px; filter: drop-shadow(0 0 8px rgba(255,255,255,0.1)); }
 
-    .empty{padding:26px 10px;text-align:center;color:var(--muted);font-weight:1200}
-    .list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-    .row{
-      border:1px solid var(--line);background: rgba(255,255,255,.86);border-radius: 18px;padding: 12px;
-      display:grid;grid-template-columns: 1fr auto;gap:10px;align-items:center;font-weight:1200;
-    }
-    .row small{color:var(--muted);font-weight:1100}
+        /* عداد الصكات */
+        .sakat-header {
+            display: flex; justify-content: center; gap: 60px; margin-bottom: 20px;
+        }
+        .sakat-box { text-align: center; }
+        .sakat-label { font-size: 10px; color: var(--text-secondary); font-weight: bold; }
+        .sakat-num { font-family: 'Orbitron', sans-serif; font-size: 30px; color: var(--text-primary); font-weight: 900; }
 
-    .statsList{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-    .srow{
-      border:1px solid var(--line);background: rgba(255,255,255,.86);border-radius: 18px;padding: 12px;
-      display:flex;justify-content:space-between;align-items:center;font-weight:1200;
-    }
+        /* لوحة النقاط */
+        .board {
+            background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 40px;
+            padding: 25px 10px; display: flex; justify-content: space-around;
+            align-items: center; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+        .side { flex: 1; text-align: center; }
+        .team-name {
+            background: transparent; border: none; color: var(--text-secondary); text-align: center;
+            font-size: 18px; font-weight: 900; width: 100%; outline: none; font-family: 'Cairo';
+            margin-bottom: 5px;
+        }
+        .team-name:focus { color: var(--text-primary); }
+        .score-val { font-family: 'Orbitron', sans-serif; font-size: 60px; font-weight: 900; color: var(--text-primary); line-height: 1; }
+        .divider { width: 1px; height: 80px; background: #1a1a1a; }
 
-    /* Bottom Sheet */
-    .backdrop{position:fixed; inset:0;display:none;align-items:flex-end; justify-content:center;background: rgba(17,24,39,.36);z-index: 50;}
-    .sheet{
-      width:100%;max-width:520px;border-radius: 26px 26px 0 0;background: #fffaf0;border:1px solid var(--line);
-      box-shadow: 0 -22px 80px rgba(17,24,39,.26);max-height: 90vh;overflow:auto;padding-bottom: env(safe-area-inset-bottom);
-    }
-    .sHead{position:sticky;top:0;background:#fff4d7;border-bottom:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-    .sTitle{font-weight:1300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .close{width:44px;height:44px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.90);display:grid;place-items:center;cursor:pointer;user-select:none;font-weight:1200;}
-    .sBody{padding:14px;display:flex;flex-direction:column;gap:12px;}
-    label{display:block;font-size:12px;color:var(--muted);font-weight:1200;margin:0 0 6px;}
-    input{
-      width:100%;padding:12px;border-radius:18px;border:1px solid var(--line);
-      background:rgba(255,255,255,.92);font-weight:1300;font-size:15px;outline:none;
-    }
-    .seg{display:flex;gap:8px;padding:6px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.86);}
-    .seg button{
-      flex:1;border-radius:999px;border:1px solid transparent;background:transparent;padding:11px 10px;
-      cursor:pointer;user-select:none;font-weight:1300;color:var(--muted);
-    }
-    .seg button.active{background:#fff4d7;border-color:rgba(200,155,45,.22);color:var(--text);box-shadow:0 10px 18px rgba(17,24,39,.08);}
-    .hint{color:var(--muted);font-weight:1100;font-size:12px;line-height:1.5;}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+        /* منطقة الإدخال */
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .card-in { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 25px; padding: 18px; text-align: center; }
+        .card-in label { display: block; font-size: 11px; color: var(--text-secondary); margin-bottom: 5px; }
+        input[type="number"] {
+            background: transparent; border: none; color: #fff; font-family: 'Orbitron';
+            font-size: 32px; width: 100%; text-align: center; outline: none; user-select: text;
+        }
 
-    /* Projects */
-    .projBox{
-      border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.86);
-      padding:10px;box-shadow: 0 12px 22px rgba(17,24,39,.06);
-    }
-    .projTitle{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:1300;color:rgba(17,24,39,.82);margin-bottom:8px}
-    .projTitle span:last-child{color:var(--muted);font-weight:1200;font-size:12px}
-    .projList{
-      display:flex;flex-direction:column;gap:8px;
-      max-height: 210px; overflow:auto; -webkit-overflow-scrolling: touch;
-    }
-    .projRow{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:7px 8px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.82);
-    }
-    .projRow b{font-size:14px;font-weight:1300}
-    .projRow em{font-style:normal;color:var(--muted);font-weight:1200;font-size:12px}
-    .ctr{display:flex;align-items:center;gap:8px}
-    .ctr button{
-      width:30px;height:30px;border-radius:12px;border:1px solid var(--line);
-      background:rgba(255,255,255,.90);cursor:pointer;user-select:none;font-weight:1400;font-size:16px;
-    }
-    .ctr button:active{transform:scale(.98)}
-    .ctr span{min-width:22px;text-align:center;font-weight:1400;color:rgba(17,24,39,.85);font-size:14px}
+        /* الأزرار */
+        .btn-group { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-bottom: 30px; }
+        .btn-add { background: var(--text-primary); color: #000; border: none; border-radius: 22px; padding: 22px; font-weight: 900; font-size: 18px; cursor: pointer; }
+        .btn-undo { background: var(--surface-color); color: var(--danger); border: 1px solid var(--border-color); border-radius: 22px; font-weight: 700; cursor: pointer; }
+        .btn-add:active, .btn-undo:active { transform: scale(0.96); opacity: 0.8; }
 
-    .details{
-      border:1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(255,255,255,.86);
-      box-shadow: 0 12px 22px rgba(17,24,39,.06);
-      overflow:hidden;
-    }
-    .dHead{
-      padding: 10px 12px;
-      display:flex;align-items:center;justify-content:space-between;
-      border-bottom:1px solid var(--line);
-      font-weight:1300;color: rgba(17,24,39,.80);
-      background: rgba(255,244,215,.75);
-    }
-    .dGrid{display:grid;grid-template-columns:1fr;gap:10px;padding:10px;}
-    .dCard{
-      border-radius: 16px;border:1px solid var(--line);
-      padding: 10px;background: rgba(255,255,255,.82);
-    }
-    .dCard.us{background: rgba(22,163,74,.10); border-color: rgba(22,163,74,.20);}
-    .dCard.them{background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.18);}
-    .dTop{display:flex;align-items:center;justify-content:space-between;font-weight:1400}
-    .dLines{margin-top:8px;display:flex;flex-direction:column;gap:6px}
-    .line{display:flex;align-items:center;justify-content:space-between;gap:10px;color: rgba(17,24,39,.80);font-weight:1200;}
-    .line code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background: rgba(17,24,39,.06);
-      padding: 2px 8px;border-radius: 10px;border:1px solid var(--line);
-      direction:ltr;
-    }
-    .sum{margin-top:8px;display:flex;align-items:center;justify-content:space-between;font-weight:1500;font-size: 16px;}
+        /* السجل */
+        .history { background: var(--accent-glow); border-radius: 30px; padding: 20px; max-height: 250px; overflow-y: auto; border: 1px solid var(--border-color); }
+        .history-row {
+            display: flex; justify-content: space-between; padding: 14px 18px; background: var(--surface-color);
+            border: 1px solid var(--border-color); border-radius: 18px; margin-bottom: 10px; font-family: 'Orbitron'; font-size: 14px;
+        }
+        .history-row.win-row { border-color: #333; background: #111; }
 
-    .sActions{padding:0 14px 14px;display:flex;gap:10px;}
-    .sActions button{
-      flex:1;padding:14px 12px;border-radius:18px;border:1px solid var(--line);
-      background:rgba(255,255,255,.92);box-shadow:0 14px 24px rgba(17,24,39,.10);
-      cursor:pointer; user-select:none;font-weight:1300;
-    }
-    .primary{background: linear-gradient(180deg, rgba(255,244,215,1), rgba(255,255,255,.92));border-color: rgba(200,155,45,.25);}
+        /* الإعدادات */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 100; justify-content: center; align-items: center;
+        }
+        .modal-content { background: var(--surface-color); padding: 40px 20px; border-radius: 40px; text-align: center; width: 85%; border: 1px solid var(--border-color); }
+        .opt-btn { background: #111; color: #555; border: 1px solid #222; padding: 18px; margin: 8px 0; width: 100%; border-radius: 20px; font-size: 18px; font-weight: 900; transition: 0.3s; }
+        .opt-btn.active { background: #fff; color: #000; border-color: #fff; }
 
-    .toast{
-      position:fixed; left:50%; transform:translateX(-50%);
-      bottom: 18px;padding:10px 12px;border-radius:999px;background:#111827;color:#fff;
-      box-shadow: 0 18px 55px rgba(0,0,0,.25);font-weight:1300;opacity:0;pointer-events:none;
-      transition: opacity .18s ease;z-index: 90;max-width: calc(100vw - 24px);text-align:center;
-    }
-
-        @media (max-width: 420px){
-      .projBox{ padding:8px; border-radius:16px; }
-      .projTitle{ margin-bottom:6px; font-size:13px; }
-      .projTitle span:last-child{ font-size:11px; }
-  #calcBack .sheet{
-    max-width: 360px;
-  }
-  .cbtn{
-    padding: 10px 6px;
-    font-size: 15px;
-  }
-  .calcGrid{
-    gap: 7px;
-  }
-      .projRow{ padding:6px 7px; border-radius:12px; gap:8px; }
-      .projRow b{ font-size:12px; }
-      .projRow em{ font-size:11px; }
-
-      .ctr{ gap:6px; }
-      .ctr button{ width:26px; height:26px; border-radius:10px; font-size:14px; }
-      .ctr span{ min-width:18px; font-size:12px; }
-
-      .projList{ max-height:150px; }
-      }
-    .toast.show{opacity:1}
-
-    /* ✅ Calculator */
-.calcGrid{
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap:10px;
-}
-
-.cbtn{
-  padding:14px 10px;
-  border-radius:16px;
-  border:1px solid var(--line);
-  background: rgba(255,255,255,.92);
-  box-shadow: 0 14px 24px rgba(17,24,39,.10);
-  cursor:pointer;
-  user-select:none;
-  font-weight:1400;
-  font-size:18px;
-}
-.cbtn:active{transform:scale(.98)}
-.cbtn.op{background: rgba(255,244,215,.85)}
-.cbtn.danger{background: rgba(239,68,68,.10); color: var(--red); border-color: rgba(239,68,68,.25)}
-/* ✅ خلي حاسبة الأبناط قدّام مودال إضافة النتيجة */
-#calcBack{
-  z-index: 9999 !important;
-}
-#calcBack .sheet{
-  z-index: 10000 !important;
-}
-#calcBack .sheet{
-  max-width: 420px;     /* كان 520 */
-  border-radius: 22px 22px 0 0;
-}
-#calcBack .sBody{
-  padding: 12px;
-  gap: 10px;
-}
-#calcScreen{
-  padding: 10px !important;
-  border-radius: 14px !important;
-  font-size: 16px !important;
-}
-.calcGrid{
-  gap: 8px;
-}
-
-.cbtn{
-  padding: 11px 8px;
-  border-radius: 14px;
-  font-size: 16px;
-}
-  </style>
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
 </head>
-
 <body>
-  <div class="app">
 
-    <div class="header">
-      <div class="hRow">
-        <div class="brand">
-          <div class="logo" title="لوغو (اختياري)"><img src="logo.png" alt="" onerror="this.style.display='none'"></div>
-          <div class="bTxt">
-            <b>حاسبة بلوت</b>
-            <small>يمين: لنا — يسار: لهم</small>
-          </div>
+    <div class="container">
+        <button class="settings-btn" onclick="toggleModal()">⚙️ الإعدادات</button>
+        
+        <div class="logo-box">
+            <img src="https://cdn.discordapp.com/attachments/1220885943628857345/1503960294001606696/image-removebg-preview_1.png?ex=6a053fac&is=6a03ee2c&hm=a509c7484f2084e85318aeefb1a3fddee70d195d6de0495573f36657319efe13&" class="coffee-logo">
         </div>
-        <div class="hBtns">
-          <div class="iconBtn" id="soundBtn" title="صوت">🔊</div>
-          <button class="dangerBtn" id="newBtn">جديد ↺</button>
-        </div>
-      </div>
 
-      <div class="timerCard">
-        <div class="tGroup">
-          <div class="tBtn red" id="resetTimerBtn" title="تصفير">↺</div>
-          <div class="tBtn green" id="startPauseBtn" title="تشغيل/إيقاف">▶</div>
+        <div class="sakat-header">
+            <div class="sakat-box">
+                <span class="sakat-label">صكات لنا</span>
+                <div class="sakat-num" id="sakat1">0</div>
+            </div>
+            <div class="sakat-box">
+                <span class="sakat-label">صكات لهم</span>
+                <div class="sakat-num" id="sakat2">0</div>
+            </div>
         </div>
-        <div class="tTime" id="timerTxt">00:00</div>
-        <div class="tGroup">
-          <div class="tBtn" id="stopBtn" title="إيقاف">⏱</div>
-        </div>
-      </div>
 
-      <div class="board">
-        <div class="meta">
-          <span>الجولة <b id="roundNo">0</b></span>
-          <span>الهدف <b id="goalTxt">152</b></span>
+        <div class="board">
+            <div class="side">
+                <input type="text" class="team-name" id="n1" value="لـنـا" spellcheck="false">
+                <div class="score-val" id="total1">0</div>
+            </div>
+            <div class="divider"></div>
+            <div class="side">
+                <input type="text" class="team-name" id="n2" value="لـهـم" spellcheck="false">
+                <div class="score-val" id="total2">0</div>
+            </div>
         </div>
-        <div class="bar"><i id="barFill"></i></div>
-      </div>
+
+        <div class="input-row">
+            <div class="card-in">
+                <label>لنا</label>
+                <input type="number" id="in1" placeholder="0" inputmode="numeric">
+            </div>
+            <div class="card-in">
+                <label>لهم</label>
+                <input type="number" id="in2" placeholder="0" inputmode="numeric">
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-add" onclick="addRound()">تسجيل الجولة</button>
+            <button class="btn-undo" onclick="undo()">تراجع</button>
+        </div>
+
+        <div class="history" id="logs"></div>
     </div>
 
-    <div class="teams">
-      <div class="team green">
-        <div class="teamTop">
-          <div class="name"><span id="usName">لنا</span></div>
-          <div class="edit" data-edit="us" title="تعديل الاسم">✎</div>
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 25px; font-weight: 900;">نظام الصكات</h3>
+            <button class="opt-btn" onclick="setTarget(1)" id="t1">1 صكة (فوز مباشر)</button>
+            <button class="opt-btn" onclick="setTarget(3)" id="t3">3 صكات (الأفضل من 3)</button>
+            <button class="opt-btn" onclick="setTarget(5)" id="t5">5 صكات (الأفضل من 5)</button>
+            <button class="opt-btn" style="background:transparent; border:none; color:#333; margin-top:20px" onclick="toggleModal()">رجوع</button>
         </div>
-        <div class="score" id="usScore">0</div>
-        <button class="addBig" id="addUs">إضافة نتيجة +</button>
-      </div>
-
-      <!-- ✅ Calculator Popup -->
-<div class="backdrop" id="calcBack">
-  <div class="sheet" style="max-height:75vh;">
-    <div class="sHead">
-      <div class="sTitle">🧮 حاسبة الأبناط</div>
-      <div class="close" id="calcClose">✕</div>
     </div>
 
-    <div class="sBody">
-      <div style="display:flex;gap:10px;align-items:center;">
-        <input id="calcScreen" readonly style="font-size:18px;text-align:left;direction:ltr;">
-      </div>
-
-      <div class="hint">اكتب العملية وبعدين اضغط =</div>
-
-      <div class="calcGrid">
-        <button class="cbtn" data-c="7">7</button>
-        <button class="cbtn" data-c="8">8</button>
-        <button class="cbtn" data-c="9">9</button>
-        <button class="cbtn op" data-c="/">÷</button>
-
-        <button class="cbtn" data-c="4">4</button>
-        <button class="cbtn" data-c="5">5</button>
-        <button class="cbtn" data-c="6">6</button>
-        <button class="cbtn op" data-c="*">×</button>
-
-        <button class="cbtn" data-c="1">1</button>
-        <button class="cbtn" data-c="2">2</button>
-        <button class="cbtn" data-c="3">3</button>
-        <button class="cbtn op" data-c="-">−</button>
-
-        <button class="cbtn danger" id="calcClear">C</button>
-        <button class="cbtn" data-c="0">0</button>
-        <button class="cbtn" data-c=".">.</button>
-        <button class="cbtn op" data-c="+">+</button>
-
-        <button class="cbtn" style="grid-column: span 2;" id="calcBackspace">⌫</button>
-        <button class="cbtn primary" style="grid-column: span 2;" id="calcEq">=</button>
-      </div>
-
-      <div class="hint">
-        ✅ بعد ما تحسب، الناتج ينحط مباشرة في خانة الأبناط.
-      </div>
-    </div>
-  </div>
-</div>
-
-
-      <div class="team red">
-        <div class="teamTop">
-          <div class="name"><span id="themName">لهم</span></div>
-          <div class="edit" data-edit="them" title="تعديل الاسم">✎</div>
-        </div>
-        <div class="score" id="themScore">0</div>
-        <button class="addBig" id="addThem">إضافة نتيجة +</button>
-      </div>
-    </div>
-
-    <!-- ✅ رجّعنا التبويبات -->
-    <div class="tabs">
-      <button class="tab active" id="tabHistory">↩ السجل</button>
-      <button class="tab" id="tabStats">📊 إحصائيات</button>
-    </div>
-
-    <!-- ✅ رجّعنا صندوق السجل -->
-    <div class="box" id="historyBox">
-      <div class="boxHead">
-        <div>السجل (<span id="count">0</span>)</div>
-        <div class="miniBtns">
-          <button class="mini" id="undoBtn">↩ تراجع</button>
-          <button class="mini" id="shareBtn">🔗 مشاركة</button>
-          <button class="mini danger" id="clearBtn">🗑 مسح</button>
-        </div>
-      </div>
-      <div id="historyBody" class="empty">لا يوجد سجل</div>
-    </div>
-
-    <!-- ✅ رجّعنا الإحصائيات -->
-    <div class="box" id="statsBox" style="display:none;">
-      <div class="boxHead"><div>إحصائيات</div></div>
-      <div class="statsList">
-        <div class="srow"><div>مجموع لنا</div><div><b id="stUs">0</b></div></div>
-        <div class="srow"><div>مجموع لهم</div>/div><div><b id="stThem">0</b></div></div>
-        <div class="srow"><div>عدد السجلات</div><div><b id="stAdds">0</b></div></div>
-        <div class="srow"><div>أعلى سجل</div><div><b id="stMax">0</b></div></div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="toast" id="toast">✅ تم</div>
-
-  <!-- Bottom Sheet -->
-  <div class="backdrop" id="modalBack">
-    <div class="sheet">
-      <div class="sHead">
-        <div class="sTitle" id="mTitle">إضافة نتيجة</div>
-        <div class="close" id="mClose">✕</div>
-      </div>
-
-      <div class="sBody">
-        <div>
-          <label>طريقة الإدخال</label>
-          <div class="seg">
-            <button id="mManual" class="active">يدوي</button>
-            <button id="mAdv">متقدم</button>
-          </div>
-        </div>
-
-        <!-- Manual -->
-        <div id="boxManual">
-          <div class="grid2">
-            <div>
-              <label id="labA">نقاط الفريق</label>
-              <input id="inA" type="number" min="0" inputmode="numeric" placeholder="مثال: 30">
-            </div>
-            <div>
-              <label id="labB">نقاط الخصم</label>
-              <input id="inB" type="number" min="0" inputmode="numeric" placeholder="مثال: 20">
-            </div>
-          </div>
-          <div class="hint" style="margin-top:8px">يدوي = نقاط مباشرة بدون تقسيم.</div>
-        </div>
-
-        <!-- Advanced -->
-        <div id="boxAdv" style="display:none;">
-          <div>
-            <label>نوع اللعبة</label>
-            <div class="seg">
-              <button id="modeSan" class="active">صن (120)</button>
-              <button id="modeHokm">حكم (150)</button>
-            </div>
-          </div>
-
-          <div>
-            <label id="roleLbl">مين صن؟</label>
-            <div class="seg">
-              <button id="roleA" class="active">الفريق</button>
-              <button id="roleB">الخصم</button>
-            </div>
-            <div class="hint" id="roleHint">إذا خسر الصن: الصن 0 — الأرض للخصم — الخصم +24 + مشاريعه</div>
-          </div>
-
-          <div>
-            <label id="labAbnat">أبناط الفريق</label>
-            <input id="inAbnat" type="number" min="0" inputmode="numeric" placeholder="اكتب أبناط الفريق">
-            <div class="hint" id="hintCalc">صن: ÷5 — حكم: ÷10 (تقريب 10.60 ➜ 11)</div>
-          </div>
-
-          <div class="grid2">
-            <div class="projBox">
-              <div class="projTitle">
-                <span id="projTitleA">مشاريع الفريق</span>
-                <span id="projSumA">0 نقطة</span>
-              </div>
-              <div class="projList" id="projListA"></div>
-            </div>
-
-            <div class="projBox">
-              <div class="projTitle">
-                <span id="projTitleB">مشاريع الخصم</span>
-                <span id="projSumB">0 نقطة</span>
-              </div>
-              <div class="projList" id="projListB"></div>
-            </div>
-          </div>
-
-          <div>
-            <label>الأرض</label>
-            <div class="seg">
-              <button id="ardA" class="active">للفريق</button>
-              <button id="ardB">للخصم</button>
-            </div>
-            <div class="hint">الأرض: صن +2 — حكم +1 (وعند خسارة الصن/الحكم: الأرض تلقائيًا للخصم)</div>
-          </div>
-
-          <div class="details">
-            <div class="dHead">
-              <span>تفاصيل الحساب</span>
-              <span style="color:var(--muted);font-weight:1200;font-size:12px">✅</span>
-            </div>
-            <div class="dGrid">
-              <div class="dCard us" id="cardA"></div>
-              <div class="dCard them" id="cardB"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="sActions">
-        <button id="mClear">مسح</button>
-        <button class="primary" id="mAdd">إضافة</button>
-      </div>
-    </div>
-  </div>
-
-<script>
-(() => {
-  const LS = "baloot_final_v1";
-  const $ = (id)=>document.getElementById(id);
-
-  const el = {
-    // top
-    roundNo: $("roundNo"), goalTxt: $("goalTxt"), barFill: $("barFill"),
-    usName: $("usName"), themName: $("themName"),
-    usScore: $("usScore"), themScore: $("themScore"),
-    timerTxt: $("timerTxt"),
-    startPauseBtn: $("startPauseBtn"), stopBtn: $("stopBtn"), resetTimerBtn: $("resetTimerBtn"),
-    addUs: $("addUs"), addThem: $("addThem"),
-    soundBtn: $("soundBtn"), newBtn: $("newBtn"),
-    toast: $("toast"),
-
-    // tabs + history/stats
-    tabHistory: $("tabHistory"), tabStats: $("tabStats"),
-    historyBox: $("historyBox"), statsBox: $("statsBox"),
-    historyBody: $("historyBody"), count: $("count"),
-    undoBtn: $("undoBtn"), clearBtn: $("clearBtn"), shareBtn: $("shareBtn"),
-    stUs: $("stUs"), stThem: $("stThem"), stAdds: $("stAdds"), stMax: $("stMax"),
-
-    // modal
-    modalBack: $("modalBack"), mTitle: $("mTitle"), mClose: $("mClose"),
-    mManual: $("mManual"), mAdv: $("mAdv"),
-    boxManual: $("boxManual"), boxAdv: $("boxAdv"),
-    labA: $("labA"), labB: $("labB"),
-    inA: $("inA"), inB: $("inB"),
-    modeSan: $("modeSan"), modeHokm: $("modeHokm"),
-    roleLbl: $("roleLbl"), roleHint: $("roleHint"),
-    roleA: $("roleA"), roleB: $("roleB"),
-    labAbnat: $("labAbnat"), inAbnat: $("inAbnat"), hintCalc: $("hintCalc"),
-    projTitleA: $("projTitleA"), projTitleB: $("projTitleB"),
-    projListA: $("projListA"), projListB: $("projListB"),
-    projSumA: $("projSumA"), projSumB: $("projSumB"),
-    ardA: $("ardA"), ardB: $("ardB"),
-    cardA: $("cardA"), cardB: $("cardB"),
-    mAdd: $("mAdd"), mClear: $("mClear"),
-  };
-
-  const defaultState = {
-    goal: 152,
-    usName: "لنا",
-    themName: "لهم",
-    round: 0,
-    entries: [], // {round,timeSec,usPts,themPts,note}
-    timer: { sec:0, running:false },
-    sound: true,
-    voice: true
-  };
-
-  function load(){
-    try{
-      const raw = localStorage.getItem(LS);
-      if(!raw) return structuredClone(defaultState);
-      const s = JSON.parse(raw);
-      if(!s || typeof s!=="object") return structuredClone(defaultState);
-      if(typeof s.goal!=="number") s.goal=152;
-      if(typeof s.usName!=="string") s.usName="لنا";
-      if(typeof s.themName!=="string") s.themName="لهم";
-      if(typeof s.round!=="number") s.round=0;
-      if(!Array.isArray(s.entries)) s.entries=[];
-      if(!s.timer) s.timer={sec:0,running:false};
-      if(typeof s.timer.sec!=="number") s.timer.sec=0;
-      if(typeof s.timer.running!=="boolean") s.timer.running=false;
-      if(typeof s.sound!=="boolean") s.sound=true;
-      if(typeof s.voice!=="boolean") s.voice=true;
-      return s;
-    }catch{ return structuredClone(defaultState); }
-  }
-
-  let state = load();
-  let saveT=null;
-  function saveSoon(){
-    if(saveT) return;
-    saveT=setTimeout(()=>{
-      saveT=null;
-      localStorage.setItem(LS, JSON.stringify(state));
-    }, 350);
-  }
-
-  function fmt(sec){
-    sec = Math.max(0, sec|0);
-    const m = String(Math.floor(sec/60)).padStart(2,"0");
-    const s = String(sec%60).padStart(2,"0");
-    return `${m}:${s}`;
-  }
-
-  function sum(){
-    let us=0, them=0;
-    for(const e of state.entries){ us += (e.usPts||0); them += (e.themPts||0); }
-    return {us, them};
-  }
-
-  function toast(msg){
-    el.toast.textContent = msg;
-    el.toast.classList.add("show");
-    setTimeout(()=>el.toast.classList.remove("show"), 950);
-  }
-
-  // ✅ التقريب: 10.60 يطلع 11 — 10.50 ينزل 10
-  function abnatRound(x){
-    const f = Math.floor(x);
-    const frac2 = Math.round((x - f) * 100);
-    return (frac2 >= 60) ? (f + 1) : f;
-  }
-
-  // ---------- Sound ----------
-  let audioCtx=null;
-  function sfx(type="tap"){
-    if(!state.sound) return;
-    try{
-      audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
-      const o=audioCtx.createOscillator();
-      const g=audioCtx.createGain();
-      o.connect(g); g.connect(audioCtx.destination);
-      const now=audioCtx.currentTime;
-      const f = type==="add" ? 760 : type==="undo" ? 520 : type==="clear" ? 260 : 560;
-      o.type="sine";
-      o.frequency.setValueAtTime(f, now);
-      g.gain.setValueAtTime(0.0001, now);
-      g.gain.exponentialRampToValueAtTime(0.10, now+0.01);
-      g.gain.exponentialRampToValueAtTime(0.0001, now+0.12);
-      o.start(now); o.stop(now+0.14);
-    }catch{}
-  }
-
-  // ---------- Voice ----------
-  function speak(text){
-    if(!state.voice) return;
-    try{
-      if(!("speechSynthesis" in window)) return;
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = "ar-SA";
-      u.rate = 1.02;
-      window.speechSynthesis.speak(u);
-    }catch{}
-  }
-
-  function renderHistoryAndStats(){
-    el.count.textContent = state.entries.length;
-
-    if(state.entries.length===0){
-      el.historyBody.className="empty";
-      el.historyBody.textContent="لا يوجد سجل";
-    }else{
-      el.historyBody.className="list";
-      el.historyBody.innerHTML="";
-      const slice = state.entries.slice(-30).reverse();
-      for(const e of slice){
-        const row=document.createElement("div");
-        row.className="row";
-        row.innerHTML = `
-          <div>
-            <div><small>⏱ ${fmt(e.timeSec||0)} — جولة ${e.round}</small></div>
-            <div><small>${e.note||""}</small></div>
-          </div>
-          <div style="text-align:left">
-            <div><b>${state.usName}: ${e.usPts||0}</b></div>
-            <div><b>${state.themName}: ${e.themPts||0}</b></div>
-          </div>
-        `;
-        el.historyBody.appendChild(row);
-      }
-    }
-
-    const {us, them} = sum();
-    el.stUs.textContent = us;
-    el.stThem.textContent = them;
-    el.stAdds.textContent = state.entries.length;
-    let mx=0; for(const e of state.entries) mx = Math.max(mx, e.usPts||0, e.themPts||0);
-    el.stMax.textContent = mx;
-  }
-
-  function render(){
-    el.goalTxt.textContent = state.goal;
-    el.roundNo.textContent = state.round;
-    el.usName.textContent = state.usName;
-    el.themName.textContent = state.themName;
-
-    const {us, them} = sum();
-    el.usScore.textContent = us;
-    el.themScore.textContent = them;
-
-    const lead = Math.max(us, them);
-    const prog = Math.min(100, Math.floor((lead / state.goal) * 100)) || 0;
-    el.barFill.style.width = prog + "%";
-
-    el.timerTxt.textContent = fmt(state.timer.sec||0);
-    el.startPauseBtn.textContent = state.timer.running ? "⏸" : "▶";
-    el.soundBtn.textContent = state.sound ? "🔊" : "🔇";
-
-    renderHistoryAndStats();
-    saveSoon();
-  }
-
-  // ---------- Timer ----------
-  setInterval(()=>{
-    if(!state.timer.running) return;
-    state.timer.sec = (state.timer.sec||0) + 1;
-    el.timerTxt.textContent = fmt(state.timer.sec||0);
-    saveSoon();
-  }, 1000);
-
-  // ---------- Modal State ----------
-  let modalTeam = "us";
-  let inputMode = "manual";
-  let advMode = "san";
-  let roleSide = "A";
-  let ardTo = "A";
-  let projCountsA = {};
-  let projCountsB = {};
-
-  const projSan = [
-    {key:"sra", label:"سرا", pts:4},
-    {key:"50",  label:"خمسين", pts:10},
-    {key:"100", label:"مية", pts:20},
-    {key:"400", label:"400", pts:40},
-  ];
-  const projHokm = [
-    {key:"sra", label:"سرا", pts:2},
-    {key:"50",  label:"خمسين", pts:5},
-    {key:"100", label:"مية", pts:10},
-    {key:"baloot", label:"بلوت", pts:2},
-  ];
-
-  function namesForModal(){
-    const teamName = (modalTeam==="us") ? state.usName : state.themName;
-    const oppName  = (modalTeam==="us") ? state.themName : state.usName;
-    return {teamName, oppName};
-  }
-
-  function setInputMode(m){
-    inputMode = m;
-    el.mManual.classList.toggle("active", m==="manual");
-    el.mAdv.classList.toggle("active", m==="adv");
-    el.boxManual.style.display = m==="manual" ? "" : "none";
-    el.boxAdv.style.display = m==="adv" ? "" : "none";
-  }
-
-  function listProjects(){
-    return advMode==="hokm" ? projHokm : projSan;
-  }
-  function modeTotals(){
-    return advMode==="hokm"
-      ? {totalAb:150, div:10, ard:1, bonus:15}
-      : {totalAb:120, div:5,  ard:2, bonus:24};
-  }
-
-  function setAdvMode(m){
-    advMode = m;
-    el.modeSan.classList.toggle("active", m==="san");
-    el.modeHokm.classList.toggle("active", m==="hokm");
-
-    if(advMode==="san"){
-      el.roleLbl.textContent = "مين صن؟";
-      el.roleHint.textContent = "إذا خسر الصن: الصن 0 — الأرض للخصم — الخصم +24 + مشاريعه";
-      el.hintCalc.textContent = "صن: ÷5 (تقريب 10.60 ➜ 11)";
-    }else{
-      el.roleLbl.textContent = "مين حكم؟";
-      el.roleHint.textContent = "إذا خسر الحكم: الحكم 0 — الأرض للخصم — الخصم +15 + مشاريعه";
-      el.hintCalc.textContent = "حكم: ÷10 (تقريب 10.60 ➜ 11)";
-    }
-
-    projCountsA = {};
-    projCountsB = {};
-    buildProjectsUI();
-    updateDetails();
-  }
-
-  function setRole(side){
-    roleSide = side;
-    el.roleA.classList.toggle("active", side==="A");
-    el.roleB.classList.toggle("active", side==="B");
-    updateDetails();
-  }
-
-  function setArd(side){
-    ardTo = side;
-    el.ardA.classList.toggle("active", side==="A");
-    el.ardB.classList.toggle("active", side==="B");
-    updateDetails();
-  }
-
-  function projTotal(counts){
-    let t=0;
-    const list = listProjects();
-    for(const p of list){
-      const c = Math.max(0, counts[p.key]||0);
-      t += c * p.pts;
-    }
-    return t;
-  }
-
-  function buildProjectsUI(){
-    const {teamName, oppName} = namesForModal();
-    el.projTitleA.textContent = `مشاريع ${teamName}`;
-    el.projTitleB.textContent = `مشاريع ${oppName}`;
-
-    const list = listProjects();
-    el.projListA.innerHTML="";
-    el.projListB.innerHTML="";
-
-    function mkRow(p, side){
-      const wrap=document.createElement("div");
-      wrap.className="projRow";
-      wrap.innerHTML = `
-        <div><b>${p.label}</b> <em>(+${p.pts})</em></div>
-        <div class="ctr">
-          <button type="button" data-act="minus">−</button>
-          <span data-count>0</span>
-          <button type="button" data-act="plus">+</button>
-        </div>
-      `;
-      const cntEl = wrap.querySelector("[data-count]");
-      const btns = wrap.querySelectorAll("button");
-
-      const getCounts = ()=> side==="A" ? projCountsA : projCountsB;
-      const setCounts = (k,v)=> { if(side==="A") projCountsA[k]=v; else projCountsB[k]=v; };
-
-      const sync = ()=>{
-        const c = Math.max(0, getCounts()[p.key]||0);
-        cntEl.textContent = c;
-        el.projSumA.textContent = `${projTotal(projCountsA)} نقطة`;
-        el.projSumB.textContent = `${projTotal(projCountsB)} نقطة`;
-      };
-
-      btns.forEach(b=>{
-        b.addEventListener("click", ()=>{
-          const act=b.getAttribute("data-act");
-          const cur=Math.max(0, getCounts()[p.key]||0);
-          const nxt = act==="plus" ? cur+1 : Math.max(0, cur-1);
-          setCounts(p.key, nxt);
-          sync();
-          updateDetails();
-          sfx("tap");
-        });
-      });
-
-      sync();
-      return wrap;
-    }
-
-    for(const p of list){
-      el.projListA.appendChild(mkRow(p,"A"));
-      el.projListB.appendChild(mkRow(p,"B"));
-    }
-    el.projSumA.textContent = `${projTotal(projCountsA)} نقطة`;
-    el.projSumB.textContent = `${projTotal(projCountsB)} نقطة`;
-  }
-
-  // ✅ قانون الخسارة للصن/الحكم + نقل الأرض + حذف مشاريع الخاسر (صن/حكم)
-  function computeAdvanced(){
-    const {teamName, oppName} = namesForModal();
-    const {totalAb, div, ard, bonus} = modeTotals();
-
-    const v = parseFloat(el.inAbnat.value||"");
-    const hasAb = el.inAbnat.value!=="" && !Number.isNaN(v);
-
-    const yourAb = hasAb ? Math.max(0, v) : 0;
-    const oppAb  = hasAb ? Math.max(0, totalAb - yourAb) : 0;
-
-    const rawA = hasAb ? (yourAb / div) : 0;
-    const rawB = hasAb ? (oppAb  / div) : 0;
-
-    const abPtsA = hasAb ? abnatRound(rawA) : 0;
-    const abPtsB = hasAb ? abnatRound(rawB) : 0;
-
-    const projA_in = projTotal(projCountsA);
-    const projB_in = projTotal(projCountsB);
-
-    const hasSomething = hasAb || projA_in>0 || projB_in>0;
-    const ardPts = hasSomething ? ard : 0;
-
-    const ardA_in = (ardTo==="A") ? ardPts : 0;
-    const ardB_in = (ardTo==="B") ? ardPts : 0;
-
-    const preA = abPtsA + projA_in + ardA_in;
-    const preB = abPtsB + projB_in + ardB_in;
-
-    const roleOwner = roleSide;
-    const otherSide = roleOwner==="A" ? "B" : "A";
-
-    const roleOwnerPre = (roleOwner==="A") ? preA : preB;
-    const otherPre     = (otherSide==="A") ? preA : preB;
-
-    const isLose = otherPre > roleOwnerPre;
-
-    let totalA = preA, totalB = preB;
-    let projA = projA_in, projB = projB_in;
-    let ardA = ardA_in, ardB = ardB_in;
-
-    const roleTxt = (advMode==="san") ? "صن" : "حكم";
-    let roleNote = `${roleTxt} طبيعي`;
-    const roleOwnerName = (roleSide==="A") ? teamName : oppName;
-
-    if(isLose){
-      if(roleOwner==="A"){
-        totalA = 0; projA = 0; ardA = 0;
-        ardB  = ardPts;
-        totalB = bonus + projB_in + ardB;
-      }else{
-        totalB = 0; projB = 0; ardB = 0;
-        ardA  = ardPts;
-        totalA = bonus + projA_in + ardA;
-      }
-      roleNote = `${roleTxt} خسر ⇒ ${roleTxt} 0، الأرض للخصم، الخصم +${bonus} + مشاريعه`;
-    }
-
-    const usPts   = (modalTeam==="us") ? totalA : totalB;
-    const themPts = (modalTeam==="us") ? totalB : totalA;
-
-    return {
-      teamName, oppName,
-      totalAb, div,
-      yourAb, oppAb,
-      rawA, rawB,
-      abPtsA, abPtsB,
-      projA, projB,
-      ardA, ardB,
-      totalA, totalB,
-      usPts, themPts,
-      modeText: roleTxt,
-      roleNote,
-      isLose,
-      bonus,
-      roleOwnerName
-    };
-  }
-
-  function updateDetails(){
-    if(inputMode!=="adv"){
-      el.cardA.innerHTML="";
-      el.cardB.innerHTML="";
-      return;
-    }
-
-    const r = computeAdvanced();
-
-    el.cardA.innerHTML = `
-      <div class="dTop"><div>${r.teamName}</div><div>${r.totalA}</div></div>
-      <div class="dLines">
-        <div class="line"><span>الأبناط</span><span><code>${r.yourAb} ÷ ${r.div} = ${r.rawA.toFixed(2)}</code> → <b>${r.abPtsA}</b></span></div>
-        <div class="line"><span>المشاريع</span><span><b>${r.projA}</b></span></div>
-        <div class="line"><span>الأرض</span><span><b>${r.ardA}</b></span></div>
-        <div class="line"><span>${r.modeText}</span><span><b>${r.roleOwnerName}</b></span></div>
-        <div class="line"><span>القاعدة</span><span><small>${r.roleNote}</small></span></div>
-      </div>
-      <div class="sum"><span>المجموع</span><span>${r.totalA}</span></div>
-    `;
-
-    el.cardB.innerHTML = `
-      <div class="dTop"><div>${r.oppName}</div><div>${r.totalB}</div></div>
-      <div class="dLines">
-        <div class="line"><span>الأبناط</span><span><code>${r.oppAb} ÷ ${r.div} = ${r.rawB.toFixed(2)}</code> → <b>${r.abPtsB}</b></span></div>
-        <div class="line"><span>المشاريع</span><span><b>${r.projB}</b></span></div>
-        <div class="line"><span>الأرض</span><span><b>${r.ardB}</b></span></div>
-      </div>
-      <div class="sum"><span>المجموع</span><span>${r.totalB}</span></div>
-    `;
-  }
-
-  function addEntry(usPts, themPts, note){
-    state.round = (state.round||0) + 1;
-    state.entries.push({
-      round: state.round,
-      timeSec: state.timer.sec||0,
-      usPts, themPts,
-      note: note||""
-    });
-
-    if(!state.timer.running){
-      state.timer.running = true;
-      el.startPauseBtn.textContent = "⏸";
-    }
-
-    sfx("add");
-    toast("✅ تمت الإضافة");
-    render();
-
-    const totals = sum();
-    speak(`النشرة: ${state.usName} ${totals.us} و ${state.themName} ${totals.them}`);
-  }
-
-  function openModal(team){
-    modalTeam = team;
-    const {teamName, oppName} = namesForModal();
-
-    el.mTitle.textContent = `إضافة نتيجة — ${teamName}`;
-    el.labA.textContent = `نقاط ${teamName}`;
-    el.labB.textContent = `نقاط ${oppName}`;
-    el.labAbnat.textContent = `أبناط ${teamName}`;
-
-    el.inA.value=""; el.inB.value="";
-    el.inAbnat.value="";
-    projCountsA = {}; projCountsB = {};
-    ardTo="A"; roleSide="A";
-
-    setInputMode("manual");
-    setAdvMode("san");
-    setArd("A");
-    setRole("A");
-
-    el.modalBack.style.display="flex";
-    document.body.style.overflow="hidden";
-    sfx("tap");
-  }
-
-  function closeModal(){
-    el.modalBack.style.display="none";
-    document.body.style.overflow="";
-    sfx("tap");
-  }
-
-  // Tabs
-  el.tabHistory.addEventListener("click", ()=>{
-    el.tabHistory.classList.add("active");
-    el.tabStats.classList.remove("active");
-    el.historyBox.style.display="";
-    el.statsBox.style.display="none";
-    sfx("tap");
-  });
-  el.tabStats.addEventListener("click", ()=>{
-    el.tabStats.classList.add("active");
-    el.tabHistory.classList.remove("active");
-    el.historyBox.style.display="none";
-    el.statsBox.style.display="";
-    sfx("tap");
-  });
-
-  // Events
-  el.addUs.addEventListener("click", ()=>openModal("us"));
-  el.addThem.addEventListener("click", ()=>openModal("them"));
-
-  el.mClose.addEventListener("click", closeModal);
-  el.modalBack.addEventListener("click",(e)=>{ if(e.target===el.modalBack) closeModal(); });
-
-  el.mManual.addEventListener("click", ()=>{ setInputMode("manual"); sfx("tap"); });
-  el.mAdv.addEventListener("click", ()=>{
-    setInputMode("adv");
-    buildProjectsUI();
-    updateDetails();
-    sfx("tap");
-  });
-
-  el.modeSan.addEventListener("click", ()=>{ setAdvMode("san"); sfx("tap"); });
-  el.modeHokm.addEventListener("click", ()=>{ setAdvMode("hokm"); sfx("tap"); });
-
-  el.roleA.addEventListener("click", ()=>{ setRole("A"); sfx("tap"); });
-  el.roleB.addEventListener("click", ()=>{ setRole("B"); sfx("tap"); });
-
-  el.ardA.addEventListener("click", ()=>{ setArd("A"); sfx("tap"); });
-  el.ardB.addEventListener("click", ()=>{ setArd("B"); sfx("tap"); });
-
-  el.inAbnat.addEventListener("input", ()=>{ updateDetails(); });
-
-  el.mClear.addEventListener("click", ()=>{
-    el.inA.value=""; el.inB.value="";
-    el.inAbnat.value="";
-    projCountsA = {}; projCountsB = {};
-    buildProjectsUI();
-    setArd("A");
-    setRole("A");
-    updateDetails();
-    sfx("clear");
-    toast("🧹 تم");
-  });
-
-  el.mAdd.addEventListener("click", ()=>{
-    const {teamName, oppName} = namesForModal();
-
-    if(inputMode==="manual"){
-      const a = Math.max(0, parseInt(el.inA.value||"0",10) || 0);
-      const b = Math.max(0, parseInt(el.inB.value||"0",10) || 0);
-      if(a===0 && b===0){ toast("اكتب نقاط"); return; }
-
-      const usPts   = (modalTeam==="us") ? a : b;
-      const themPts = (modalTeam==="us") ? b : a;
-
-      addEntry(usPts, themPts, `يدوي — ${teamName}:${a} | ${oppName}:${b}`);
-      closeModal();
-      return;
-    }
-
-    const r = computeAdvanced();
-    const hasAny =
-      (el.inAbnat.value!=="" && !Number.isNaN(parseFloat(el.inAbnat.value))) ||
-      (projTotal(projCountsA)>0) || (projTotal(projCountsB)>0);
-
-    if(!hasAny){
-      toast("اكتب الأبناط أو زود مشاريع");
-      return;
-    }
-
-    addEntry(r.usPts, r.themPts, `متقدم (${r.modeText}) — ${r.roleNote}`);
-    closeModal();
-  });
-
-  // Undo / Clear / Share
-  el.undoBtn.addEventListener("click", ()=>{
-    if(state.entries.length===0) return;
-    state.entries.pop();
-    state.round = Math.max(0, (state.round||0)-1);
-    sfx("undo");
-    toast("↩ تم التراجع");
-    render();
-  });
-
-  el.clearBtn.addEventListener("click", ()=>{
-    state.entries=[];
-    state.round=0;
-    sfx("clear");
-    toast("🗑 تم المسح");
-    render();
-  });
-
-  el.shareBtn.addEventListener("click", async ()=>{
-    const {us, them} = sum();
-    const lines = [];
-    lines.push("النشرة");
-    lines.push(`${state.usName}: ${us} | ${state.themName}: ${them}`);
-    lines.push(`سجلات: ${state.entries.length}`);
-    lines.push("— — —");
-    for(const e of state.entries){
-      lines.push(`جولة ${e.round} ⏱ ${fmt(e.timeSec||0)} | ${state.usName}:${e.usPts} ${state.themName}:${e.themPts} — ${e.note||""}`);
-    }
-    const text = lines.join("\n");
-    try{ if(navigator.share){ await navigator.share({text}); return; } }catch{}
-    try{ await navigator.clipboard.writeText(text); toast("✅ تم النسخ"); }catch{ toast("انسخ يدويًا"); }
-  });
-
-  // Timer
-  el.startPauseBtn.addEventListener("click", ()=>{
-    state.timer.running = !state.timer.running;
-    el.startPauseBtn.textContent = state.timer.running ? "⏸" : "▶";
-    sfx("tap"); saveSoon();
-  });
-  el.stopBtn.addEventListener("click", ()=>{
-    state.timer.running = false;
-    el.startPauseBtn.textContent = "▶";
-    sfx("tap"); saveSoon();
-  });
-  el.resetTimerBtn.addEventListener("click", ()=>{
-    state.timer.running = false;
-    state.timer.sec = 0;
-    el.timerTxt.textContent = "00:00";
-    el.startPauseBtn.textContent = "▶";
-    sfx("tap"); saveSoon();
-  });
-
-  // Sound
-  el.soundBtn.addEventListener("click", ()=>{
-    state.sound = !state.sound;
-    toast(state.sound ? "🔊 الصوت شغال" : "🔇 الصوت مكتوم");
-    sfx("tap");
-    render();
-  });
-
-  // New
-  el.newBtn.addEventListener("click", ()=>{
-    state = structuredClone(defaultState);
-    sfx("clear");
-    toast("↺ جديد");
-    render();
-  });
-
-  // Edit names
-  document.addEventListener("click",(e)=>{
-    const key = e.target?.getAttribute?.("data-edit");
-    if(!key) return;
-    const cur = key==="us" ? state.usName : state.themName;
-    const name = prompt("اكتب اسم الفريق:", cur);
-    if(name==null) return;
-    const v = name.trim();
-    if(!v) return;
-    if(key==="us") state.usName=v; else state.themName=v;
-    sfx("tap");
-    render();
-  });
-
-  // Init
-  buildProjectsUI();
-  render();
-  // ✅ Calculator logic
-const calc = {
-  back: document.getElementById("calcBack"),
-  close: document.getElementById("calcClose"),
-  screen: document.getElementById("calcScreen"),
-  clear: document.getElementById("calcClear"),
-  backspace: document.getElementById("calcBackspace"),
-  eq: document.getElementById("calcEq"),
-};
-
-function openCalc(){
-  calc.screen.value = el.inAbnat.value ? String(el.inAbnat.value) : "";
-  calc.back.style.display = "flex";
-
-  // ✅ خلي مودال الإضافة ورا مؤقتًا (اختياري)
-  el.modalBack.style.zIndex = "50";
-  calc.back.style.zIndex = "9999";
-
-  document.body.style.overflow = "hidden";
-  sfx("tap");
-}
-
-
-function closeCalc(){
-  calc.back.style.display = "none";
-  document.body.style.overflow = "";
-  sfx("tap");
-}
-
-function safeEval(expr){
-  // حماية بسيطة: نسمح فقط بالأرقام والعمليات
-  if(!/^[0-9+\-*/.() ]+$/.test(expr)) return null;
-  try{
-    // eslint-disable-next-line no-new-func
-    const val = Function("return (" + expr + ")")();
-    if(typeof val !== "number" || !isFinite(val)) return null;
-    return val;
-  }catch{
-    return null;
-  }
-}
-
-// لما تضغط على الأبناط يفتح الكالكوليتر
-el.inAbnat.addEventListener("focus", (e)=>{
-  e.target.blur();
-  openCalc();
-});
-
-calc.close.addEventListener("click", closeCalc);
-calc.back.addEventListener("click", (e)=>{ if(e.target===calc.back) closeCalc(); });
-
-document.querySelectorAll(".cbtn[data-c]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const c = btn.getAttribute("data-c");
-    calc.screen.value += c;
-    sfx("tap");
-  });
-});
-
-calc.clear.addEventListener("click", ()=>{
-  calc.screen.value = "";
-  sfx("clear");
-});
-
-calc.backspace.addEventListener("click", ()=>{
-  calc.screen.value = calc.screen.value.slice(0,-1);
-  sfx("tap");
-});
-
-calc.eq.addEventListener("click", ()=>{
-  const expr = calc.screen.value.trim();
-  if(!expr){ toast("اكتب عملية"); return; }
-
-  const result = safeEval(expr);
-  if(result===null){ toast("خطأ بالحساب"); return; }
-
-  // نحط النتيجة في الأبناط
-  const fixed = String(Math.round(result * 100) / 100); // تقريب بسيط
-  el.inAbnat.value = fixed;
-
-  updateDetails();
-  toast("✅ تم الحساب");
-  sfx("add");
-  closeCalc();
-});
-})();
-</script>
+    <script>
+        let logs = [], s1 = 0, s2 = 0, sakat1 = 0, sakat2 = 0, targetSakat = 3;
+
+        function setTarget(num) {
+            targetSakat = num;
+            document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('t' + num).classList.add('active');
+            toggleModal();
+            resetAll();
+        }
+
+        function toggleModal() {
+            let m = document.getElementById('settingsModal');
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function addRound() {
+            let v1 = parseInt(document.getElementById('in1').value) || 0;
+            let v2 = parseInt(document.getElementById('in2').value) || 0;
+            if (v1 === 0 && v2 === 0) return;
+
+            let isReset = false;
+            let oldS1 = s1, oldS2 = s2;
+            s1 += v1; s2 += v2;
+
+            if (s1 >= 152) {
+                sakat1++; isReset = true;
+                if (sakat1 >= targetSakat) { alert("تمت الصكات! مبروك لنا الفوز بالمباراة"); resetAll(); return; }
+            } else if (s2 >= 152) {
+                sakat2++; isReset = true;
+                if (sakat2 >= targetSakat) { alert("تمت الصكات! مبروك لهم الفوز بالمباراة"); resetAll(); return; }
+            }
+
+            logs.push({ v1, v2, isReset, oldS1, oldS2 });
+            if (isReset) { s1 = 0; s2 = 0; }
+            render();
+            document.getElementById('in1').value = ''; document.getElementById('in2').value = '';
+            if (navigator.vibrate) navigator.vibrate(40);
+        }
+
+        function undo() {
+            if (!logs.length) return;
+            let last = logs.pop();
+            if (last.isReset) {
+                if (sakat1 > 0 && last.v1 + last.oldS1 >= 152) sakat1--;
+                if (sakat2 > 0 && last.v2 + last.oldS2 >= 152) sakat2--;
+                s1 = last.oldS1 + last.v1; s2 = last.oldS2 + last.v2;
+                s1 -= last.v1; s2 -= last.v2; 
+            } else {
+                s1 -= last.v1; s2 -= last.v2;
+            }
+            render();
+            if (navigator.vibrate) navigator.vibrate([30, 30]);
+        }
+
+        function resetAll() {
+            logs = []; s1 = 0; s2 = 0; sakat1 = 0; sakat2 = 0; render();
+        }
+
+        function render() {
+            document.getElementById('total1').innerText = s1;
+            document.getElementById('total2').innerText = s2;
+            document.getElementById('sakat1').innerText = sakat1;
+            document.getElementById('sakat2').innerText = sakat2;
+            const logBox = document.getElementById('logs');
+            logBox.innerHTML = '';
+            [...logs].reverse().forEach((l, i) => {
+                let div = document.createElement('div');
+                div.className = 'history-row' + (l.isReset ? ' win-row' : '');
+                div.innerHTML = `<span>الجولة ${logs.length - i}</span><span>${l.v1} : ${l.v2}</span>`;
+                logBox.appendChild(div);
+            });
+        }
+        document.getElementById('t3').classList.add('active');
+    </script>
 </body>
 </html>
